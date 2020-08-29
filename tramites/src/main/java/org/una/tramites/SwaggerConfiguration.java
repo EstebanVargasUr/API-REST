@@ -27,13 +27,8 @@ public class SwaggerConfiguration {
                 .build()
                 .apiInfo(apiInfo())
                 .tags(new Tag("Seguridad", "Metodos de Seguridad"),
-                         new Tag("Usuarios", "Entidad de Usuarios"),
-                          new Tag("Usuario por Id", "Obtiene una lista con el usuario por medio del id"),
-                           new Tag("Buscar usuario por cédula", "Obtiene una lista con el usuario por medio de la cédula"),
-                            new Tag("Buscar usuario por nombre", "Obtiene una lista con el usuario por medio del nombre"),
-                             new Tag("Crear Usuario", "Crear nuevo registro de usuario"),
-                               new Tag("Modificar Usuario", "Modifica el usuario por id")
-                               
+                         new Tag("Usuarios", "Funcionalidades de Usuarios"),
+                          new Tag("Departamentos", "Funcionalidades de Departamentos")
                 );
 
     }

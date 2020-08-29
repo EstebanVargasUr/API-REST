@@ -1,14 +1,16 @@
 package org.una.tramites.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -23,35 +25,23 @@ import lombok.ToString;
 
 /**
  *
- * @author adria
+ * @author Esteban Vargas
  */
 @Entity
-@Table(name = "usuarios")
+@Table(name = "departamentos")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Usuario implements Serializable {
+public class Departamento implements Serializable {
 
-    @Id
+     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nombre_completo", length = 100)
+    @Column(name = "nombre", length = 100)
     private String nombreCompleto;
 
-    @Column(length = 100, name = "password_encriptado")
-    private String passwordEncriptado;
-
-    @Column(length = 25, unique = true)
-    private String cedula;
-
-    @Column
-    private boolean estado;
-
-    @Column(name = "departamento_id")
-    private Long departamentoId; 
-    
     @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.DATE)
     @Setter(AccessLevel.NONE)
@@ -61,20 +51,18 @@ public class Usuario implements Serializable {
     @Setter(AccessLevel.NONE)
     @Temporal(TemporalType.DATE)
     private Date fechaModificacion;
-
-    @Column(name = "es_jefe")
-    private boolean esJefe;
-
-    @ManyToOne 
-    @JoinColumn(name="departamentos_id")
-    private Departamento departamento;
+    
+    @Column
+    private boolean estado;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamento") 
+    private List<Usuario> usuarios= new ArrayList<>();
     
     private static final long serialVersionUID = 1L;
 
     @PrePersist
     public void prePersist() {
         estado=true;
-        esJefe=false;
         fechaRegistro = new Date();
         fechaModificacion = new Date();
     }
@@ -83,5 +71,4 @@ public class Usuario implements Serializable {
     public void preUpdate() {
         fechaModificacion = new Date();
     }
-    
 }

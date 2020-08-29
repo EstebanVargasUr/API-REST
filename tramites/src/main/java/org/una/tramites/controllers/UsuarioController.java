@@ -48,7 +48,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}") 
-    @ApiOperation(value = "Obtiene una lista con el usuario por medio del id", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuario por Id")
+    @ApiOperation(value = "Obtiene una lista con el Usuario por medio del Id", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
@@ -64,7 +64,7 @@ public class UsuarioController {
         }
     }
 
-    @PutMapping("/login")
+    @PutMapping("/login/")
     @ResponseBody 
     @ApiOperation(value = "Inicio de sesión para conseguir un token de acceso", response = UsuarioDTO.class, tags = "Seguridad")
     public ResponseEntity<?> login(@PathVariable(value = "cedula") String cedula, @PathVariable(value = "password") String password) {
@@ -86,8 +86,8 @@ public class UsuarioController {
 
     }
 
-    @GetMapping("/cedula/{term}") 
-    @ApiOperation(value = "Obtiene una lista con el usuario por medio de la cédula", response = UsuarioDTO.class, responseContainer = "List", tags = "Buscar usuario por cédula")
+    @GetMapping("/{cedula}") 
+    @ApiOperation(value = "Obtiene una lista con el Usuario por medio de la cédula", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
     public ResponseEntity<?> findByCedulaAproximate(@PathVariable(value = "term") String term) {
         try {
             Optional<List<Usuario>> result = usuarioService.findByCedulaAproximate(term);
@@ -102,8 +102,8 @@ public class UsuarioController {
         }
     }
 
-    @GetMapping("/nombre/{term}")
-    @ApiOperation(value = "Obtiene una lista con el usuario por medio del nombre", response = UsuarioDTO.class, responseContainer = "List", tags = "Buscar usuario por nombre")
+    @GetMapping("/{nombre}")
+    @ApiOperation(value = "Obtiene una lista con el Usuario por medio del nombre", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
     public ResponseEntity<?> findByNombreCompletoAproximateIgnoreCase(@PathVariable(value = "term") String term) {
         try {
             Optional<List<Usuario>> result = usuarioService.findByNombreCompletoAproximateIgnoreCase(term);
@@ -118,10 +118,42 @@ public class UsuarioController {
         }
     }
 
+    @GetMapping("/departamento/{id}")
+    @ApiOperation(value = "Obtiene una lista con los Usuarios por Departamento", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
+    public ResponseEntity<?> findByDepartamentoId(@PathVariable(value = "term") long term) {
+        try {
+            Optional<List<Usuario>> result = usuarioService.findByDepartamentoId(term);
+            if (result.isPresent()) {
+                List<UsuarioDTO> usuariosDTO = MapperUtils.DtoListFromEntityList(result.get(), UsuarioDTO.class);
+                return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/jefeDepartamento/{id}")
+    @ApiOperation(value = "Obtiene una lista con el Usuario jefe del Departamento", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
+    public ResponseEntity<?> findJefeByDepartamento(@PathVariable(value = "term") long term) {
+        try {
+            Usuario result = usuarioService.findJefeByDepartamento(term);
+            if (result.isEsJefe()) {
+                List<UsuarioDTO> usuariosDTO = (List<UsuarioDTO>) MapperUtils.DtoFromEntity(result, UsuarioDTO.class);
+                return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/") 
     @ResponseBody
-    @ApiOperation(value = "Crear nuevo registro de usuario", response = UsuarioDTO.class, tags = "Crear Usuario")
+    @ApiOperation(value = "Permite crear un Usuario", response = UsuarioDTO.class, tags = "Usuarios")
     public ResponseEntity<?> create(@RequestBody Usuario usuario) {
         try {
             Usuario usuarioCreated = usuarioService.create(usuario);
@@ -134,7 +166,7 @@ public class UsuarioController {
 
     @PutMapping("/{id}") 
     @ResponseBody
-    @ApiOperation(value = "Modifica el usuario por id", response = UsuarioDTO.class, tags = "Modificar Usuario")
+    @ApiOperation(value = "Permite modificar un Usuario a partir de su Id", response = UsuarioDTO.class, tags = "Usuarios")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Usuario usuarioModified) {
         try {
             Optional<Usuario> usuarioUpdated = usuarioService.update(usuarioModified, id);
