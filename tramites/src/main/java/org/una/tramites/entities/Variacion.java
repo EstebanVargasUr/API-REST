@@ -1,6 +1,5 @@
 package org.una.tramites.entities;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -28,35 +29,39 @@ import lombok.ToString;
  * @author Esteban Vargas
  */
 @Entity
-@Table(name = "departamentos")
+@Table(name = "variaciones")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Departamento implements Serializable {
-
+public class Variacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nombre", length = 100)
-    private String nombreCompleto;
-
+    @Column
+    private boolean grupo;
+    
+    @Column(name = "descripcion")
+    private String descripcion;
+    
+    @Column
+    private boolean estado;
+    
+    /*@Column(name = "tramite_tipo_id")
+    private Long tramite_tipoId; */
+    
     @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.DATE)
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
 
-    @Column(name = "fecha_modificacion")
-    @Setter(AccessLevel.NONE)
-    @Temporal(TemporalType.DATE)
-    private Date fechaModificacion;
+    /*@ManyToOne 
+    @JoinColumn(name="tramites_tipos_id")
+    private Departamento tramite_tipo;*/
     
-    @Column
-    private boolean estado;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamento") 
-    private List<Usuario> usuarios= new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "variacion") 
+    private List<Requisito> usuarios= new ArrayList<>();
     
     private static final long serialVersionUID = 1L;
 
@@ -64,11 +69,9 @@ public class Departamento implements Serializable {
     public void prePersist() {
         estado=true;
         fechaRegistro = new Date();
-        fechaModificacion = new Date();
     }
 
     @PreUpdate
     public void preUpdate() {
-        fechaModificacion = new Date();
     }
 }
