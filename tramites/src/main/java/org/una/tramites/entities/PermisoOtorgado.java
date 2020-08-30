@@ -30,65 +30,49 @@ import lombok.ToString;
  * @author adria
  */
 @Entity
-@Table(name = "usuarios")
+@Table(name = "Permisos_Otorgados")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Usuario implements Serializable {
+public class PermisoOtorgado implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "nombre_completo", length = 100)
-    private String nombreCompleto;
-
-    @Column(length = 100, name = "password_encriptado")
-    private String passwordEncriptado;
-
-    @Column(length = 25, unique = true)
-    private String cedula;
-
-    @Column
-    private boolean estado;
-
-    @Column(name = "departamento_id")
-    private Long departamentoId; 
     
-    @Column(name = "fecha_registro", updatable = false)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "permisoOtorgado") 
+    private List<Transaccion> transaccion = new ArrayList<>();
+    
+    @ManyToOne 
+    @JoinColumn(name="Usuarios_Id")
+    private Usuario usuarios;
+    
+    @ManyToOne 
+    @JoinColumn(name="Permisos_Id")
+    private Permiso permisos;
+    
+    @Column(name = "fecha_Registro", updatable = false)
     @Temporal(TemporalType.DATE)
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
 
-    @Column(name = "fecha_modificacion")
-    @Setter(AccessLevel.NONE)
-    @Temporal(TemporalType.DATE)
-    private Date fechaModificacion;
-
-    @Column(name = "es_jefe")
-    private boolean esJefe;
-
-    @ManyToOne 
-    @JoinColumn(name="departamentos_id")
-    private Departamento departamento;
+    @Column
+    private boolean estado;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarios") 
-    private List<PermisoOtorgado> permisoOtorgado= new ArrayList<>();
     
     private static final long serialVersionUID = 1L;
 
     @PrePersist
     public void prePersist() {
         estado=true;
-        esJefe=false;
         fechaRegistro = new Date();
-        fechaModificacion = new Date();
     }
 
     @PreUpdate
     public void preUpdate() {
-        fechaModificacion = new Date();
+
     }
     
 }
+

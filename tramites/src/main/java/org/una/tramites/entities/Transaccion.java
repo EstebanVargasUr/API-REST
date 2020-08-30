@@ -1,10 +1,7 @@
 package org.una.tramites.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -30,65 +26,45 @@ import lombok.ToString;
  * @author adria
  */
 @Entity
-@Table(name = "usuarios")
+@Table(name = "transacciones")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Usuario implements Serializable {
+public class Transaccion implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "nombre_completo", length = 100)
-    private String nombreCompleto;
-
-    @Column(length = 100, name = "password_encriptado")
-    private String passwordEncriptado;
-
-    @Column(length = 25, unique = true)
-    private String cedula;
-
-    @Column
-    private boolean estado;
-
-    @Column(name = "departamento_id")
-    private Long departamentoId; 
     
     @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.DATE)
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
-
-    @Column(name = "fecha_modificacion")
-    @Setter(AccessLevel.NONE)
-    @Temporal(TemporalType.DATE)
-    private Date fechaModificacion;
-
-    @Column(name = "es_jefe")
-    private boolean esJefe;
-
+ 
+    @Column(name = "Objeto", length = 50)
+    private String Objeto;
+    
+    @Column(name = "Informacion")
+    private String Informacion;
+    
     @ManyToOne 
-    @JoinColumn(name="departamentos_id")
-    private Departamento departamento;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarios") 
-    private List<PermisoOtorgado> permisoOtorgado= new ArrayList<>();
-    
+    @JoinColumn(name="Permisos_Otorgados_Id")
+    private PermisoOtorgado permisoOtorgado;
+   
     private static final long serialVersionUID = 1L;
 
     @PrePersist
     public void prePersist() {
-        estado=true;
-        esJefe=false;
+        
         fechaRegistro = new Date();
-        fechaModificacion = new Date();
+    
     }
 
     @PreUpdate
     public void preUpdate() {
-        fechaModificacion = new Date();
+        
     }
     
 }
+
