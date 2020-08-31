@@ -27,11 +27,11 @@ public class SwaggerConfiguration {
                 .build()
                 .apiInfo(apiInfo())
                 .tags(new Tag("Seguridad", "Metodos de Seguridad"),
-                         new Tag("Usuarios", "Funcionalidades de Usuarios"),
-                          new Tag("Departamentos", "Funcionalidades de Departamentos"),
-                           new Tag("Transacciones", ""),
-                            new Tag("Permisos Otorgados", ""),
-                             new Tag("Permisos", "")
+                         new Tag("Usuarios", "Metodos de Usuarios"),
+                          new Tag("Departamentos", "Metodos de Departamentos"),
+                           new Tag("Transacciones", "Metodos de Transacciones"),
+                            new Tag("Permisos Otorgados", "Metodos de Permisos Otorgados a Usuarios"),
+                             new Tag("Permisos", "Metodos de Permisos de Usuarios")
                 );
 
     }

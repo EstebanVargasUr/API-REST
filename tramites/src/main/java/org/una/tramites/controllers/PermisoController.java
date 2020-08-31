@@ -27,8 +27,8 @@ import org.una.tramites.utils.MapperUtils;
 
 
 @RestController
-@RequestMapping("/permiso") 
-@Api(tags = {"Permiso"})
+@RequestMapping("/permisos") 
+@Api(tags = {"Permisos"})
 public class PermisoController {
 
     @Autowired
@@ -69,7 +69,7 @@ public class PermisoController {
     }
     
     
-    @GetMapping("/{fecha") 
+    @GetMapping("/{fecha}") 
     @ApiOperation(value = "Obtiene una lista de Permisos entre la fecha especificada", response = PermisoDTO.class, responseContainer = "List", tags = "Permisos")
     public @ResponseBody
     ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "Fecha inicial") Date startDate, @PathVariable(value = "Fecha final") Date endDate) {
