@@ -10,8 +10,6 @@ public interface ITramite_TipoRepository extends JpaRepository<Tramite_Tipo, Lon
 
    Optional<List<Tramite_Tipo>> findByEstado(boolean estado);
     public Optional<List<Tramite_Tipo>> findByFechaRegistroBetween(Date fechaRegitro,Date fechafin);
-   
-    
 //        @Query("select u from Usuario u where UPPER(u.nombreCompleto) like CONCAT('%',UPPER(:nombreCompleto),'%')\"") 
 //        public Usuario findNombreCompletoWithLikeSQL(@Param("nombreCompleto")String nombreCompleto);
     public List<Tramite_Tipo> findByDepartamentoId(Long id);

@@ -1,5 +1,6 @@
 package org.una.tramites.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,7 +35,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Variacion {
+public class Variacion implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -48,20 +49,20 @@ public class Variacion {
     @Column
     private boolean estado;
     
-    /*@Column(name = "tramite_tipo_id")
-    private Long tramite_tipoId; */
+    @Column(name = "tramite_tipo_id")
+    private Long tramite_tipoId; 
     
     @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.DATE)
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
 
-    /*@ManyToOne 
+    @ManyToOne 
     @JoinColumn(name="tramites_tipos_id")
-    private Departamento tramite_tipo;*/
+    private Tramite_Tipo tramite_tipo;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "variacion") 
-    private List<Requisito> usuarios= new ArrayList<>();
+    private List<Requisito> requisitos= new ArrayList<>();
     
     private static final long serialVersionUID = 1L;
 

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.una.tramites.entities.Tramite_Tipo;
 
 /**
  *
@@ -22,5 +23,5 @@ public class VariacionDTO {
     private boolean grupo; 
     private Date fechaRegistro; 
     private Long tramite_tipoId; 
-  //  private Tramite_Tipo tramite_tipo;
+    private Tramite_Tipo tramite_tipo;
 }

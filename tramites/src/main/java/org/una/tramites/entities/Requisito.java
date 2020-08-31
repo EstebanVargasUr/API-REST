@@ -1,5 +1,6 @@
 package org.una.tramites.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,7 +31,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Requisito {
+public class Requisito implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,7 +54,7 @@ public class Requisito {
 
     @ManyToOne 
     @JoinColumn(name="variaciones_id")
-    private Departamento variacion;
+    private Variacion variacion;
     
     private static final long serialVersionUID = 1L;
 

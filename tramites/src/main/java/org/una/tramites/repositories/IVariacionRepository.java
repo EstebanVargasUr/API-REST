@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.una.tramites.entities.Variacion;
 
 /**
@@ -18,5 +19,6 @@ public interface IVariacionRepository extends JpaRepository<Variacion, Long>{
     
     public Optional<List<Variacion>> findByFechaRegistroBetween(Date startDate, Date endDate);
     
-   // public List<Variacion> findByTramite_tipoId(Long id);
+    @Query("SELECT u FROM Variacion u LEFT JOIN u.tramite_tipo d WHERE d.id=:id")
+    public Variacion findByTramite_tipoId(Long id);
 }

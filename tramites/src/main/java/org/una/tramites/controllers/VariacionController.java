@@ -120,7 +120,7 @@ public class VariacionController {
         }
     }
 
-   /* @GetMapping("/tramite/{id}")
+    @GetMapping("/tramite/{id}")
     @ApiOperation(value = "Obtiene una lista con las Variaciones por Tipo de Tramite", response = VariacionDTO.class, responseContainer = "List", tags = "Variaciones")
     public ResponseEntity<?> findByTramite_tipoId(@PathVariable(value = "term") long term) {
         try {
@@ -134,7 +134,7 @@ public class VariacionController {
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }*/
+    }
     
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/") 

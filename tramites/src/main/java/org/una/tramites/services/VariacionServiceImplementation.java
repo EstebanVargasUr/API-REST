@@ -31,11 +31,11 @@ public class VariacionServiceImplementation implements IVariacionService{
         return variacionRepository.findById(id);
     }
     
-    /*@Override
+    @Override
     @Transactional(readOnly = true)
-    public Optional<List<Variacion>> findByTramite_tipoId(Long id) {
+    public Optional findByTramite_tipoId(Long id) {
         return Optional.ofNullable(variacionRepository.findByTramite_tipoId(id));
-    }*/
+    }
     
     @Override
     public Optional<List<Variacion>> findByEstado(boolean estado) {

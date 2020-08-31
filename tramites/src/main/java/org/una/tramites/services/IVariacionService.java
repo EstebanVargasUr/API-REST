@@ -15,7 +15,7 @@ public interface IVariacionService {
 
     public Optional<Variacion> findById(Long id);
     
-  //  public Optional<List<Variacion>>  findByTramite_tipoId(Long id);
+    public Optional<List<Variacion>>  findByTramite_tipoId(Long id);
 
     public Optional<List<Variacion>>  findByEstado(boolean estado);
     
