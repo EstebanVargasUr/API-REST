@@ -29,6 +29,7 @@ public class UsuarioController {
 
     @Autowired
     private IUsuarioService usuarioService;
+  
 
     @GetMapping() 
     @ApiOperation(value = "Obtiene una lista de todos los Usuarios", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
@@ -39,6 +40,23 @@ public class UsuarioController {
             if (result.isPresent()) {
                 List<UsuarioDTO> usuariosDTO = MapperUtils.DtoListFromEntityList(result.get(), UsuarioDTO.class);
                 return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    //Terminar
+     @GetMapping({"/cedula"}) 
+    @ApiOperation(value = "Obtiene una lista de los Usuarios por medio de la cedula", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
+    public @ResponseBody
+    ResponseEntity<?> findByCedula(@PathVariable(value = "cedula") String cedula) {
+        try {
+            Optional<Usuario> result = usuarioService.findByCedula(cedula);
+            if (result.isPresent()) {
+                UsuarioDTO usuariosDto = MapperUtils.DtoFromEntity(result.get(), UsuarioDTO.class);
+                return new ResponseEntity<>(usuariosDto, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
@@ -86,7 +104,7 @@ public class UsuarioController {
 
     }
 
-    @GetMapping("/{cedula}") 
+    @GetMapping("/{cedula}{aproximado}") 
     @ApiOperation(value = "Obtiene una lista con el Usuario por medio de la cédula", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
     public ResponseEntity<?> findByCedulaAproximate(@PathVariable(value = "term") String term) {
         try {

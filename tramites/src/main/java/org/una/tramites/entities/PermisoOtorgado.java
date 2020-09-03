@@ -53,7 +53,7 @@ public class PermisoOtorgado implements Serializable {
     private Permiso permisos;
     
     @Column(name = "fecha_Registro", updatable = false)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
 
