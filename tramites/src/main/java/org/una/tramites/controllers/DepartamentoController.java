@@ -35,7 +35,7 @@ public class DepartamentoController {
     private IDepartamentoService departamentoService;
     
     @GetMapping() 
-    @ApiOperation(value = "Obtiene una lista de todos los Departamentos", response = DepartamentoDTO.class, responseContainer = "List", tags = "Departamentos")
+    @ApiOperation(value = "Obtiene una lista de todos los Departamentos ", response = DepartamentoDTO.class, responseContainer = "List", tags = "Departamentos")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {

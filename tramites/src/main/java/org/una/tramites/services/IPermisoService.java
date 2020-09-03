@@ -9,6 +9,8 @@ import org.una.tramites.entities.Permiso;
 public interface IPermisoService {
  
     public Optional<Permiso> findById(Long id);
+     
+    public Optional<Permiso> findByCodigo(String codigo);
 
     public Optional<List<Permiso>> findByEstado(boolean estado);
 
