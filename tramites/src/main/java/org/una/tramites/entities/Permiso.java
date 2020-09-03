@@ -40,7 +40,7 @@ public class Permiso implements Serializable {
     private Long id;
 
     @Column(name = "Codigo", length = 10)
-    private String Codigo;
+    private String codigo;
     
     @Column(name = "Descripcion", length = 100)
     private String Descripcion;

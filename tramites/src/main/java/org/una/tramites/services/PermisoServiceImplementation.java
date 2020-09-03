@@ -40,6 +40,11 @@ public class PermisoServiceImplementation implements IPermisoService {
     public Optional<Permiso> findById(Long id) {
         return permisoRepository.findById(id);
     }
+    
+    @Override
+    public Optional<Permiso> findByCodigo(String codigo) {
+        return permisoRepository.findByCodigo(codigo);
+    }
 
     @Override
     public Optional<List<Permiso>> findByEstado(boolean estado) {

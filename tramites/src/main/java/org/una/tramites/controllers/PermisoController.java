@@ -51,6 +51,23 @@ public class PermisoController {
         }
     }
     
+    @GetMapping("/{codigo}") 
+    @ApiOperation(value = "Obtiene una lista con los codigos de los permisos", response =  PermisoDTO.class, responseContainer = "List", tags = "Permisos")
+    public ResponseEntity<?> findByCodigo(@PathVariable(value = "term") String codigo) {
+        try {
+
+            Optional<Permiso> permisoFound = permisoService.findByCodigo(codigo);
+            if (permisoFound.isPresent()) {
+                  PermisoDTO permisoDto = MapperUtils.DtoFromEntity(permisoFound.get(),  PermisoDTO.class);
+                return new ResponseEntity<>(permisoDto, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
     @GetMapping("/{estado}") 
     @ApiOperation(value = "Obtiene una lista de los permisos por medio del estado", response = PermisoDTO.class, responseContainer = "List", tags = "Permisos")
     public ResponseEntity<?> findByEstado(@PathVariable(value = "term") boolean st) {
