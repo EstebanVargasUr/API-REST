@@ -31,8 +31,11 @@ public class UsuarioServiceImplementation implements IUsuarioService, UserDetail
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     
-    //@Autowired
+    @Autowired
     private AuthenticationManager authenticationManager;
+    
+    @Autowired
+    private JwtProvider jwtProvider;
     
     private void encriptarPassword(Usuario usuario) {
         String password = usuario.getPasswordEncriptado();
@@ -129,7 +132,7 @@ public class UsuarioServiceImplementation implements IUsuarioService, UserDetail
         Authentication authentication = authenticationManager
             .authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getCedula(), authenticationRequest.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        return JwtProvider.generateToken(authenticationRequest);
+        return jwtProvider.generateToken(authenticationRequest);
  
     }
 
