@@ -27,39 +27,51 @@ import lombok.ToString;
 
 /**
  *
- * @author adria
+ * @author adrian
  */
+
 @Entity
-@Table(name = "Permisos_Otorgados")
+@Table(name = "clientes")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class PermisoOtorgado implements Serializable {
+public class Cliente implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "nombre_completo", length = 100)
+    private String nombreCompleto;
+
+    @Column(length = 25, unique = true)
+    private String cedula;
+
+    @Column(name = "telefono", length = 10)
+    private String telefono;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "permisoOtorgado") 
-    private List<Transaccion> transaccion = new ArrayList<>();
+    @Column(name = "direccion", length = 100)
+    private String direccion;
     
-    @ManyToOne 
-    @JoinColumn(name="Usuarios_Id")
-    private Usuario usuarios;
-    
-    @ManyToOne 
-    @JoinColumn(name="Permisos_Id")
-    private Permiso permisos;
-    
-    @Column(name = "fecha_Registro", updatable = false)
+    @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
-
+     
+    @Column(name = "fecha_modificacion")
+    @Setter(AccessLevel.NONE)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaModificacion;
+    
     @Column
     private boolean estado;
+
+    @Column(length = 100, name = "contrasena_encriptado")
+    private String contrasenaEncriptado;
     
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "clientes") 
+    //private List<TramitesRegistrados> clientes = new ArrayList<>();
     
     private static final long serialVersionUID = 1L;
 
@@ -67,19 +79,12 @@ public class PermisoOtorgado implements Serializable {
     public void prePersist() {
         estado=true;
         fechaRegistro = new Date();
+        fechaModificacion = new Date();
     }
 
     @PreUpdate
     public void preUpdate() {
-
-    }
-
-    public void setPermiso(Permiso permisoCrearUsuario) {
-        permisos = permisoCrearUsuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        usuarios = usuario;
+        fechaModificacion = new Date();
     }
     
 }

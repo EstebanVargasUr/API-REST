@@ -27,60 +27,45 @@ import lombok.ToString;
 
 /**
  *
- * @author adria
+ * @author Esteban Vargas
  */
 @Entity
-@Table(name = "Permisos_Otorgados")
+@Table(name = "requisitosPresentados")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class PermisoOtorgado implements Serializable {
+public class RequisitoPresentado implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "permisoOtorgado") 
-    private List<Transaccion> transaccion = new ArrayList<>();
-    
-    @ManyToOne 
-    @JoinColumn(name="Usuarios_Id")
-    private Usuario usuarios;
-    
-    @ManyToOne 
-    @JoinColumn(name="Permisos_Id")
-    private Permiso permisos;
-    
-    @Column(name = "fecha_Registro", updatable = false)
+
+    @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
 
-    @Column
-    private boolean estado;
+    /*@ManyToOne 
+    @JoinColumn(name="tramiteRegistrado_id")
+    private TramiteRegistrado tramiteRegistrado;*/
     
+    @ManyToOne 
+    @JoinColumn(name="requisito_id")
+    private Requisito requisito;
     
     private static final long serialVersionUID = 1L;
 
     @PrePersist
     public void prePersist() {
-        estado=true;
+       
         fechaRegistro = new Date();
+        
     }
 
     @PreUpdate
     public void preUpdate() {
-
+      
     }
-
-    public void setPermiso(Permiso permisoCrearUsuario) {
-        permisos = permisoCrearUsuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        usuarios = usuario;
-    }
-    
 }
 

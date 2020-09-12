@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.una.tramites.entities.Departamento;
+import org.una.tramites.entities.PermisoOtorgado;
 
 /**
  *
@@ -15,16 +16,16 @@ import org.una.tramites.entities.Departamento;
 @AllArgsConstructor
 @NoArgsConstructor 
 @ToString
-public class UsuarioDTO {
+public class ClienteDTO {
  
     private Long id; 
     private String nombreCompleto;   
     private String cedula; 
-    private boolean estado; 
+    private String telefono; 
+    private String direccion; 
     private Date fechaRegistro; 
     private Date fechaModificacion; 
-    private Long departamentoId; 
-    private boolean esJefe;
-    private Departamento departamento;
-     
+    private boolean estado; 
+  //private String contrasenaEncriptado;  
 }
+
