@@ -60,6 +60,11 @@ public class PermisoServiceImplementation implements IPermisoService {
     public void deleteAll() {
          permisoRepository.deleteAll();
     }
+
+    @Override
+    public Long countByEstado(boolean estado) {
+        return permisoRepository.countByEstado(estado);
+    }
     
   
  

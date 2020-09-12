@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.una.tramites.entities.Departamento;
-import org.una.tramites.entities.PermisoOtorgado;
 
 /**
  *
