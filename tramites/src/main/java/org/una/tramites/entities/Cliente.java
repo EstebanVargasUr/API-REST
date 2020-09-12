@@ -70,8 +70,8 @@ public class Cliente implements Serializable {
     @Column(length = 100, name = "contrasena_encriptado")
     private String contrasenaEncriptado;
     
-    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "clientes") 
-    //private List<TramitesRegistrados> clientes = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente") 
+    private List<TramiteRegistrado> tramiteRegistrado = new ArrayList<>();
     
     private static final long serialVersionUID = 1L;
 

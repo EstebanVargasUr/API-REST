@@ -43,17 +43,17 @@ public class TramiteRegistrado implements Serializable {
     private Long clienteId; 
     
     @ManyToOne 
-    @JoinColumn(name="clientes_id")
+    @JoinColumn(name="clientes_Id")
     private Cliente cliente;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "notas") 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tramiteRegistrado") 
     private List<Nota> nota= new ArrayList<>();
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "archivos_relacionados") 
-    private List<Archivo_Relacionado> archivo_relacionado= new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tramiteRegistrado") 
+    private List<ArchivoRelacionado> archivo_relacionado= new ArrayList<>();
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitos_presentados") 
-    private List<Requisito_Presentado> requisito_presentado= new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tramiteRegistrado") 
+    private List<RequisitoPresentado> requisito_presentado= new ArrayList<>();
     
     
     private static final long serialVersionUID = 1L;

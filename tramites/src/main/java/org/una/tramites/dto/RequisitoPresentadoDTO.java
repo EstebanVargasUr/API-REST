@@ -8,6 +8,7 @@ import lombok.ToString;
 import org.una.tramites.entities.Departamento;
 import org.una.tramites.entities.PermisoOtorgado;
 import org.una.tramites.entities.Requisito;
+import org.una.tramites.entities.TramiteRegistrado;
 
 /**
  *
@@ -23,6 +24,6 @@ public class RequisitoPresentadoDTO {
   
     private Date fechaRegistro; 
   
-  //  private TramiteRegistrado tramiteRegistrado;
+    private TramiteRegistrado tramiteRegistrado;
     private Requisito requisito;
 }

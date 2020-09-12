@@ -46,9 +46,9 @@ public class RequisitoPresentado implements Serializable {
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
 
-    /*@ManyToOne 
+    @ManyToOne 
     @JoinColumn(name="tramiteRegistrado_id")
-    private TramiteRegistrado tramiteRegistrado;*/
+    private TramiteRegistrado tramiteRegistrado;
     
     @ManyToOne 
     @JoinColumn(name="requisito_id")

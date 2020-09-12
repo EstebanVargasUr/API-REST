@@ -16,6 +16,6 @@ import org.una.tramites.entities.TramiteRegistrado;
  */
 public interface ITramiteRegistradoRepository extends JpaRepository<TramiteRegistrado, Long> {
     
-     public Optional<List<TramiteRegistrado>> findByTramiteTipoId(Long id);
-     public Optional<List<TramiteRegistrado>> findByClienteId(Long id);
+  //   public Optional<List<TramiteRegistrado>> findByTramiteTipoId(Long id);
+   //  public Optional<List<TramiteRegistrado>> findByClienteId(Long id);
 }
