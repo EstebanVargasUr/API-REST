@@ -1,20 +1,22 @@
 package org.una.tramites.dto;
-import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ *
+ * @author adria
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor 
 @ToString
-public class Tramite_TipoDTO {
+public class TramiteRegistradoDTO {
  
     private Long id; 
-    private String descripcion;   
-    private boolean estado; 
-    private Long departamentoId; 
-    private Date fechaRegistro; 
-    private Date fechaModificacion; 
+    private Long clienteId; 
+    private Cliente cliente;
+     
 }

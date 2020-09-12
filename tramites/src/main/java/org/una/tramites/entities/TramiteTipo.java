@@ -30,7 +30,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Tramite_Tipo implements Serializable {
+public class TramiteTipo implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

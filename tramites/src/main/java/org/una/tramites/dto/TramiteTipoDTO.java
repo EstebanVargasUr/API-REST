@@ -1,27 +1,20 @@
 package org.una.tramites.dto;
-
 import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.una.tramites.entities.TramiteTipo;
 
-/**
- *
- * @author Esteban Vargas
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor 
 @ToString
-public class VariacionDTO {
-    
+public class TramiteTipoDTO {
+ 
     private Long id; 
     private String descripcion;   
     private boolean estado; 
-    private boolean grupo; 
+    private Long departamentoId; 
     private Date fechaRegistro; 
-    private Long tramite_tipoId; 
-    private TramiteTipo tramite_tipo;
+    private Date fechaModificacion; 
 }

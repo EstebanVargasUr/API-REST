@@ -2,7 +2,6 @@ package org.una.tramites.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,63 +15,57 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 /**
  *
- * @author Esteban Vargas
+ * @author adria
  */
 @Entity
-@Table(name = "variaciones")
+@Table(name = "tramites_registrados")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Variacion implements Serializable{
+public class TramiteRegistrado implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column
-    private boolean grupo;
-    
-    @Column(name = "descripcion")
-    private String descripcion;
-    
-    @Column
-    private boolean estado;
     
     @Column(name = "tramite_tipo_id")
     private Long tramite_tipoId; 
     
-    @Column(name = "fecha_registro", updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @Setter(AccessLevel.NONE)
-    private Date fechaRegistro;
-
-    @ManyToOne 
-    @JoinColumn(name="tramites_tipos_id")
-    private TramiteTipo tramite_tipo;
+    @Column(name = "cliente_id")
+    private Long clienteId; 
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "variacion") 
-    private List<Requisito> requisitos= new ArrayList<>();
+    @ManyToOne 
+    @JoinColumn(name="clientes_id")
+    private Cliente cliente;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "notas") 
+    private List<Nota> nota= new ArrayList<>();
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "archivos_relacionados") 
+    private List<Archivo_Relacionado> archivo_relacionado= new ArrayList<>();
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitos_presentados") 
+    private List<Requisito_Presentado> requisito_presentado= new ArrayList<>();
+    
     
     private static final long serialVersionUID = 1L;
 
     @PrePersist
     public void prePersist() {
-        estado=true;
-        fechaRegistro = new Date();
+        
     }
 
     @PreUpdate
     public void preUpdate() {
+
     }
+    
 }
