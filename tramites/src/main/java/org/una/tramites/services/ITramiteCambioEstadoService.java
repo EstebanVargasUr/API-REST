@@ -3,8 +3,6 @@ package org.una.tramites.services;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import org.una.tramites.entities.Departamento;
-import org.una.tramites.entities.PermisoOtorgado;
 import org.una.tramites.entities.TramiteCambioEstado;
 
 /**

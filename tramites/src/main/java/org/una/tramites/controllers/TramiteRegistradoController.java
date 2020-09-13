@@ -22,7 +22,7 @@ import org.una.tramites.services.ITramiteRegistradoService;
 
 @RestController
 @RequestMapping("/tramitesregistrados") 
-@Api(tags = {"TramitesRegistrados"})
+@Api(tags = {"Tramites Registrados"})
 public class TramiteRegistradoController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class TramiteRegistradoController {
   
 
     @GetMapping() 
-    @ApiOperation(value = "Obtiene una lista de todos los tramites registrados", response = TramiteRegistradoDTO.class, responseContainer = "List", tags = "TramitesRegistrados")
+    @ApiOperation(value = "Obtiene una lista de todos los tramites registrados", response = TramiteRegistradoDTO.class, responseContainer = "List", tags = "Tramites Registrados")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -47,7 +47,7 @@ public class TramiteRegistradoController {
     }
 
     @GetMapping("/{id}") 
-    @ApiOperation(value = "Obtiene una lista con el tramite registrado por medio del Id", response =  TramiteRegistradoDTO.class, responseContainer = "List", tags = "TramitesRegistrados")
+    @ApiOperation(value = "Obtiene una lista con el tramite registrado por medio del Id", response =  TramiteRegistradoDTO.class, responseContainer = "List", tags = "Tramites Registrados")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
@@ -62,8 +62,8 @@ public class TramiteRegistradoController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-  /*   @GetMapping("/{cliente}") 
-    @ApiOperation(value = "Obtiene una lista de los tramites registrado por cliente", response = TramiteRegistradoDTO.class, responseContainer = "List", tags = "TramitesRegistrados")
+ /*    @GetMapping("/{cliente}") 
+    @ApiOperation(value = "Obtiene una lista de los tramites registrado por cliente", response = TramiteRegistradoDTO.class, responseContainer = "List", tags = "Tramites Registrados")
     @ResponseBody
     public ResponseEntity<?> findByClienteId(@PathVariable(value = "cliente") Long id){
         try {
@@ -77,9 +77,9 @@ public class TramiteRegistradoController {
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }*/
-/*
-    @GetMapping("/{cliente}") 
+    }
+
+    @GetMapping("/{tipo}") 
     @ApiOperation(value = "Obtiene una lista de los tramites registrado por el tipo de tramite", response = TramiteRegistradoDTO.class, responseContainer = "List", tags = "Tramites Registrados")
     @ResponseBody
     public ResponseEntity<?> findByTramiteTipo(@PathVariable(value = "tramiteTipo") Long id){
@@ -94,8 +94,8 @@ public class TramiteRegistradoController {
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }*/
-    
+    }
+    */
     @PutMapping("/{id}") 
     @ResponseBody
     @ApiOperation(value = "Permite modificar un tramite registrado a partir de su Id", response = TramiteRegistradoDTO.class, tags = "Tramites Registrados")
