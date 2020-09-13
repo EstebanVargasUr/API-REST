@@ -50,14 +50,14 @@ public class TramiteCambioEstado implements Serializable {
     @ManyToOne 
     @JoinColumn(name="usuarios_id")
     private Usuario usuario;
-    
+    /*
     @ManyToOne 
     @JoinColumn(name="tramiteRegistrado_id")
     private TramiteRegistrado tramiteRegistrado;
     
     @ManyToOne 
     @JoinColumn(name="tramiteEstado_id")
-    private TramiteEstado tramiteEstado;
+    private TramiteEstado tramiteEstado;*/
       
     private static final long serialVersionUID = 1L;
 

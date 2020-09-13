@@ -36,7 +36,7 @@ public class ParametroGeneralController {
     private IParametroGeneralService parametrosGeneralService;
      
     @GetMapping() 
-    @ApiOperation(value = "Obtiene una lista de todos los Parametros Generales", response = ParametroGeneralDTO.class, responseContainer = "List", tags = "Parametros Generales")
+    @ApiOperation(value = "Obtiene una lista de todos los Parametros Generales", response = ParametroGeneralDTO.class, responseContainer = "List", tags = "ParametrosGenerales")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -53,7 +53,7 @@ public class ParametroGeneralController {
     }
     
     @GetMapping("/{nombre}")
-    @ApiOperation(value = "Obtiene una lista de parametro por medio del nombre", response = ParametroGeneralDTO.class, responseContainer = "List", tags = "Parametros Generales")
+    @ApiOperation(value = "Obtiene una lista de parametro por medio del nombre", response = ParametroGeneralDTO.class, responseContainer = "List", tags = "ParametrosGenerales")
     public ResponseEntity<?> findByNombreAproximateIgnoreCase(@PathVariable(value = "term") String term) {
         try {
             Optional<List<ParametroGeneral>> result = parametrosGeneralService.findByNombreAproximateIgnoreCase(term);
@@ -69,7 +69,7 @@ public class ParametroGeneralController {
     }
     
       @GetMapping("/{fecha}") 
-    @ApiOperation(value = "Obtiene una lista con los Parametros Generales, entre las fechas especificadas", response = ParametroGeneralDTO.class, responseContainer = "List", tags = "Parametros Generales")
+    @ApiOperation(value = "Obtiene una lista con los Parametros Generales, entre las fechas especificadas", response = ParametroGeneralDTO.class, responseContainer = "List", tags = "ParametrosGenerales")
     public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "Fecha inicial") Date FechIni,@PathVariable(value = "Fecha final") Date FechFin) {
         try {
 
@@ -88,7 +88,7 @@ public class ParametroGeneralController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/") 
     @ResponseBody
-    @ApiOperation(value = "Permite crear un Parametro", response = ParametroGeneralDTO.class, tags = "Parametros Generales")
+    @ApiOperation(value = "Permite crear un Parametro", response = ParametroGeneralDTO.class, tags = "ParametrosGenerales")
     public ResponseEntity<?> create(@RequestBody ParametroGeneral parametroGeneral) {
         try {
             ParametroGeneral parametroGeneralCreated = parametrosGeneralService.create(parametroGeneral);
@@ -101,7 +101,7 @@ public class ParametroGeneralController {
 
     @PutMapping("/{id}") 
     @ResponseBody
-    @ApiOperation(value = "Permite modificar un Parametro a partir de su Id", response = ParametroGeneralDTO.class, tags = "Parametros Generales")
+    @ApiOperation(value = "Permite modificar un Parametro a partir de su Id", response = ParametroGeneralDTO.class, tags = "ParametrosGenerales")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody ParametroGeneral parametroGeneralModified) {
         try {
             Optional<ParametroGeneral> parametroGeneralUpdated = parametrosGeneralService.update(parametroGeneralModified, id);

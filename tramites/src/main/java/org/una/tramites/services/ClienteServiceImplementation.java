@@ -99,5 +99,15 @@ public class ClienteServiceImplementation implements IClienteService {
     public Optional<List<Cliente>> findByFechaRegistroBetween(Date startDate, Date endDate) {
         return clienteRepository.findByFechaRegistroBetween(startDate, endDate);
     }
+   /* @Override
+    @Transactional(readOnly = true)
+    public Optional<List<Cliente>> findByCedulaAproximate(String cedula) {
+        return clienteRepository.findByCedulaAproximate(cedula);
+    }*/
+
+    /*@Override
+    public Optional<List<Cliente>> findByCedulaAproximate(String cedula) {
+        return clienteRepository.findByCedulaAproximate(cedula);
+    }*/
 }
 

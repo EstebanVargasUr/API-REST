@@ -23,15 +23,15 @@ import org.una.tramites.utils.MapperUtils;
 import org.una.tramites.services.ITramiteEstadoService;
 
 @RestController
-@RequestMapping("/tramitesEstados") 
-@Api(tags = {"Tramites Estados"})
+@RequestMapping("/tramites_estados") 
+@Api(tags = {"Tramites_Estados"})
 public class TramiteEstadoController {
     
     @Autowired
     private ITramiteEstadoService tramite_estadoService;
     
     @GetMapping() 
-    @ApiOperation(value = "Obtiene una lista de todos los estados de los tramites ", response = TramiteEstadoDTO.class, responseContainer = "List", tags = "Tramites Estados")
+    @ApiOperation(value = "Obtiene una lista de todos los estados de los tramites ", response = TramiteEstadoDTO.class, responseContainer = "List", tags = "Tramites_Estados")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -48,7 +48,7 @@ public class TramiteEstadoController {
     }
     
     @GetMapping("/{id}") 
-    @ApiOperation(value = "Obtiene una lista con el estado del tramite por medio del id", response = TramiteEstadoDTO.class, responseContainer = "List", tags = "Tramites Estados")
+    @ApiOperation(value = "Obtiene una lista con el estado del tramite por medio del id", response = TramiteEstadoDTO.class, responseContainer = "List", tags = "Tramites_Estados")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
@@ -65,7 +65,7 @@ public class TramiteEstadoController {
     }
     
     @GetMapping("/{nombre}")
-    @ApiOperation(value = "Obtiene una lista con el Usuario por medio del nombre", response = TramiteEstadoDTO.class, responseContainer = "List", tags = "Tramites Estados")
+    @ApiOperation(value = "Obtiene una lista con el Usuario por medio del nombre", response = TramiteEstadoDTO.class, responseContainer = "List", tags = "Tramites_Estados")
     public ResponseEntity<?> findByNombreContainingIgnoreCase(@PathVariable(value = "term") String term) {
         try {
             Optional<List<TramiteEstado>> result = tramite_estadoService.findByNombreContainingIgnoreCase(term);
@@ -82,7 +82,7 @@ public class TramiteEstadoController {
     
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/") 
-    @ApiOperation(value = "Permite crear un Departamento", response = TramiteEstadoDTO.class, tags = "Tramites Estados")
+    @ApiOperation(value = "Permite crear un Departamento", response = TramiteEstadoDTO.class, tags = "Tramites_Estados")
     @ResponseBody
     public ResponseEntity<?> create(@RequestBody TramiteEstado departamento) {
         try {
@@ -95,7 +95,7 @@ public class TramiteEstadoController {
     }
     
     @PutMapping("/{id}") 
-    @ApiOperation(value = "Permite modificar un Departamento a partir de su Id", response = TramiteEstadoDTO.class, tags = "Tramites Estados")
+    @ApiOperation(value = "Permite modificar un Departamento a partir de su Id", response = TramiteEstadoDTO.class, tags = "Tramites_Estados")
     @ResponseBody
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody TramiteEstado tramite_estadoModified) {
         try {
