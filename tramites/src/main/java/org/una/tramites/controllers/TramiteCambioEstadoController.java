@@ -104,7 +104,7 @@ public class TramiteCambioEstadoController {
     }
     
     @GetMapping("/{fecha}") 
-    @ApiOperation(value = "Obtiene una lista con los tramites de cambio de estado, entre las fechas especificadas", response = TramiteCambioEstadoDTO.class, responseContainer = "List", tags = "Tramires Cambios Estados")
+    @ApiOperation(value = "Obtiene una lista con los tramites de cambio de estado, entre las fechas especificadas", response = TramiteCambioEstadoDTO.class, responseContainer = "List", tags = "Tramites Cambios Estados")
     public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "Fecha inicial") Date FechIni,@PathVariable(value = "Fecha final") Date FechFin) {
         try {
 

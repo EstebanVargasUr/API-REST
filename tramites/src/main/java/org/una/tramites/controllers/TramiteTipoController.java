@@ -66,8 +66,8 @@ public class TramiteTipoController {
     }
     
     @GetMapping("/{estado}") 
-    @ApiOperation(value = "Obtiene una lista con los estados del tipo de Tramite", response = TramiteTipoDTO.class, responseContainer = "List", tags = "Tramites_Tipos")
-    public ResponseEntity<?> findByfindByEstado(@PathVariable(value = "term") boolean st) {
+    @ApiOperation(value = "Obtiene una lista con los estados del tipo de Tramite", response = TramiteTipoDTO.class, responseContainer = "List", tags = "Tramites Tipos")
+    public ResponseEntity<?> findByEstado(@PathVariable(value = "term") boolean st) {
         try {
 
             Optional<List<TramiteTipo>> tramite_tipoFound = tramite_tipoService.findByEstado(st);

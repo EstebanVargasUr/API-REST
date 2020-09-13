@@ -51,7 +51,18 @@ public class SwaggerConfiguration {
                           new Tag("Departamentos", "Metodos de Departamentos"),
                            new Tag("Transacciones", "Metodos de Transacciones"),
                             new Tag("Permisos Otorgados", "Metodos de Permisos Otorgados a Usuarios"),
-                             new Tag("Permisos", "Metodos de Permisos de Usuarios")
+                             new Tag("Permisos", "Metodos de Permisos de Usuarios"),
+                              new Tag("Archivos Relacionados", "Metodos de Archivos Relacionados"),
+                               new Tag("Clientes", "Metodos Clientes"),
+                                new Tag("Notas", "Metodos de Notas"),
+                                 new Tag("Parametros Generales", "Metodos de Parametros Generales"),
+                                  new Tag("Requisitos", "Metodos de Requisitos"),
+                                   new Tag("Requisitos Presentados", "Metodos de Requisitos Presentados"),
+                                    new Tag("Tramites Cambios Estados", "Metodos de Tramites Cambios Estados"),
+                                     new Tag("Tramites Tipos", "Metodos de Tramites Tipos"),
+                                      new Tag("Tramites Registrados", "Metodos de Tramites Registrados"),
+                                       new Tag("Tramites Estados", "Metodos de Tramite Estados"),
+                                        new Tag("Variaciones", "Metodos de Variaciones")
                 );
 
     }
