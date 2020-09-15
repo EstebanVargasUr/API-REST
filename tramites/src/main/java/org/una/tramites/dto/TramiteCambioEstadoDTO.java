@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.una.tramites.entities.TramiteEstado;
+import org.una.tramites.entities.TramiteRegistrado;
 
 /**
  *
@@ -20,7 +22,7 @@ public class TramiteCambioEstadoDTO {
  
     private Date fechaRegistro; 
     
-   /* private TramiteRegistrado tramiteRegistrado;
-    private TramiteEstado tramiteEstado;*/
+    private TramiteRegistrado tramiteRegistrado;
+    private TramiteEstado tramiteEstado;
 }
 
