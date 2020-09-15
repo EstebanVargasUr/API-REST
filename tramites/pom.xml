@@ -16,9 +16,6 @@
 
     <properties>
         <java.version>14</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -35,21 +32,6 @@
     <version>5.3.4.RELEASE</version>
 </dependency>
 
-        <dependency>
-         <groupId>com.jfoenix</groupId>
-         <artifactId>jfoenix</artifactId>
-         <version>9.0.10</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>14</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-fxml</artifactId>
-            <version>14</version>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -114,28 +96,11 @@
 
 
 
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
-                <configuration>
-                    <release>11</release>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.4</version>
-                <configuration>
-                    <mainClass>org.una.tramites.TramitesApplication</mainClass>
-                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -156,6 +121,28 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        <repository>
+    <id>org.springframework.maven.release</id>
+    <name>Spring Maven Release Repository</name>
+    <url>http://repo.springsource.org/libs-release-local</url>
+    <releases><enabled>true</enabled></releases>
+    <snapshots><enabled>false</enabled></snapshots>
+</repository>
+<!-- For testing against latest Spring snapshots -->
+<repository>
+    <id>org.springframework.maven.snapshot</id>
+    <name>Spring Maven Snapshot Repository</name>
+    <url>http://repo.springsource.org/libs-snapshot-local</url>
+    <releases><enabled>false</enabled></releases>
+    <snapshots><enabled>true</enabled></snapshots>
+</repository>
+<!-- For developing against latest Spring milestones -->
+<repository>
+    <id>org.springframework.maven.milestone</id>
+    <name>Spring Maven Milestone Repository</name>
+    <url>http://repo.springsource.org/libs-milestone-local</url>
+    <snapshots><enabled>false</enabled></snapshots>
+</repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
