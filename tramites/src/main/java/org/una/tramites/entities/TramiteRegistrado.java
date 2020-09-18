@@ -43,6 +43,10 @@ public class TramiteRegistrado implements Serializable {
     private Long clienteId; 
     
     @ManyToOne 
+    @JoinColumn(name="tramitesTipos_Id")
+    private TramiteTipo tramiteTipo;
+    
+    @ManyToOne 
     @JoinColumn(name="clientes_Id")
     private Cliente cliente;
     

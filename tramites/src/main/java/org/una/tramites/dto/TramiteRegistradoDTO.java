@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.una.tramites.entities.Cliente;
+import org.una.tramites.entities.TramiteTipo;
 
 /**
  *
@@ -17,7 +18,9 @@ import org.una.tramites.entities.Cliente;
 public class TramiteRegistradoDTO {
  
     private Long id; 
+    private Long tramiteTipoId;
     private Long clienteId; 
+    private TramiteTipo tramiteTipo;
     private Cliente cliente;
      
 }

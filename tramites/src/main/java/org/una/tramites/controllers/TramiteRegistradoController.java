@@ -62,7 +62,7 @@ public class TramiteRegistradoController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
- /*    @GetMapping("/{cliente}") 
+    @GetMapping("/cliente/{id}") 
     @ApiOperation(value = "Obtiene una lista de los tramites registrado por cliente", response = TramiteRegistradoDTO.class, responseContainer = "List", tags = "Tramites Registrados")
     @ResponseBody
     public ResponseEntity<?> findByClienteId(@PathVariable(value = "cliente") Long id){
@@ -79,7 +79,7 @@ public class TramiteRegistradoController {
         }
     }
 
-    @GetMapping("/{tipo}") 
+    @GetMapping("/tramiteTipo/{id}") 
     @ApiOperation(value = "Obtiene una lista de los tramites registrado por el tipo de tramite", response = TramiteRegistradoDTO.class, responseContainer = "List", tags = "Tramites Registrados")
     @ResponseBody
     public ResponseEntity<?> findByTramiteTipo(@PathVariable(value = "tramiteTipo") Long id){
@@ -95,7 +95,6 @@ public class TramiteRegistradoController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    */
     @PutMapping("/{id}") 
     @ResponseBody
     @ApiOperation(value = "Permite modificar un tramite registrado a partir de su Id", response = TramiteRegistradoDTO.class, tags = "Tramites Registrados")

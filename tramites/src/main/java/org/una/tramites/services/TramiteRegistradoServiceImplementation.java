@@ -30,15 +30,17 @@ public class TramiteRegistradoServiceImplementation implements ITramiteRegistrad
         return tramite_registradoRepository.findById(id);
     }
     
- /*   @Override
-    public Optional findByClienteId(Long id) {
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<List<TramiteRegistrado>> findByClienteId(Long id) {
         return Optional.ofNullable(tramite_registradoRepository.findByClienteId(id));
     }
     
     @Override
-    public Optional findByTramiteTipoId(Long id) {
+    @Transactional(readOnly = true)
+    public Optional<List<TramiteRegistrado>> findByTramiteTipoId(Long id) {
         return Optional.ofNullable(tramite_registradoRepository.findByTramiteTipoId(id));
-    }*/
+    }
     
     @Override
     @Transactional
