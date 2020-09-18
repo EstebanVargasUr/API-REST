@@ -34,6 +34,23 @@ public class PermisoController {
     @Autowired
     private IPermisoService permisoService;
     
+    @GetMapping() 
+    @ApiOperation(value = "Obtiene una lista de todos los Usuarios", response = PermisoDTO.class, responseContainer = "List", tags = "Usuarios")
+    public @ResponseBody
+    ResponseEntity<?> findAll() {
+        try {
+            Optional<List<Permiso>> result = permisoService.findAll();
+            if (result.isPresent()) {
+                List<PermisoDTO> usuariosDTO = MapperUtils.DtoListFromEntityList(result.get(), PermisoDTO.class);
+                return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
     @GetMapping("/{id}") 
     @ApiOperation(value = "Obtiene una lista con los permisos por medio del Id", response =  PermisoDTO.class, responseContainer = "List", tags = "Permisos")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {

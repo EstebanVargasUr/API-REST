@@ -1,4 +1,4 @@
-package org.una.components;
+package org.una.loaders;
 
 /**
  *
@@ -20,7 +20,16 @@ public enum Permisos {
     ConsultarTramite("TRA5"),
     ConsultarTodosTramites("TRA6"),
     DiseñarTramitesVariacionesRequisitos("TRD1"),
-    ConsultarReportesTransacciones("TRU1");
+    ConsultarReportesTransacciones("TRU1"),
+    ConsultarReportesAlertasFavoritismo("TRU2"),
+    RegistrarTramitePropio("TRP1"),
+    ConsultarTramitePropio("TRP2"),
+    ConsultarReporteTramiteUsuario("TRU3"),
+    ConsultarReporteTramiteFecha("TRU4"),
+    ConsultarReporteTramiteTipo("TRU5"),
+    ConsultarReporteTramiteEstado("TRU6"),
+    ConsultarReporteTramiteDepartamento("TRU7"),
+    ConsultarReporteTramiteCliente("TRU8");
 //TODO: completar esta lista
     private String codigo;
 

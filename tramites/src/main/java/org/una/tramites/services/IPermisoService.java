@@ -7,6 +7,7 @@ import org.una.tramites.entities.Permiso;
 
 
 public interface IPermisoService {
+    public Optional<List<Permiso>> findAll();
  
     public Optional<Permiso> findById(Long id);
      

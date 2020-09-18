@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.una.tramites.entities.Permiso;
 import org.una.tramites.repositories.IPermisoRepository;
 
@@ -14,7 +15,11 @@ public class PermisoServiceImplementation implements IPermisoService {
     @Autowired
     private IPermisoRepository permisoRepository;
 
-  
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<List<Permiso>> findAll() {
+        return Optional.ofNullable(permisoRepository.findAll());
+    }
 
   
     @Override

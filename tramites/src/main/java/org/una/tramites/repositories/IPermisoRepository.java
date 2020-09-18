@@ -12,5 +12,5 @@ public Optional<List<Permiso>> findByEstado(boolean estado);
 public Optional<List<Permiso>> findByFechaRegistroBetween(Date startDate, Date endDate);
 
     public Long countByEstado(boolean estado);
-
+    //public Long countByX(boolean X);//
 }
