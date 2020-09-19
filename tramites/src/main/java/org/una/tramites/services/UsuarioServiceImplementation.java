@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.una.tramites.dto.AuthenticationRequest;
+import org.una.tramites.entities.PermisoOtorgado;
 import org.una.tramites.entities.Usuario;
 import org.una.tramites.jwt.JwtProvider;
 import org.una.tramites.repositories.IUsuarioRepository;
@@ -37,13 +38,32 @@ public class UsuarioServiceImplementation implements IUsuarioService, UserDetail
     @Autowired
     private JwtProvider jwtProvider;
     
+    private PermisoOtorgado permisoOtorgado;
+    
     private void encriptarPassword(Usuario usuario) {
         String password = usuario.getPasswordEncriptado();
         if (!password.isBlank()) {
             usuario.setPasswordEncriptado(bCryptPasswordEncoder.encode(password));
         }
     } 
-
+/*
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional <Usuario> usuarioBuscado = usuarioRepository.findByCedula(username);
+        if (usuarioBuscado.isPresent()) {
+            Usuario usuario = usuarioBuscado.get();
+            List<GrantedAuthority> roles = new ArrayList<>();
+            usuario.getPermisoOtorgado().forEach(permisoOtorogado ->{
+                roles.add(new SimpleGrantedAuthority(permisoOtorgado.getPermisos().getCodigo()));
+            });
+            roles.add(new SimpleGrantedAuthority("ADMIN"));
+            UserDetails userDetails = new User(usuario.getCedula(), usuario.getPasswordEncriptado(), roles);
+            return userDetails;
+        } else {
+            return null;
+        }
+    }*/
+    
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional <Usuario> usuarioBuscado = usuarioRepository.findByCedula(username);
@@ -57,7 +77,7 @@ public class UsuarioServiceImplementation implements IUsuarioService, UserDetail
             return null;
         }
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public Optional<List<Usuario>> findAll() {
