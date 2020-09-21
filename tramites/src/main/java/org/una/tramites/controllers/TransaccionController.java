@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.TransaccionDTO;
-import org.una.tramites.dto.UsuarioDTO;
 import org.una.tramites.entities.Transaccion;
 import org.una.tramites.services.ITransaccionService;
 import org.una.tramites.utils.MapperUtils;

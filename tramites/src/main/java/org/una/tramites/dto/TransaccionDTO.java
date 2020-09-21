@@ -19,8 +19,8 @@ public class TransaccionDTO {
  
     private Long id; 
     private Date fechaRegistro; 
-    private String Objeto;
-    private String Informacion;
+    private String objeto;
+    private String informacion;
     private PermisoOtorgado permisoOtorgado;
     
     

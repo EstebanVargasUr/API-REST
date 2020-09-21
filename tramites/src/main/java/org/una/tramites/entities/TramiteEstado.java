@@ -1,10 +1,14 @@
 package org.una.tramites.entities;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -31,12 +35,15 @@ public class TramiteEstado implements Serializable {
     @Column(name = "nombre", length = 100)
     private String nombre;
     
-    @Column(name = "descripcion", length = 500)
+    @Column(name = "descripcion")
     private String descripcion;
     
-    @Column(name = "estado_sucesor", length = 10)
-    private String estado_sucesor;
+    @Column(name = "estados_sucesores", length = 10)
+    private String estadoSucesor;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tramiteEstado") 
+    private List<TramiteCambioEstado> tramitesCambiosEstados= new ArrayList<>();
+    
     private static final long serialVersionUID = 1L;
 
     @PrePersist

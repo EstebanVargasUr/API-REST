@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.una.tramites.entities.Departamento;
 
 @Data
 @AllArgsConstructor
@@ -14,7 +15,7 @@ public class TramiteTipoDTO {
     private Long id; 
     private String descripcion;   
     private boolean estado; 
-    private Long departamentoId; 
     private Date fechaRegistro; 
-    private Date fechaModificacion; 
+    private Date fechaModificacion;
+    private Departamento departamento; 
 }

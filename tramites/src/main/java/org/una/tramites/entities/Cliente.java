@@ -10,8 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -67,11 +65,11 @@ public class Cliente implements Serializable {
     @Column
     private boolean estado;
 
-    @Column(length = 100, name = "contrasena_encriptado")
-    private String contrasenaEncriptado;
+    @Column(length = 100, name = "password_encriptado")
+    private String passwordEncriptado;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente") 
-    private List<TramiteRegistrado> tramiteRegistrado = new ArrayList<>();
+    private List<TramiteRegistrado> tramitesRegistrados = new ArrayList<>();
     
     private static final long serialVersionUID = 1L;
 

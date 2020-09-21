@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.una.tramites.entities.Departamento;
-import org.una.tramites.entities.PermisoOtorgado;
 import org.una.tramites.entities.Requisito;
 import org.una.tramites.entities.TramiteRegistrado;
 
@@ -21,9 +19,7 @@ import org.una.tramites.entities.TramiteRegistrado;
 public class RequisitoPresentadoDTO {
  
     private Long id; 
-  
     private Date fechaRegistro; 
-  
     private TramiteRegistrado tramiteRegistrado;
     private Requisito requisito;
 }

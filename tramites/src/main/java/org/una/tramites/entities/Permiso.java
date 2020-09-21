@@ -43,7 +43,7 @@ public class Permiso implements Serializable {
     private String codigo;
     
     @Column(name = "Descripcion", length = 100)
-    private String Descripcion;
+    private String descripcion;
     
     @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -58,8 +58,8 @@ public class Permiso implements Serializable {
     @Column
     private boolean estado;
    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "permisos") 
-    private List<PermisoOtorgado> PermisoOtorgado = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "permiso") 
+    private List<PermisoOtorgado> permisosOtorgados = new ArrayList<>();
     
     private static final long serialVersionUID = 1L;
 

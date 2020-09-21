@@ -20,7 +20,7 @@ public class ArchivoRelacionadoDTO {
     private Long id;
     private String nombre;   
     private String etiquetas;
-    private String ruta_Archivo;
+    private String rutaArchivo;
     private Boolean estado;
     private Boolean tipo;
     private Date fechaRegistro; 

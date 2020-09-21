@@ -17,8 +17,8 @@ import lombok.ToString;
 public class PermisoDTO {
  
     private Long id; 
-    private String Codigo;
-    private String Descripcion;
+    private String codigo;
+    private String descripcion;
     private Date fechaRegistro;
     private Date fechaModificacion;
     private boolean estado;

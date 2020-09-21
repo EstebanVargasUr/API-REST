@@ -18,8 +18,6 @@ import org.una.tramites.entities.TramiteTipo;
 public class TramiteRegistradoDTO {
  
     private Long id; 
-    private Long tramiteTipoId;
-    private Long clienteId; 
     private TramiteTipo tramiteTipo;
     private Cliente cliente;
      

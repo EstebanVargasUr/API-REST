@@ -18,7 +18,7 @@ public class TramiteEstadoDTO {
     private Long id; 
     private String nombre;   
     private String descripcion; 
-    private String estado_sucesor; 
+    private String estadoSucesor; 
      
 }
 

@@ -19,6 +19,6 @@ public interface IVariacionRepository extends JpaRepository<Variacion, Long>{
     
     public Optional<List<Variacion>> findByFechaRegistroBetween(Date startDate, Date endDate);
     
-    @Query("SELECT u FROM Variacion u LEFT JOIN u.tramite_tipo d WHERE d.id=:id")
+    @Query("SELECT u FROM Variacion u LEFT JOIN u.tramiteTipo d WHERE d.id=:id")
     public Variacion findByTramite_tipoId(Long id);
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.una.tramites.entities.Cliente;
-import org.una.tramites.entities.Usuario;
 
 
 public interface IClienteRepository extends JpaRepository<Cliente, Long> {

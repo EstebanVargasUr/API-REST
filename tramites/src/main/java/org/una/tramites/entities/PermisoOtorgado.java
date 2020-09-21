@@ -30,7 +30,7 @@ import lombok.ToString;
  * @author adria
  */
 @Entity
-@Table(name = "Permisos_Otorgados")
+@Table(name = "permisos_otorgados")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -42,17 +42,17 @@ public class PermisoOtorgado implements Serializable {
     private Long id;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "permisoOtorgado") 
-    private List<Transaccion> transaccion = new ArrayList<>();
+    private List<Transaccion> transacciones = new ArrayList<>();
     
     @ManyToOne 
-    @JoinColumn(name="Usuarios_Id")
-    private Usuario usuarios;
+    @JoinColumn(name="usuarios_id")
+    private Usuario usuario;
     
     @ManyToOne 
-    @JoinColumn(name="Permisos_Id")
-    private Permiso permisos;
+    @JoinColumn(name="permisos_id")
+    private Permiso permiso;
     
-    @Column(name = "fecha_Registro", updatable = false)
+    @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
@@ -75,11 +75,11 @@ public class PermisoOtorgado implements Serializable {
     }
 
     public void setPermiso(Permiso permisoCrearUsuario) {
-        permisos = permisoCrearUsuario;
+        permiso = permisoCrearUsuario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        usuarios = usuario;
+    public void setUsuario(Usuario Usuario) {
+        usuario = Usuario;
     }
     
 }

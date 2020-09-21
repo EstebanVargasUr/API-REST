@@ -42,14 +42,14 @@ public class Transaccion implements Serializable {
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
  
-    @Column(name = "Objeto", length = 50)
-    private String Objeto;
+    @Column(name = "objeto", length = 50)
+    private String objeto;
     
-    @Column(name = "Informacion")
-    private String Informacion;
+    @Column(name = "informacion")
+    private String informacion;
     
     @ManyToOne 
-    @JoinColumn(name="Permisos_Otorgados_Id")
+    @JoinColumn(name="permisos_otorgados_id")
     private PermisoOtorgado permisoOtorgado;
    
     private static final long serialVersionUID = 1L;

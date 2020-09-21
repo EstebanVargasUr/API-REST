@@ -20,10 +20,10 @@ public class UsuarioDTO {
     private Long id; 
     private String nombreCompleto;   
     private String cedula; 
+    private String passwordEncriptado;
     private boolean estado; 
     private Date fechaRegistro; 
     private Date fechaModificacion; 
-    private Long departamentoId; 
     private boolean esJefe;
     private Departamento departamento;
      

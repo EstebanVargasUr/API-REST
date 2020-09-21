@@ -14,7 +14,11 @@ public interface IPermisoService {
     public Optional<Permiso> findByCodigo(String codigo);
 
     public Optional<List<Permiso>> findByEstado(boolean estado);
-
+    
+    public Long countByEstado(boolean estado);
+    
+    public Long countById(boolean Id);
+    
     public Optional<List<Permiso>> findByFechaRegistroBetween(Date startDate, Date endDate);
 
     public Permiso create(Permiso permiso);
@@ -25,7 +29,7 @@ public interface IPermisoService {
 
     public void deleteAll();
 
-    public Long countByEstado(boolean estado);
+    
 
 }
 
