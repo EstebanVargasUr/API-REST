@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,28 +35,25 @@ public class TramiteRegistrado implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "tramite_tipo_id")
-    private Long tramite_tipoId; 
-    
-    @Column(name = "cliente_id")
-    private Long clienteId; 
-    
     @ManyToOne 
-    @JoinColumn(name="tramitesTipos_Id")
+    @JoinColumn(name="tramites_tipos_id")
     private TramiteTipo tramiteTipo;
     
     @ManyToOne 
-    @JoinColumn(name="clientes_Id")
+    @JoinColumn(name="clientes_id")
     private Cliente cliente;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tramiteRegistrado") 
-    private List<Nota> nota= new ArrayList<>();
+    private List<Nota> notas= new ArrayList<>();
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tramiteRegistrado") 
-    private List<ArchivoRelacionado> archivo_relacionado= new ArrayList<>();
+    private List<ArchivoRelacionado> archivosRelacionados= new ArrayList<>();
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tramiteRegistrado") 
-    private List<RequisitoPresentado> requisito_presentado= new ArrayList<>();
+    private List<RequisitoPresentado> requisitosPresentados= new ArrayList<>();
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tramiteRegistrado") 
+    private List<TramiteCambioEstado> tramiteCambiosEstados= new ArrayList<>();
     
     
     private static final long serialVersionUID = 1L;

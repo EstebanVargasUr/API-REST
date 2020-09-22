@@ -4,16 +4,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.una.tramites.dto.ClienteDTO;
 import org.una.tramites.entities.Cliente;
-import org.una.tramites.entities.Usuario;
-import org.una.tramites.jwt.JwtProvider;
 import org.una.tramites.repositories.IClienteRepository;
-import org.una.tramites.repositories.IUsuarioRepository;
 
 @Service
 public class ClienteServiceImplementation implements IClienteService {
@@ -27,7 +23,7 @@ public class ClienteServiceImplementation implements IClienteService {
     private void encriptarPassword(ClienteDTO cliente) {
         String password = cliente.getContrasenaEncriptado();
         if (!password.isBlank()) {
-            cliente.setContrasenaEncriptado(bCryptPasswordEncoder.encode(password));
+            cliente.setPasswordEncriptado(bCryptPasswordEncoder.encode(password));
         }
     } 
     

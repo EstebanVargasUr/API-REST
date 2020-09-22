@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.una.tramites.dto.TramiteCambioEstadoDTO;
 import org.una.tramites.entities.Departamento;
 import org.una.tramites.entities.TramiteCambioEstado;
-import org.una.tramites.repositories.IDepartamentoRepository;
 import org.una.tramites.repositories.ITramiteCambioEstadoRepository;
 
 

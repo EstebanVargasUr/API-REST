@@ -26,7 +26,7 @@ import lombok.ToString;
  * @author Esteban Vargas
  */
 @Entity
-@Table(name = "Archivos_Relacionados")
+@Table(name = "archivos_relacionados")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -41,7 +41,7 @@ public class ArchivoRelacionado implements Serializable {
     private String nombre;
     
     @Column(name = "ruta_Archivo")
-    private String ruta_Archivo;
+    private String rutaArchivo;
     
     @Column(name = "etiquetas")
     private String etiquetas;
@@ -51,10 +51,7 @@ public class ArchivoRelacionado implements Serializable {
     
     @Column
     private boolean tipo;
-    
-    @Column(name = "tramiteRegistrado_id")
-    private Long tramiteRegistradoId; 
-    
+      
     @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @Setter(AccessLevel.NONE)
@@ -66,7 +63,7 @@ public class ArchivoRelacionado implements Serializable {
     private Date fechaModificacion;
     
     @ManyToOne 
-    @JoinColumn(name="tramitesRegistrados_id")
+    @JoinColumn(name="tramites_registrados_id")
     private TramiteRegistrado tramiteRegistrado;
     
     private static final long serialVersionUID = 1L;

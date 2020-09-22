@@ -52,9 +52,6 @@ public class Usuario implements Serializable {
 
     @Column
     private boolean estado;
-
-    @Column(name = "departamento_id")
-    private Long departamentoId; 
     
     @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -73,8 +70,11 @@ public class Usuario implements Serializable {
     @JoinColumn(name="departamentos_id")
     private Departamento departamento;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarios") 
-    private List<PermisoOtorgado> permisoOtorgado= new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario") 
+    private List<PermisoOtorgado> permisosOtorgados= new ArrayList<>();
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario") 
+    private List<TramiteCambioEstado> tramitesCambiosEstados= new ArrayList<>();
     
     private static final long serialVersionUID = 1L;
 

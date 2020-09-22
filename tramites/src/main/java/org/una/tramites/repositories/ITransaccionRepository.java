@@ -21,5 +21,6 @@ public interface ITransaccionRepository extends JpaRepository<Transaccion, Long>
 
     public Optional<List<TransaccionDTO>> findByFechaRegistroBetween(Date startDate, Date endDate);
 
+
 }
 

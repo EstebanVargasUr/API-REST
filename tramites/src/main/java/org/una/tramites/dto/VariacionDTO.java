@@ -22,6 +22,5 @@ public class VariacionDTO {
     private boolean estado; 
     private boolean grupo; 
     private Date fechaRegistro; 
-    private Long tramite_tipoId; 
-    private TramiteTipo tramite_tipo;
+    private TramiteTipo tramiteTipo;
 }

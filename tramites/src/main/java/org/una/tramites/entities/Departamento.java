@@ -39,7 +39,7 @@ public class Departamento implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nombre", length = 100)
+    @Column(name = "nombre", length = 50)
     private String nombreCompleto;
 
     @Column(name = "fecha_registro", updatable = false)
@@ -57,6 +57,9 @@ public class Departamento implements Serializable {
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamento") 
     private List<Usuario> usuarios= new ArrayList<>();
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamento") 
+    private List<TramiteTipo> tramitesTipos= new ArrayList<>();
     
     private static final long serialVersionUID = 1L;
 

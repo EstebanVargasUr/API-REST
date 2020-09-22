@@ -71,6 +71,11 @@ public class PermisoServiceImplementation implements IPermisoService {
     public Long countByEstado(boolean estado) {
         return permisoRepository.countByEstado(estado);
     }
+
+    @Override
+    public Long countById(boolean Id) {
+        return permisoRepository.countById(Id);
+    }
     
   
  

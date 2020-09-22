@@ -13,6 +13,11 @@ public Optional<PermisoDTO> findByCodigo(String codigo);
 public Optional<List<PermisoDTO>> findByEstado(boolean estado);
 public Optional<List<PermisoDTO>> findByFechaRegistroBetween(Date startDate, Date endDate);
 
+    public Optional<List<Permiso>> findByEstado(boolean estado);
+
+    public Optional<List<Permiso>> findByFechaRegistroBetween(Date startDate, Date endDate);
+
     public Long countByEstado(boolean estado);
-    //public Long countByX(boolean X);//
+    
+    public Long countById(boolean Id);
 }

@@ -48,10 +48,7 @@ public class Variacion implements Serializable{
     
     @Column
     private boolean estado;
-    
-    @Column(name = "tramite_tipo_id")
-    private Long tramite_tipoId; 
-    
+      
     @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @Setter(AccessLevel.NONE)
@@ -59,7 +56,7 @@ public class Variacion implements Serializable{
 
     @ManyToOne 
     @JoinColumn(name="tramites_tipos_id")
-    private TramiteTipo tramite_tipo;
+    private TramiteTipo tramiteTipo;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "variacion") 
     private List<Requisito> requisitos= new ArrayList<>();

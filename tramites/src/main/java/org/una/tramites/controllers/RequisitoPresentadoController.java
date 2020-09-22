@@ -20,9 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.RequisitoPresentadoDTO;
-import org.una.tramites.dto.RequisitoPresentadoDTO;
 import org.una.tramites.entities.RequisitoPresentado;
-import org.una.tramites.services.IRequisitoPresentadoService;
 import org.una.tramites.services.IRequisitoPresentadoService;
 import org.una.tramites.utils.MapperUtils;
 

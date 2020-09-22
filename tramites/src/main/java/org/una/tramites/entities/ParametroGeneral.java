@@ -24,7 +24,7 @@ import lombok.ToString;
  * @author Esteban Vargas
  */
 @Entity
-@Table(name = "Parametros_Generales")
+@Table(name = "parametros_generales")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
