@@ -21,7 +21,7 @@ public class ClienteServiceImplementation implements IClienteService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     
     private void encriptarPassword(ClienteDTO cliente) {
-        String password = cliente.getContrasenaEncriptado();
+        String password = cliente.getPasswordEncriptado();
         if (!password.isBlank()) {
             cliente.setPasswordEncriptado(bCryptPasswordEncoder.encode(password));
         }

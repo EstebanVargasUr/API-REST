@@ -16,7 +16,7 @@ public interface ITransaccionRepository extends JpaRepository<Transaccion, Long>
     @Query("SELECT u FROM Transaccion u LEFT JOIN PermisoOtorgado d WHERE d.id=:permisoId AND u.fechaRegistro=:startDate AND d.fechaRegistro=:endDate")
    public Optional<List<TransaccionDTO>> findByPermisoIdAndFechaRegistroBetween(Long permisoId, Date startDate, Date endDate);
 
-    @Query("SELECT u FROM Transaccion u WHERE u.Objeto=:objeto AND u.fechaRegistro=:startDate AND u.fechaRegistro=:endDate")
+    @Query("SELECT u FROM Transaccion u WHERE u.objeto=:objeto AND u.fechaRegistro=:startDate AND u.fechaRegistro=:endDate")
     public Optional<List<TransaccionDTO>> findByObjetoAndFechaRegistroBetween(String objeto, Date startDate, Date endDate);
 
     public Optional<List<TransaccionDTO>> findByFechaRegistroBetween(Date startDate, Date endDate);

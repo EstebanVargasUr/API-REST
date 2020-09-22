@@ -34,6 +34,6 @@ public interface IUsuarioService {
     
     public Optional <UsuarioDTO> findByCedula(String cedula);
     
-   // public List<PermisoOtorgadoDTO> findPermisosOtorgadosByCedula(String cedula);
+    public List<PermisoOtorgadoDTO> findPermisosOtorgadosByCedula(String cedula);
     
 }

@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.una.tramites.dto.PermisoDTO;
-import org.una.tramites.entities.Permiso;
 
 
 public interface IPermisoService {
@@ -14,13 +13,13 @@ public interface IPermisoService {
      
     public Optional<PermisoDTO> findByCodigo(String codigo);
 
-    public Optional<List<Permiso>> findByEstado(boolean estado);
+    public Optional<List<PermisoDTO>> findByEstado(boolean estado);
     
     public Long countByEstado(boolean estado);
     
     public Long countById(boolean Id);
     
-    public Optional<List<Permiso>> findByFechaRegistroBetween(Date startDate, Date endDate);
+    public Optional<List<PermisoDTO>> findByFechaRegistroBetween(Date startDate, Date endDate);
 
     public PermisoDTO create(PermisoDTO permiso);
 

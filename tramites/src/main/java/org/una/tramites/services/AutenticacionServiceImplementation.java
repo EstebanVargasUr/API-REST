@@ -21,7 +21,7 @@ public class AutenticacionServiceImplementation implements IAutenticacionService
 
     @Autowired
     private IUsuarioService usuarioService;
-    
+       
     @Autowired
     private AuthenticationManager authenticationManager;
     
@@ -37,13 +37,12 @@ public class AutenticacionServiceImplementation implements IAutenticacionService
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
 
         Optional<UsuarioDTO> usuario = usuarioService.findByCedula(authenticationRequest.getCedula());
-
+       
+        
         if (usuario.isPresent()) {
             authenticationResponse.setJwt(jwtProvider.generateToken(authenticationRequest));
-            UsuarioDTO usuarioDto = MapperUtils.DtoFromEntity(usuario.get(), UsuarioDTO.class);
-            authenticationResponse.setUsuario(usuarioDto);
-            List<PermisoOtorgadoDTO> permisosOtorgadosDto = MapperUtils.DtoListFromEntityList(usuario.get().getPermisosOtorgados(), PermisoOtorgadoDTO.class);
-            authenticationResponse.setPermisos(permisosOtorgadosDto);
+            authenticationResponse.setUsuario(usuario.get());
+            authenticationResponse.setPermisos(usuarioService.findPermisosOtorgadosByCedula(authenticationRequest.getCedula()));
 
             return authenticationResponse;
         } else {

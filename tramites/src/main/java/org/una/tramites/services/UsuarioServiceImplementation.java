@@ -163,11 +163,11 @@ public class UsuarioServiceImplementation implements IUsuarioService, UserDetail
     public Optional<UsuarioDTO> findByCedula(String cedula) {
        return usuarioRepository.findByCedula(cedula);
     }
- /*
+ 
     @Override
     @Transactional(readOnly = true)
     public List<PermisoOtorgadoDTO> findPermisosOtorgadosByCedula(String cedula) {
         return usuarioRepository.findPermisosOtorgadosByCedula(cedula);
     }
-*/
+
 }
