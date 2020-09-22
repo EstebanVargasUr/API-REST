@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.PermisoDTO;
 import org.una.tramites.entities.Permiso;
 import org.una.tramites.repositories.IPermisoRepository;
 
@@ -17,18 +18,18 @@ public class PermisoServiceImplementation implements IPermisoService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Permiso>> findAll() {
+    public Optional<List<PermisoDTO>> findAll() {
         return Optional.ofNullable(permisoRepository.findAll());
     }
 
   
     @Override
-    public Permiso create(Permiso permiso) {
+    public PermisoDTO create(PermisoDTO permiso) {
       return permisoRepository.save(permiso);
     }
 
     @Override
-    public Optional<Permiso> update(Permiso permiso, Long id) {
+    public Optional<PermisoDTO> update(PermisoDTO permiso, Long id) {
         if (permisoRepository.findById(id).isPresent()) {
             return Optional.ofNullable(permisoRepository.save(permiso));
         } else {
@@ -37,22 +38,22 @@ public class PermisoServiceImplementation implements IPermisoService {
     }
 
     @Override
-    public Optional<List<Permiso>> findByFechaRegistroBetween(Date startDate, Date endDate) {
+    public Optional<List<PermisoDTO>> findByFechaRegistroBetween(Date startDate, Date endDate) {
        return permisoRepository.findByFechaRegistroBetween(startDate, endDate);
     }
 
     @Override
-    public Optional<Permiso> findById(Long id) {
+    public Optional<PermisoDTO> findById(Long id) {
         return permisoRepository.findById(id);
     }
     
     @Override
-    public Optional<Permiso> findByCodigo(String codigo) {
+    public Optional<PermisoDTO> findByCodigo(String codigo) {
         return permisoRepository.findByCodigo(codigo);
     }
 
     @Override
-    public Optional<List<Permiso>> findByEstado(boolean estado) {
+    public Optional<List<PermisoDTO>> findByEstado(boolean estado) {
         return permisoRepository.findByEstado(estado);
     }
 

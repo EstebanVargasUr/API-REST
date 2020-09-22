@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,10 +35,11 @@ public class ClienteController {
 
     @GetMapping() 
     @ApiOperation(value = "Obtiene una lista de todos los clientes", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
+    @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR_TODO')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<Cliente>> result = clienteService.findAll();
+            Optional<List<ClienteDTO>> result = clienteService.findAll();
             if (result.isPresent()) {
                 List<ClienteDTO> clienteDTO = MapperUtils.DtoListFromEntityList(result.get(), ClienteDTO.class);
                 return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
@@ -52,10 +54,11 @@ public class ClienteController {
 
     @GetMapping("/{id}") 
     @ApiOperation(value = "Obtiene una lista con el cliente por medio del Id", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
+    @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
-            Optional<Cliente> clienteFound = clienteService.findById(id);
+            Optional<ClienteDTO> clienteFound = clienteService.findById(id);
             if (clienteFound.isPresent()) {
                 ClienteDTO clientesDto = MapperUtils.DtoFromEntity(clienteFound.get(), ClienteDTO.class);
                 return new ResponseEntity<>(clientesDto, HttpStatus.OK);
@@ -69,9 +72,10 @@ public class ClienteController {
 
     @GetMapping("/{cedula}{aproximado}") 
     @ApiOperation(value = "Obtiene una lista con el cliente por medio de la cédula", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
+    @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR')")
     public ResponseEntity<?> findByCedulaAproximate(@PathVariable(value = "term") String term) {
         try {
-            Optional<List<Cliente>> result = clienteService.findByCedulaAproximate(term);
+            Optional<List<ClienteDTO>> result = clienteService.findByCedulaAproximate(term);
             if (result.isPresent()) {
                 List<ClienteDTO> clienteDTO = MapperUtils.DtoListFromEntityList(result.get(), ClienteDTO.class);
                 return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
@@ -85,9 +89,10 @@ public class ClienteController {
 
     @GetMapping("/{nombre}")
     @ApiOperation(value = "Obtiene una lista con el cliente por medio del nombre", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
+    @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR')")
     public ResponseEntity<?> findByNombreCompletoAproximateIgnoreCase(@PathVariable(value = "term") String term) {
         try {
-            Optional<List<Cliente>> result = clienteService.findByNombreCompletoAproximateIgnoreCase(term);
+            Optional<List<ClienteDTO>> result = clienteService.findByNombreCompletoAproximateIgnoreCase(term);
             if (result.isPresent()) {
                 List<ClienteDTO> clientesDTO = MapperUtils.DtoListFromEntityList(result.get(), ClienteDTO.class);
                 return new ResponseEntity<>(clientesDTO, HttpStatus.OK);
@@ -103,9 +108,10 @@ public class ClienteController {
      @GetMapping("/{estado}") 
     @ApiOperation(value = "Obtiene una lista de los clientes por estado", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
     @ResponseBody
-    public ResponseEntity<?> findByEstado(@PathVariable(value = "estado") boolean estado){
+    @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR')")
+     public ResponseEntity<?> findByEstado(@PathVariable(value = "estado") boolean estado){
         try {
-            Optional<List<Cliente>> result = clienteService.findByEstado(estado);
+            Optional<List<ClienteDTO>> result = clienteService.findByEstado(estado);
             if (result.isPresent()) {
                 List<ClienteDTO> clienteDTO = MapperUtils.DtoListFromEntityList(result.get(), ClienteDTO.class);
                 return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
@@ -119,10 +125,11 @@ public class ClienteController {
     
     @GetMapping("/{fecha}") 
     @ApiOperation(value = "Obtiene una lista con los clientes, entre las fechas especificadas", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
+    @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR')")
     public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "Fecha inicial") Date FechIni,@PathVariable(value = "Fecha final") Date FechFin) {
         try {
 
-            Optional<List<Cliente>> clienteFound = clienteService.findByFechaRegistroBetween(FechIni,FechFin);
+            Optional<List<ClienteDTO>> clienteFound = clienteService.findByFechaRegistroBetween(FechIni,FechFin);
             if (clienteFound.isPresent()) {
                 ClienteDTO clienteDto = MapperUtils.DtoFromEntity(clienteFound.get(), ClienteDTO.class);
                 return new ResponseEntity<>(clienteDto, HttpStatus.OK);
@@ -137,9 +144,10 @@ public class ClienteController {
     @PostMapping("/") 
     @ResponseBody
     @ApiOperation(value = "Permite crear un cliente", response = ClienteDTO.class, tags = "Clientes")
-    public ResponseEntity<?> create(@RequestBody Cliente cliente) {
+    @PreAuthorize("hasAuthority('CLIENTE_CREAR')")
+    public ResponseEntity<?> create(@RequestBody ClienteDTO cliente) {
         try {
-            Cliente clienteCreated = clienteService.create(cliente);
+            ClienteDTO clienteCreated = clienteService.create(cliente);
             ClienteDTO clienteDto = MapperUtils.DtoFromEntity(clienteCreated, ClienteDTO.class);
             return new ResponseEntity<>(clienteDto, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -148,11 +156,11 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}") 
-    @ResponseBody
+    @PreAuthorize("hasAuthority('CLIENTE_MODIFICAR')")@ResponseBody
     @ApiOperation(value = "Permite modificar un cliente a partir de su Id", response = ClienteDTO.class, tags = "Clientes")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Cliente clienteModified) {
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody ClienteDTO clienteModified) {
         try {
-            Optional<Cliente> clienteUpdated = clienteService.update(clienteModified, id);
+            Optional<ClienteDTO> clienteUpdated = clienteService.update(clienteModified, id);
             if (clienteUpdated.isPresent()) {
                 ClienteDTO clienteDto = MapperUtils.DtoFromEntity(clienteUpdated.get(), ClienteDTO.class);
                 return new ResponseEntity<>(clienteDto, HttpStatus.OK);
@@ -167,12 +175,14 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{id}") 
+    @PreAuthorize("hasAuthority('CLIENTE_ELIMINAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         return null;
 //TODO: Implementar este método
     }
 
     @DeleteMapping("/") 
+    @PreAuthorize("hasAuthority('CLIENTE_ELIMINAR_TODO')")
     public ResponseEntity<?> deleteAll() {
         return null;
  	//TODO: Implementar este método

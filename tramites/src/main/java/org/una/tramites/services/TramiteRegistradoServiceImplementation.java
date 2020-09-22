@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.TramiteRegistradoDTO;
 import org.una.tramites.entities.TramiteRegistrado;
 import org.una.tramites.repositories.ITramiteRegistradoRepository;
 
@@ -20,37 +21,37 @@ public class TramiteRegistradoServiceImplementation implements ITramiteRegistrad
     
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<TramiteRegistrado>> findAll() {
+    public Optional<List<TramiteRegistradoDTO>> findAll() {
         return Optional.ofNullable(tramite_registradoRepository.findAll());
     }
     
     @Override
     @Transactional(readOnly = true)
-    public Optional<TramiteRegistrado> findById(Long id) {
+    public Optional<TramiteRegistradoDTO> findById(Long id) {
         return tramite_registradoRepository.findById(id);
     }
     
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<TramiteRegistrado>> findByClienteId(Long id) {
+    public Optional<List<TramiteRegistradoDTO>> findByClienteId(Long id) {
         return Optional.ofNullable(tramite_registradoRepository.findByClienteId(id));
     }
     
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<TramiteRegistrado>> findByTramiteTipoId(Long id) {
+    public Optional<List<TramiteRegistradoDTO>> findByTramiteTipoId(Long id) {
         return Optional.ofNullable(tramite_registradoRepository.findByTramiteTipoId(id));
     }
     
     @Override
     @Transactional
-    public TramiteRegistrado create(TramiteRegistrado tramite_registrado) {
+    public TramiteRegistradoDTO create(TramiteRegistradoDTO tramite_registrado) {
         return tramite_registradoRepository.save(tramite_registrado);
     }
 
     @Override
     @Transactional
-    public Optional<TramiteRegistrado> update(TramiteRegistrado tramite_registrado, Long id) {
+    public Optional<TramiteRegistradoDTO> update(TramiteRegistradoDTO tramite_registrado, Long id) {
         if (tramite_registradoRepository.findById(id).isPresent()) {
             return Optional.ofNullable(tramite_registradoRepository.save(tramite_registrado));
         } else {

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.una.tramites.dto.ParametroGeneralDTO;
 import org.una.tramites.entities.ParametroGeneral;
 
 /**
@@ -12,7 +13,7 @@ import org.una.tramites.entities.ParametroGeneral;
  */
 public interface IParametroGeneralRepository extends JpaRepository<ParametroGeneral, Long>{
     
-    public List<ParametroGeneral> findByNombreContainingIgnoreCase(String nombre);
+    public List<ParametroGeneralDTO> findByNombreContainingIgnoreCase(String nombre);
     
-    public Optional<List<ParametroGeneral>> findByFechaRegistroBetween(Date startDate, Date endDate);
+    public Optional<List<ParametroGeneralDTO>> findByFechaRegistroBetween(Date startDate, Date endDate);
 }

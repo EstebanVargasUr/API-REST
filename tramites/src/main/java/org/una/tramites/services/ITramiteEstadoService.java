@@ -3,6 +3,7 @@ package org.una.tramites.services;
 
 import java.util.List;
 import java.util.Optional;
+import org.una.tramites.dto.TramiteEstadoDTO;
 import org.una.tramites.entities.TramiteEstado;
 
 
@@ -11,15 +12,15 @@ import org.una.tramites.entities.TramiteEstado;
  * @author acer
  */
 public interface ITramiteEstadoService {
-    public Optional<List<TramiteEstado>> findAll();
+    public Optional<List<TramiteEstadoDTO>> findAll();
     
-    public Optional<TramiteEstado> findById(Long id);
+    public Optional<TramiteEstadoDTO> findById(Long id);
     
-    public Optional<List<TramiteEstado>> findByNombreContainingIgnoreCase(String nombreCompleto);
+    public Optional<List<TramiteEstadoDTO>> findByNombreContainingIgnoreCase(String nombreCompleto);
     
-    public TramiteEstado create(TramiteEstado tramite_estado);
+    public TramiteEstadoDTO create(TramiteEstadoDTO tramite_estado);
 
-    public Optional<TramiteEstado> update(TramiteEstado tramite_estado, Long id);
+    public Optional<TramiteEstadoDTO> update(TramiteEstadoDTO tramite_estado, Long id);
 
     public void delete(Long id);
 

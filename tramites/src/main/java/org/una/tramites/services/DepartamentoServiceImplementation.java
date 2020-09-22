@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.DepartamentoDTO;
 import org.una.tramites.entities.Departamento;
 import org.una.tramites.repositories.IDepartamentoRepository;
 
@@ -20,30 +21,30 @@ public class DepartamentoServiceImplementation implements IDepartamentoService{
     
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Departamento>> findAll() {
+    public Optional<List<DepartamentoDTO>> findAll() {
         return Optional.ofNullable(departamentoRepository.findAll());
     }
     
     @Override
     @Transactional(readOnly = true)
-    public Optional<Departamento> findById(Long id) {
+    public Optional<DepartamentoDTO> findById(Long id) {
         return departamentoRepository.findById(id);
     }
     
     @Override
-    public Optional<List<Departamento>> findByEstado(boolean estado) {
+    public Optional<List<DepartamentoDTO>> findByEstado(boolean estado) {
         return departamentoRepository.findByEstado(estado);
     }
     
     @Override
     @Transactional
-    public Departamento create(Departamento departamento) {
+    public DepartamentoDTO create(DepartamentoDTO departamento) {
         return departamentoRepository.save(departamento);
     }
 
     @Override
     @Transactional
-    public Optional<Departamento> update(Departamento departamento, Long id) {
+    public Optional<DepartamentoDTO> update(DepartamentoDTO departamento, Long id) {
         if (departamentoRepository.findById(id).isPresent()) {
             return Optional.ofNullable(departamentoRepository.save(departamento));
         } else {

@@ -1,9 +1,11 @@
 package org.una.tramites.services;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.TransaccionDTO;
 import org.una.tramites.entities.Transaccion;
 import org.una.tramites.repositories.ITransaccionRepository;
 
@@ -16,37 +18,39 @@ public class TransaccionServiceImplementation implements ITransaccionService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Transaccion> findById(Long id) {
+    public Optional<TransaccionDTO> findById(Long id) {
         return transaccionRepository.findById(id);
     }
 
     @Override
-    public Transaccion create(Transaccion transaccion) {
+    public TransaccionDTO create(TransaccionDTO transaccion) {
         return transaccionRepository.save(transaccion);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional findByPermisoIdAndFechaRegistroBetween(Long permisoId, Date startDate, Date endDate) {
-       return Optional.ofNullable(transaccionRepository.findByPermisoIdAndFechaRegistroBetween(permisoId, startDate, endDate)); 
+    public Optional<List<TransaccionDTO>> findByPermisoIdAndFechaRegistroBetween(Long permisoId, Date startDate, Date endDate) {
+       return transaccionRepository.findByPermisoIdAndFechaRegistroBetween(permisoId, startDate, endDate); 
+    }
+
+
+ 
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<List<TransaccionDTO>> findByUsuarioIdAndFechaRegistroBetween(Long usuarioId, Date startDate, Date endDate) {
+       return transaccionRepository.findByFechaRegistroBetween(startDate, endDate);
+    }
+
+
+
+    @Override
+    public Optional<List<TransaccionDTO>> findByObjetoAndFechaRegistroBetween(String objeto, Date startDate, Date endDate) {
+      return transaccionRepository.findByObjetoAndFechaRegistroBetween(objeto, startDate, endDate);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Optional findByUsuarioIdAndFechaRegistroBetween(Long usuarioId, Date startDate, Date endDate) {
-       return Optional.ofNullable(transaccionRepository.findByUsuarioIdAndFechaRegistroBetween(usuarioId, startDate, endDate)); 
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional findByObjetoAndFechaRegistroBetween(String objeto, Date startDate, Date endDate) {
-        return Optional.ofNullable(transaccionRepository.findByObjetoAndFechaRegistroBetween(objeto, startDate, endDate));
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional findByFechaRegistroBetween(Date startDate, Date endDate) {
-        return Optional.ofNullable(transaccionRepository.findByFechaRegistroBetween(startDate, endDate));
+    public Optional<List<TransaccionDTO>> findByFechaRegistroBetween(Date startDate, Date endDate) {
+       return transaccionRepository.findByFechaRegistroBetween(startDate, endDate);
     }
  
 }

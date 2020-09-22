@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,10 +34,11 @@ public class TramiteTipoController {
 
     @GetMapping() 
     @ApiOperation(value = "Obtiene una lista de todos los tipos de Tramites", response = TramiteTipoDTO.class, responseContainer = "List", tags = "Tramites Tipos")
+    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR_TODO')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<TramiteTipo>> result = tramite_tipoService.findAll();
+            Optional<List<TramiteTipoDTO>> result = tramite_tipoService.findAll();
             if (result.isPresent()) {
                 List< TramiteTipoDTO> tramite_tipoDto = MapperUtils.DtoListFromEntityList(result.get(), TramiteTipoDTO.class);
                 return new ResponseEntity<>(tramite_tipoDto, HttpStatus.OK);
@@ -50,10 +52,11 @@ public class TramiteTipoController {
 
     @GetMapping("/{id}") 
     @ApiOperation(value = "Obtiene una lista con el tipo de Tramite por medio del Id", response = TramiteTipoDTO.class, responseContainer = "List", tags = "Tramites Tipos")
+    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
-            Optional<TramiteTipo> tramite_tipoFound = tramite_tipoService.findById(id);
+            Optional<TramiteTipoDTO> tramite_tipoFound = tramite_tipoService.findById(id);
             if (tramite_tipoFound.isPresent()) {
                  TramiteTipoDTO tramite_tipoDto = MapperUtils.DtoFromEntity(tramite_tipoFound.get(), TramiteTipoDTO.class);
                 return new ResponseEntity<>(tramite_tipoDto, HttpStatus.OK);
@@ -67,10 +70,11 @@ public class TramiteTipoController {
     
     @GetMapping("/{estado}") 
     @ApiOperation(value = "Obtiene una lista con los estados del tipo de Tramite", response = TramiteTipoDTO.class, responseContainer = "List", tags = "Tramites Tipos")
+    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR')")
     public ResponseEntity<?> findByEstado(@PathVariable(value = "term") boolean st) {
         try {
 
-            Optional<List<TramiteTipo>> tramite_tipoFound = tramite_tipoService.findByEstado(st);
+            Optional<List<TramiteTipoDTO>> tramite_tipoFound = tramite_tipoService.findByEstado(st);
             if (tramite_tipoFound.isPresent()) {
                  TramiteTipoDTO tramite_tipoDto = MapperUtils.DtoFromEntity(tramite_tipoFound.get(), TramiteTipoDTO.class);
                 return new ResponseEntity<>(tramite_tipoDto, HttpStatus.OK);
@@ -85,10 +89,11 @@ public class TramiteTipoController {
     
     @GetMapping("/{fecha}") 
     @ApiOperation(value = "Obtiene una lista de tipos de Tramites entre la fecha especificada", response = TramiteTipoDTO.class, responseContainer = "List", tags = "Tramites Tipos")
+    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR')")
     public @ResponseBody
     ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "Fecha inicial") Date startDate, @PathVariable(value = "Fecha final") Date endDate) {
         try {
-            Optional<List<TramiteTipo>> result =tramite_tipoService.findByFechaRegistroBetween(startDate,endDate);
+            Optional<List<TramiteTipoDTO>> result =tramite_tipoService.findByFechaRegistroBetween(startDate,endDate);
             if (result.isPresent()) {
                 List<TramiteTipoDTO> tramite_tipoDTO = MapperUtils.DtoListFromEntityList(result.get(), TramiteTipoDTO.class);
                 return new ResponseEntity<>(tramite_tipoDTO, HttpStatus.OK);
@@ -103,9 +108,10 @@ public class TramiteTipoController {
 
     @GetMapping("/departamento/{id}")
     @ApiOperation(value = "Obtiene una lista con los tipos de tramites por Departamento", response = TramiteTipoDTO.class, responseContainer = "List", tags = "Tramites Tipos")
+    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR')")
     public ResponseEntity<?> findByDepartamentoId(@PathVariable(value = "term") long term) {
         try {
-            Optional<List<TramiteTipo>> result = tramite_tipoService.findByDepartamentoId(term);
+            Optional<List<TramiteTipoDTO>> result = tramite_tipoService.findByDepartamentoId(term);
             if (result.isPresent()) {
                 List<TramiteTipoDTO> tramite_tipoDto = MapperUtils.DtoListFromEntityList(result.get(), TramiteTipoDTO.class);
                 return new ResponseEntity<>(tramite_tipoDto, HttpStatus.OK);
@@ -121,9 +127,10 @@ public class TramiteTipoController {
     @PostMapping("/") 
     @ResponseBody
     @ApiOperation(value = "Permite crear un tipo de tramite", response = TramiteTipoDTO.class, tags = "Tramites Tipos")
-    public ResponseEntity<?> create(@RequestBody TramiteTipo tramite_tipo) {
+    @PreAuthorize("hasAuthority('TRAMITE_REGISTRAR')")
+    public ResponseEntity<?> create(@RequestBody TramiteTipoDTO tramite_tipo) {
         try {
-            TramiteTipo tramite_tipoCreated = tramite_tipoService.create(tramite_tipo);
+            TramiteTipoDTO tramite_tipoCreated = tramite_tipoService.create(tramite_tipo);
             TramiteTipoDTO tramite_tipoDto = MapperUtils.DtoFromEntity(tramite_tipoCreated, TramiteTipoDTO.class);
             return new ResponseEntity<>( tramite_tipoDto, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -134,9 +141,10 @@ public class TramiteTipoController {
     @PutMapping("/{id}") 
     @ResponseBody
     @ApiOperation(value = "Permite modificar un tipo de tramite", response = TramiteTipoDTO.class, tags = "Tramites Tipos")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody TramiteTipo tramite_tipoModified) {
+     @PreAuthorize("hasAuthority('TRAMITE_MODIFICAR')")
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody TramiteTipoDTO tramite_tipoModified) {
         try {
-            Optional<TramiteTipo> tramite_tipoUpdated = tramite_tipoService.update(tramite_tipoModified, id);
+            Optional<TramiteTipoDTO> tramite_tipoUpdated = tramite_tipoService.update(tramite_tipoModified, id);
             if (tramite_tipoUpdated.isPresent()) {
                 TramiteTipoDTO tramite_tipoDto = MapperUtils.DtoFromEntity(tramite_tipoUpdated.get(), TramiteTipoDTO.class);
                 return new ResponseEntity<>(tramite_tipoDto, HttpStatus.OK);
@@ -151,12 +159,14 @@ public class TramiteTipoController {
     }
 
     @DeleteMapping("/{id}") 
+   @PreAuthorize("hasAuthority('TRAMITE_INACTIVAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         return null;
 //TODO: Implementar este método
     }
 
     @DeleteMapping("/") 
+    @PreAuthorize("hasAuthority('TRAMITE_INACTIVAR')")
     public ResponseEntity<?> deleteAll() {
         return null;
  	//TODO: Implementar este método

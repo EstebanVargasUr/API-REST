@@ -18,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.una.tramites.dto.AuthenticationRequest;
+import org.una.tramites.dto.PermisoOtorgadoDTO;
+import org.una.tramites.dto.UsuarioDTO;
 import org.una.tramites.entities.PermisoOtorgado;
 import org.una.tramites.entities.Usuario;
 import org.una.tramites.jwt.JwtProvider;
@@ -40,7 +42,7 @@ public class UsuarioServiceImplementation implements IUsuarioService, UserDetail
     
     private PermisoOtorgado permisoOtorgado;
     
-    private void encriptarPassword(Usuario usuario) {
+    private void encriptarPassword(UsuarioDTO usuario) {
         String password = usuario.getPasswordEncriptado();
         if (!password.isBlank()) {
             usuario.setPasswordEncriptado(bCryptPasswordEncoder.encode(password));
@@ -66,9 +68,9 @@ public class UsuarioServiceImplementation implements IUsuarioService, UserDetail
     
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional <Usuario> usuarioBuscado = usuarioRepository.findByCedula(username);
+        Optional <UsuarioDTO> usuarioBuscado = usuarioRepository.findByCedula(username);
         if (usuarioBuscado.isPresent()) {
-            Usuario usuario = usuarioBuscado.get();
+            UsuarioDTO usuario = usuarioBuscado.get();
             List<GrantedAuthority> roles = new ArrayList<>();
             roles.add(new SimpleGrantedAuthority("ADMIN"));
             UserDetails userDetails = new User(usuario.getCedula(), usuario.getPasswordEncriptado(), roles);
@@ -80,50 +82,50 @@ public class UsuarioServiceImplementation implements IUsuarioService, UserDetail
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Usuario>> findAll() {
+    public Optional<List<UsuarioDTO>> findAll() {
         return Optional.ofNullable(usuarioRepository.findAll());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Usuario> findById(Long id) {
+    public Optional<UsuarioDTO> findById(Long id) {
         return usuarioRepository.findById(id);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Usuario>> findByCedulaAproximate(String cedula) {
+    public Optional<List<UsuarioDTO>> findByCedulaAproximate(String cedula) {
         return Optional.ofNullable(usuarioRepository.findByCedulaContaining(cedula));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Usuario>> findByNombreCompletoAproximateIgnoreCase(String nombreCompleto) {
+    public Optional<List<UsuarioDTO>> findByNombreCompletoAproximateIgnoreCase(String nombreCompleto) {
         return Optional.ofNullable(usuarioRepository.findByNombreCompletoContainingIgnoreCase(nombreCompleto));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Usuario>> findByDepartamentoId(Long id) {
+    public Optional<List<UsuarioDTO>> findByDepartamentoId(Long id) {
         return Optional.ofNullable(usuarioRepository.findByDepartamentoId(id));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Usuario findJefeByDepartamento(Long id) {
+    public UsuarioDTO findJefeByDepartamento(Long id) {
         return usuarioRepository.findJefeByDepartamento(id);
     }
     
     @Override
     @Transactional
-    public Usuario create(Usuario usuario) {
+    public UsuarioDTO create(UsuarioDTO usuario) {
         encriptarPassword(usuario);
         return usuarioRepository.save(usuario);
     }
 
     @Override
     @Transactional
-    public Optional<Usuario> update(Usuario usuario, Long id) {
+    public Optional<UsuarioDTO> update(UsuarioDTO usuario, Long id) {
         if (usuarioRepository.findById(id).isPresent()) {
              encriptarPassword(usuario);
             return Optional.ofNullable(usuarioRepository.save(usuario));
@@ -158,8 +160,14 @@ public class UsuarioServiceImplementation implements IUsuarioService, UserDetail
 
 
 
-    public Optional<Usuario> findByCedula(String cedula) {
+    public Optional<UsuarioDTO> findByCedula(String cedula) {
        return usuarioRepository.findByCedula(cedula);
     }
- 
+ /*
+    @Override
+    @Transactional(readOnly = true)
+    public List<PermisoOtorgadoDTO> findPermisosOtorgadosByCedula(String cedula) {
+        return usuarioRepository.findPermisosOtorgadosByCedula(cedula);
+    }
+*/
 }

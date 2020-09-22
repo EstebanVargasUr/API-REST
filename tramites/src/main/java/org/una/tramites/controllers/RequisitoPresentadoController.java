@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,10 +40,11 @@ public class RequisitoPresentadoController {
     
     @GetMapping() 
     @ApiOperation(value = "Obtiene una lista de todos los requisitos presentados ", response = RequisitoPresentadoDTO.class, responseContainer = "List", tags = "Requisitos Presentados")
+     @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_CONSULTAR_TODO')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<RequisitoPresentado>> result = requisitoPresentadoService.findAll();
+            Optional<List<RequisitoPresentadoDTO>> result = requisitoPresentadoService.findAll();
             if (result.isPresent()) {
                 List<RequisitoPresentadoDTO> requisitoPresentadoDTO = MapperUtils.DtoListFromEntityList(result.get(), RequisitoPresentadoDTO.class);
                 return new ResponseEntity<>(requisitoPresentadoDTO, HttpStatus.OK);
@@ -56,10 +58,11 @@ public class RequisitoPresentadoController {
     
     @GetMapping("/{id}") 
     @ApiOperation(value = "Obtiene una lista los requisitos presentados por medio del id por medio del id", response = RequisitoPresentadoDTO.class, responseContainer = "List", tags = "Requisitos Presentados")
+    @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_CONSULTAR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
-            Optional<RequisitoPresentado> requisitoPresentadoFound = requisitoPresentadoService.findById(id);
+            Optional<RequisitoPresentadoDTO> requisitoPresentadoFound = requisitoPresentadoService.findById(id);
             if (requisitoPresentadoFound.isPresent()) {
                 RequisitoPresentadoDTO requisitoPresentadoDTO = MapperUtils.DtoFromEntity(requisitoPresentadoFound.get(), RequisitoPresentadoDTO.class);
                 return new ResponseEntity<>(requisitoPresentadoDTO, HttpStatus.OK);
@@ -76,9 +79,10 @@ public class RequisitoPresentadoController {
     @PostMapping("/") 
     @ApiOperation(value = "Permite crear un requisito presentado", response = RequisitoPresentadoDTO.class, tags = "Requisitos Presentados")
     @ResponseBody
-    public ResponseEntity<?> create(@RequestBody RequisitoPresentado RequisitoPresentado) {
+    @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_CREAR')")
+    public ResponseEntity<?> create(@RequestBody RequisitoPresentadoDTO RequisitoPresentado) {
         try {
-            RequisitoPresentado requisitoPresentadoCreated = requisitoPresentadoService.create(RequisitoPresentado);
+            RequisitoPresentadoDTO requisitoPresentadoCreated = requisitoPresentadoService.create(RequisitoPresentado);
             RequisitoPresentadoDTO requisitoPresentadoDto = MapperUtils.DtoFromEntity(requisitoPresentadoCreated, RequisitoPresentadoDTO.class);
             return new ResponseEntity<>(requisitoPresentadoDto, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -89,9 +93,10 @@ public class RequisitoPresentadoController {
     @PutMapping("/{id}") 
     @ApiOperation(value = "Permite modificar un requisito presentado a partir de su Id", response = RequisitoPresentadoDTO.class, tags = "Requisitos Presentados")
     @ResponseBody
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody RequisitoPresentado RequisitoPresentadoModified) {
+    @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_MODIFICAR')")
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody RequisitoPresentadoDTO RequisitoPresentadoModified) {
         try {
-            Optional<RequisitoPresentado> requisitoPresentadoUpdated = requisitoPresentadoService.update(RequisitoPresentadoModified, id);
+            Optional<RequisitoPresentadoDTO> requisitoPresentadoUpdated = requisitoPresentadoService.update(RequisitoPresentadoModified, id);
             if (requisitoPresentadoUpdated.isPresent()) {
                 RequisitoPresentadoDTO requisitoPresentadoDto = MapperUtils.DtoFromEntity(requisitoPresentadoUpdated.get(), RequisitoPresentadoDTO.class);
                 return new ResponseEntity<>(requisitoPresentadoDto, HttpStatus.OK);
@@ -107,10 +112,11 @@ public class RequisitoPresentadoController {
     
     @GetMapping("/{fecha}") 
     @ApiOperation(value = "Obtiene una lista con los requisitos presentados, entre las fechas especificadas", response = RequisitoPresentadoDTO.class, responseContainer = "List", tags = "Requisitos Presentados")
+    @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_CONSULTAR')")
     public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "Fecha inicial") Date FechIni,@PathVariable(value = "Fecha final") Date FechFin) {
         try {
 
-            Optional<List<RequisitoPresentado>> requisitoPresentadoFound = requisitoPresentadoService.findByFechaRegistroBetween(FechIni,FechFin);
+            Optional<List<RequisitoPresentadoDTO>> requisitoPresentadoFound = requisitoPresentadoService.findByFechaRegistroBetween(FechIni,FechFin);
             if (requisitoPresentadoFound.isPresent()) {
                 RequisitoPresentadoDTO requisitoPresentadoDto = MapperUtils.DtoFromEntity(requisitoPresentadoFound.get(), RequisitoPresentadoDTO.class);
                 return new ResponseEntity<>(requisitoPresentadoDto, HttpStatus.OK);
@@ -123,11 +129,13 @@ public class RequisitoPresentadoController {
     }
    
     @DeleteMapping("/{id}") 
+    @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_ELIMINAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         return null;
     }
 
     @DeleteMapping("/") 
+    @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_ELIMINAR_TODO')")
     public ResponseEntity<?> deleteAll() {
         return null;
     } 

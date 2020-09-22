@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,10 +32,11 @@ public class TramiteRegistradoController {
 
     @GetMapping() 
     @ApiOperation(value = "Obtiene una lista de todos los tramites registrados", response = TramiteRegistradoDTO.class, responseContainer = "List", tags = "Tramites Registrados")
+    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR_TODO')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<TramiteRegistrado>> result = tramite_registradoService.findAll();
+            Optional<List<TramiteRegistradoDTO>> result = tramite_registradoService.findAll();
             if (result.isPresent()) {
                 List<TramiteRegistradoDTO> tramite_registradoDTO = MapperUtils.DtoListFromEntityList(result.get(), TramiteRegistradoDTO.class);
                 return new ResponseEntity<>(tramite_registradoDTO, HttpStatus.OK);
@@ -48,10 +50,11 @@ public class TramiteRegistradoController {
 
     @GetMapping("/{id}") 
     @ApiOperation(value = "Obtiene una lista con el tramite registrado por medio del Id", response =  TramiteRegistradoDTO.class, responseContainer = "List", tags = "Tramites Registrados")
+    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
-            Optional<TramiteRegistrado> tramite_registradoFound = tramite_registradoService.findById(id);
+            Optional<TramiteRegistradoDTO> tramite_registradoFound = tramite_registradoService.findById(id);
             if (tramite_registradoFound.isPresent()) {
                  TramiteRegistradoDTO tramiteRegistradoDto = MapperUtils.DtoFromEntity(tramite_registradoFound.get(), TramiteRegistradoDTO.class);
                 return new ResponseEntity<>(tramiteRegistradoDto, HttpStatus.OK);
@@ -65,9 +68,10 @@ public class TramiteRegistradoController {
     @GetMapping("/cliente/{id}") 
     @ApiOperation(value = "Obtiene una lista de los tramites registrado por cliente", response = TramiteRegistradoDTO.class, responseContainer = "List", tags = "Tramites Registrados")
     @ResponseBody
+    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR')")
     public ResponseEntity<?> findByClienteId(@PathVariable(value = "cliente") Long id){
         try {
-            Optional<List<TramiteRegistrado>> result = tramite_registradoService.findByClienteId(id);
+            Optional<List<TramiteRegistradoDTO>> result = tramite_registradoService.findByClienteId(id);
             if (result.isPresent()) {
                 List<TramiteRegistradoDTO> tramite_registradoDTO = MapperUtils.DtoListFromEntityList(result.get(), TramiteRegistradoDTO.class);
                 return new ResponseEntity<>(tramite_registradoDTO, HttpStatus.OK);
@@ -82,9 +86,10 @@ public class TramiteRegistradoController {
     @GetMapping("/tramiteTipo/{id}") 
     @ApiOperation(value = "Obtiene una lista de los tramites registrado por el tipo de tramite", response = TramiteRegistradoDTO.class, responseContainer = "List", tags = "Tramites Registrados")
     @ResponseBody
+    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR')")
     public ResponseEntity<?> findByTramiteTipo(@PathVariable(value = "tramiteTipo") Long id){
         try {
-            Optional<List<TramiteRegistrado>> result = tramite_registradoService.findByTramiteTipoId(id);
+            Optional<List<TramiteRegistradoDTO>> result = tramite_registradoService.findByTramiteTipoId(id);
             if (result.isPresent()) {
                 List<TramiteRegistradoDTO> tramite_registradoDTO = MapperUtils.DtoListFromEntityList(result.get(), TramiteRegistradoDTO.class);
                 return new ResponseEntity<>(tramite_registradoDTO, HttpStatus.OK);
@@ -98,9 +103,10 @@ public class TramiteRegistradoController {
     @PutMapping("/{id}") 
     @ResponseBody
     @ApiOperation(value = "Permite modificar un tramite registrado a partir de su Id", response = TramiteRegistradoDTO.class, tags = "Tramites Registrados")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody TramiteRegistrado tramite_registradoModified) {
+    @PreAuthorize("hasAuthority('TRAMITE_MODIFICAR')")
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody TramiteRegistradoDTO tramite_registradoModified) {
         try {
-            Optional<TramiteRegistrado> tramite_registradoUpdated = tramite_registradoService.update(tramite_registradoModified, id);
+            Optional<TramiteRegistradoDTO> tramite_registradoUpdated = tramite_registradoService.update(tramite_registradoModified, id);
             if (tramite_registradoUpdated.isPresent()) {
                 TramiteRegistradoDTO Tramite_RegistradoDto = MapperUtils.DtoFromEntity(tramite_registradoUpdated.get(), TramiteRegistradoDTO.class);
                 return new ResponseEntity<>(Tramite_RegistradoDto, HttpStatus.OK);
@@ -115,12 +121,14 @@ public class TramiteRegistradoController {
     }
 
     @DeleteMapping("/{id}") 
+    @PreAuthorize("hasAuthority('TRAMITE_INACTIVAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         return null;
 //TODO: Implementar este método
     }
 
     @DeleteMapping("/") 
+    @PreAuthorize("hasAuthority('TRAMITE_INACTIVAR')")
     public ResponseEntity<?> deleteAll() {
         return null;
  	//TODO: Implementar este método

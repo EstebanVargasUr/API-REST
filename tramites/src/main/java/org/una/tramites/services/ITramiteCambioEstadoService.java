@@ -3,7 +3,7 @@ package org.una.tramites.services;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import org.una.tramites.entities.TramiteCambioEstado;
+import org.una.tramites.dto.TramiteCambioEstadoDTO;
 
 /**
  *
@@ -11,15 +11,15 @@ import org.una.tramites.entities.TramiteCambioEstado;
  */
 public interface ITramiteCambioEstadoService {
     
-    public Optional<List<TramiteCambioEstado>> findAll();
+    public Optional<List<TramiteCambioEstadoDTO>> findAll();
     
-    public Optional<TramiteCambioEstado> findById(Long id);
+    public Optional<TramiteCambioEstadoDTO> findById(Long id);
     
-    public Optional<List<TramiteCambioEstado>> findByFechaRegistroBetween(Date startDate, Date endDate);
+    public Optional<List<TramiteCambioEstadoDTO>> findByFechaRegistroBetween(Date startDate, Date endDate);
     
-    public TramiteCambioEstado create(TramiteCambioEstado tramiteCambioEstado);
+    public TramiteCambioEstadoDTO create(TramiteCambioEstadoDTO tramiteCambioEstado);
 
-    public Optional<TramiteCambioEstado> update(TramiteCambioEstado tramiteCambioEstado, Long id);
+    public Optional<TramiteCambioEstadoDTO> update(TramiteCambioEstadoDTO tramiteCambioEstado, Long id);
 
     public void delete(Long id);
 

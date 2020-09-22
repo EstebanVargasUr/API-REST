@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.RequisitoPresentadoDTO;
 import org.una.tramites.entities.RequisitoPresentado;
 import org.una.tramites.repositories.IRequisitoPresentadoRepository;
 
@@ -18,25 +19,25 @@ public class RequisitoPresentadoServiceImplementation implements IRequisitoPrese
     
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<RequisitoPresentado>> findAll() {
+    public Optional<List<RequisitoPresentadoDTO>> findAll() {
         return Optional.ofNullable(requisitoPresentadoRepository.findAll());
     }
     
     @Override
     @Transactional(readOnly = true)
-    public Optional<RequisitoPresentado> findById(Long id) {
+    public Optional<RequisitoPresentadoDTO> findById(Long id) {
         return requisitoPresentadoRepository.findById(id);
     }
     
     @Override
     @Transactional
-    public RequisitoPresentado create(RequisitoPresentado requisitoPresentado) {
+    public RequisitoPresentadoDTO create(RequisitoPresentadoDTO requisitoPresentado) {
         return requisitoPresentadoRepository.save(requisitoPresentado);
     }
     
     @Override
     @Transactional
-    public Optional<RequisitoPresentado> update(RequisitoPresentado requisitoPresentado, Long id) {
+    public Optional<RequisitoPresentadoDTO> update(RequisitoPresentadoDTO requisitoPresentado, Long id) {
         if (requisitoPresentadoRepository.findById(id).isPresent()) {
             return Optional.ofNullable(requisitoPresentadoRepository .save(requisitoPresentado));
         } else {
@@ -46,7 +47,7 @@ public class RequisitoPresentadoServiceImplementation implements IRequisitoPrese
     }
 
     @Override
-    public Optional<List<RequisitoPresentado>> findByFechaRegistroBetween(Date startDate, Date endDate) {
+    public Optional<List<RequisitoPresentadoDTO>> findByFechaRegistroBetween(Date startDate, Date endDate) {
         return requisitoPresentadoRepository.findByFechaRegistroBetween(startDate, endDate);
     }
     @Override

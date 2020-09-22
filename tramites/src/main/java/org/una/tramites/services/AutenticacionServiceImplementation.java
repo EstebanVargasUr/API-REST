@@ -36,14 +36,15 @@ public class AutenticacionServiceImplementation implements IAutenticacionService
         SecurityContextHolder.getContext().setAuthentication(authentication);
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
 
-        Optional<Usuario> usuario = usuarioService.findByCedula(authenticationRequest.getCedula());
+        Optional<UsuarioDTO> usuario = usuarioService.findByCedula(authenticationRequest.getCedula());
 
         if (usuario.isPresent()) {
             authenticationResponse.setJwt(jwtProvider.generateToken(authenticationRequest));
-            UsuarioDTO usuarioDto = MapperUtils.DtoFromEntity(usuario.get(), UsuarioDTO.class);
-            authenticationResponse.setUsuario(usuarioDto);
-            List<PermisoOtorgadoDTO> permisosOtorgadosDto = MapperUtils.DtoListFromEntityList(usuario.get().getPermisoOtorgado(), PermisoOtorgadoDTO.class);
-            authenticationResponse.setPermisos(permisosOtorgadosDto);
+            //UsuarioDTO usuarioDto = MapperUtils.DtoFromEntity(usuario.get(), UsuarioDTO.class);
+            authenticationResponse.setUsuario(usuario.get());
+             //authenticationResponse.setPermisos(usuarioService.findPermisosOtorgadosByCedula(authenticationRequest.getCedula()));
+            //List<PermisoOtorgadoDTO> permisosOtorgadosDto = MapperUtils.DtoListFromEntityList(usuario.get().getPermisoOtorgado(), PermisoOtorgadoDTO.class);
+           
 
             return authenticationResponse;
         } else {

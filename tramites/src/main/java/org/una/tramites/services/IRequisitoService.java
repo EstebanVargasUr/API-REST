@@ -3,7 +3,7 @@ package org.una.tramites.services;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import org.una.tramites.entities.Requisito;
+import org.una.tramites.dto.RequisitoDTO;
 
 /**
  *
@@ -11,19 +11,19 @@ import org.una.tramites.entities.Requisito;
  */
 public interface IRequisitoService {
     
-    public Optional<List<Requisito>> findAll();
+    public Optional<List<RequisitoDTO>> findAll();
 
-    public Optional<Requisito> findById(Long id);
+    public Optional<RequisitoDTO> findById(Long id);
     
-    public Optional<List<Requisito>>  findByVariacionId(Long id);
+    public Optional<List<RequisitoDTO>>  findByVariacionId(Long id);
 
-    public Optional<List<Requisito>>  findByEstado(boolean estado);
+    public Optional<List<RequisitoDTO>>  findByEstado(boolean estado);
     
-    public Optional<List<Requisito>> findByFechaRegistroBetween(Date startDate, Date endDate);
+    public Optional<List<RequisitoDTO>> findByFechaRegistroBetween(Date startDate, Date endDate);
 
-    public Requisito create(Requisito requisito);
+    public RequisitoDTO create(RequisitoDTO requisito);
 
-    public Optional<Requisito> update(Requisito requisito, Long id);
+    public Optional<RequisitoDTO> update(RequisitoDTO requisito, Long id);
 
     public void delete(Long id);
 

@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.ParametroGeneralDTO;
 import org.una.tramites.entities.ParametroGeneral;
 import org.una.tramites.repositories.IParametroGeneralRepository;
 
@@ -21,37 +22,37 @@ public class ParametroGeneralServiceImplementation implements IParametroGeneralS
     
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<ParametroGeneral>> findAll() {
+    public Optional<List<ParametroGeneralDTO>> findAll() {
         return Optional.ofNullable(parametroGeneralRepository.findAll());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<ParametroGeneral> findById(Long id) {
+    public Optional<ParametroGeneralDTO> findById(Long id) {
         return parametroGeneralRepository.findById(id);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<ParametroGeneral>> findByNombreAproximateIgnoreCase(String nombre) {
+    public Optional<List<ParametroGeneralDTO>> findByNombreAproximateIgnoreCase(String nombre) {
         return Optional.ofNullable(parametroGeneralRepository.findByNombreContainingIgnoreCase(nombre));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<ParametroGeneral>> findByFechaRegistroBetween(Date startDate, Date endDate) {
+    public Optional<List<ParametroGeneralDTO>> findByFechaRegistroBetween(Date startDate, Date endDate) {
         return parametroGeneralRepository.findByFechaRegistroBetween(startDate, endDate);
     }
     
     @Override
     @Transactional
-    public ParametroGeneral create(ParametroGeneral parametroGeneral) {
+    public ParametroGeneralDTO create(ParametroGeneralDTO parametroGeneral) {
         return parametroGeneralRepository.save(parametroGeneral);
     }
 
     @Override
     @Transactional
-    public Optional<ParametroGeneral> update(ParametroGeneral parametroGeneral, Long id) {
+    public Optional<ParametroGeneralDTO> update(ParametroGeneralDTO parametroGeneral, Long id) {
         if (parametroGeneralRepository.findById(id).isPresent()) {
             return Optional.ofNullable(parametroGeneralRepository.save(parametroGeneral));
         } else {

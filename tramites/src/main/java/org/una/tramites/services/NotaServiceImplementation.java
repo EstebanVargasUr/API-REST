@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.NotaDTO;
 import org.una.tramites.entities.Nota;
 import org.una.tramites.repositories.INotaRepository;
 
@@ -21,55 +22,55 @@ public class NotaServiceImplementation implements INotaService{
      
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Nota>> findAll() {
+    public Optional<List<NotaDTO>> findAll() {
         return Optional.ofNullable(notaRepository.findAll());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Nota> findById(Long id) {
+    public Optional<NotaDTO> findById(Long id) {
         return notaRepository.findById(id);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Nota>> findByTituloAproximateIgnoreCase(String titulo) {
+    public Optional<List<NotaDTO>> findByTituloAproximateIgnoreCase(String titulo) {
         return Optional.ofNullable(notaRepository.findByTituloContainingIgnoreCase(titulo));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Nota>> findByEstado(boolean estado) {
+    public Optional<List<NotaDTO>> findByEstado(boolean estado) {
         return notaRepository.findByEstado(estado);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Nota>> findByTipo(boolean tipo) {
+    public Optional<List<NotaDTO>> findByTipo(boolean tipo) {
          return notaRepository.findByTipo(tipo);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Nota>> findByFechaRegistroBetween(Date startDate, Date endDate) {
+    public Optional<List<NotaDTO>> findByFechaRegistroBetween(Date startDate, Date endDate) {
         return notaRepository.findByFechaRegistroBetween(startDate, endDate);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Nota>> findByTramiteRegistradoId(Long id) {
+    public Optional<List<NotaDTO>> findByTramiteRegistradoId(Long id) {
         return Optional.ofNullable(notaRepository.findByTramiteRegistradoId(id));
     }
     
     @Override
     @Transactional
-    public Nota create(Nota nota) {
+    public NotaDTO create(NotaDTO nota) {
         return notaRepository.save(nota);
     }
 
     @Override
     @Transactional
-    public Optional<Nota> update(Nota nota, Long id) {
+    public Optional<NotaDTO> update(NotaDTO nota, Long id) {
         if (notaRepository.findById(id).isPresent()) {
             return Optional.ofNullable(notaRepository.save(nota));
         } else {

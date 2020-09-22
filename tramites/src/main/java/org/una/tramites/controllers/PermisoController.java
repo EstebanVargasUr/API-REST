@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,10 +37,11 @@ public class PermisoController {
     
     @GetMapping() 
     @ApiOperation(value = "Obtiene una lista de todos los Usuarios", response = PermisoDTO.class, responseContainer = "List", tags = "Usuarios")
+    @PreAuthorize("hasAuthority('PERMISO_CONSULTAR_TODO')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<Permiso>> result = permisoService.findAll();
+            Optional<List<PermisoDTO>> result = permisoService.findAll();
             if (result.isPresent()) {
                 List<PermisoDTO> usuariosDTO = MapperUtils.DtoListFromEntityList(result.get(), PermisoDTO.class);
                 return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
@@ -53,10 +55,11 @@ public class PermisoController {
     
     @GetMapping("/{id}") 
     @ApiOperation(value = "Obtiene una lista con los permisos por medio del Id", response =  PermisoDTO.class, responseContainer = "List", tags = "Permisos")
+    @PreAuthorize("hasAuthority('PERMISO_CONSULTAR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
-            Optional<Permiso> permisoFound = permisoService.findById(id);
+            Optional<PermisoDTO> permisoFound = permisoService.findById(id);
             if (permisoFound.isPresent()) {
                   PermisoDTO permisoDto = MapperUtils.DtoFromEntity(permisoFound.get(),  PermisoDTO.class);
                 return new ResponseEntity<>(permisoDto, HttpStatus.OK);
@@ -70,10 +73,11 @@ public class PermisoController {
     
     @GetMapping("/{codigo}") 
     @ApiOperation(value = "Obtiene una lista con los codigos de los permisos", response =  PermisoDTO.class, responseContainer = "List", tags = "Permisos")
+    @PreAuthorize("hasAuthority('PERMISO_CONSULTAR')")
     public ResponseEntity<?> findByCodigo(@PathVariable(value = "term") String codigo) {
         try {
 
-            Optional<Permiso> permisoFound = permisoService.findByCodigo(codigo);
+            Optional<PermisoDTO> permisoFound = permisoService.findByCodigo(codigo);
             if (permisoFound.isPresent()) {
                   PermisoDTO permisoDto = MapperUtils.DtoFromEntity(permisoFound.get(),  PermisoDTO.class);
                 return new ResponseEntity<>(permisoDto, HttpStatus.OK);
@@ -87,10 +91,11 @@ public class PermisoController {
     
     @GetMapping("/{estado}") 
     @ApiOperation(value = "Obtiene una lista de los permisos por medio del estado", response = PermisoDTO.class, responseContainer = "List", tags = "Permisos")
+    @PreAuthorize("hasAuthority('PERMISO_CONSULTAR')")
     public ResponseEntity<?> findByEstado(@PathVariable(value = "term") boolean st) {
         try {
 
-            Optional<List<Permiso>> permisoFound = permisoService.findByEstado(st);
+            Optional<List<PermisoDTO>> permisoFound = permisoService.findByEstado(st);
             if (permisoFound.isPresent()) {
                  PermisoDTO permisoDto = MapperUtils.DtoFromEntity(permisoFound.get(), PermisoDTO.class);
                 return new ResponseEntity<>(permisoDto, HttpStatus.OK);
@@ -105,10 +110,11 @@ public class PermisoController {
     
     @GetMapping("/{fecha}") 
     @ApiOperation(value = "Obtiene una lista de Permisos entre la fecha especificada", response = PermisoDTO.class, responseContainer = "List", tags = "Permisos")
+    @PreAuthorize("hasAuthority('PERMISO_CONSULTAR')")
     public @ResponseBody
     ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "Fecha inicial") Date startDate, @PathVariable(value = "Fecha final") Date endDate) {
         try {
-            Optional<List<Permiso>> result = permisoService.findByFechaRegistroBetween(startDate,endDate);
+            Optional<List<PermisoDTO>> result = permisoService.findByFechaRegistroBetween(startDate,endDate);
             if (result.isPresent()) {
                 List<PermisoDTO> permisoDTO = MapperUtils.DtoListFromEntityList(result.get(), PermisoDTO.class);
                 return new ResponseEntity<>(permisoDTO, HttpStatus.OK);
@@ -125,9 +131,10 @@ public class PermisoController {
     @PostMapping("/") 
     @ResponseBody
     @ApiOperation(value = "Permite crear un permiso", response = PermisoDTO.class, tags = "Permisos")
-    public ResponseEntity<?> create(@RequestBody Permiso permiso) {
+   @PreAuthorize("hasAuthority('PERMISO_CREAR')")
+    public ResponseEntity<?> create(@RequestBody PermisoDTO permiso) {
         try {
-            Permiso permisoCreated = permisoService.create(permiso);
+            PermisoDTO permisoCreated = permisoService.create(permiso);
             PermisoDTO permisoDto = MapperUtils.DtoFromEntity(permisoCreated, PermisoDTO.class);
             return new ResponseEntity<>( permisoDto, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -138,9 +145,10 @@ public class PermisoController {
     @PutMapping("/{id}") 
     @ResponseBody
     @ApiOperation(value = "Permite modificar un permiso", response = PermisoDTO.class, tags = "Permisos")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Permiso permisoModified) {
+    @PreAuthorize("hasAuthority('PERMISO_MODIFICAR')")
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody PermisoDTO permisoModified) {
         try {
-            Optional<Permiso> permisoUpdated = permisoService.update(permisoModified, id);
+            Optional<PermisoDTO> permisoUpdated = permisoService.update(permisoModified, id);
             if (permisoUpdated.isPresent()) {
                 PermisoDTO permisoDto = MapperUtils.DtoFromEntity(permisoUpdated.get(), PermisoDTO.class);
                 return new ResponseEntity<>(permisoDto, HttpStatus.OK);
@@ -155,12 +163,14 @@ public class PermisoController {
     }
 
     @DeleteMapping("/{id}") 
+    @PreAuthorize("hasAuthority('PERMISO_ELIMINAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         return null;
 //TODO: Implementar este método
     }
 
     @DeleteMapping("/") 
+    @PreAuthorize("hasAuthority('PERMISO_ELIMINAR_TODO')")
     public ResponseEntity<?> deleteAll() {
         return null;
  	//TODO: Implementar este método

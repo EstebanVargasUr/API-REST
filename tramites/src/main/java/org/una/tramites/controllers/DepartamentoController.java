@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,10 +37,11 @@ public class DepartamentoController {
     
     @GetMapping() 
     @ApiOperation(value = "Obtiene una lista de todos los Departamentos ", response = DepartamentoDTO.class, responseContainer = "List", tags = "Departamentos")
+    @PreAuthorize("hasAuthority('DEPARTAMENTO_CONSULTAR_TODO')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<Departamento>> result = departamentoService.findAll();
+            Optional<List<DepartamentoDTO>> result = departamentoService.findAll();
             if (result.isPresent()) {
                 List<DepartamentoDTO> usuariosDTO = MapperUtils.DtoListFromEntityList(result.get(), DepartamentoDTO.class);
                 return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
@@ -53,10 +55,11 @@ public class DepartamentoController {
     
     @GetMapping("/{id}") 
     @ApiOperation(value = "Obtiene una lista con el Departamento por medio del id", response = DepartamentoDTO.class, responseContainer = "List", tags = "Departamentos")
+    @PreAuthorize("hasAuthority('DEPARTAMENTO_CONSULTAR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
-            Optional<Departamento> departamentoFound = departamentoService.findById(id);
+            Optional<DepartamentoDTO> departamentoFound = departamentoService.findById(id);
             if (departamentoFound.isPresent()) {
                 DepartamentoDTO departamentoDTO = MapperUtils.DtoFromEntity(departamentoFound.get(), DepartamentoDTO.class);
                 return new ResponseEntity<>(departamentoDTO, HttpStatus.OK);
@@ -71,9 +74,10 @@ public class DepartamentoController {
     @GetMapping("/{estado}") 
     @ApiOperation(value = "Obtiene una lista de los Departamentos por estado", response = DepartamentoDTO.class, responseContainer = "List", tags = "Departamentos")
     @ResponseBody
+    @PreAuthorize("hasAuthority('DEPARTAMENTO_CONSULTAR')")
     public ResponseEntity<?> findByEstado(@PathVariable(value = "estado") boolean estado){
         try {
-            Optional<List<Departamento>> result = departamentoService.findByEstado(estado);
+            Optional<List<DepartamentoDTO>> result = departamentoService.findByEstado(estado);
             if (result.isPresent()) {
                 List<DepartamentoDTO> departamentoDTO = MapperUtils.DtoListFromEntityList(result.get(), DepartamentoDTO.class);
                 return new ResponseEntity<>(departamentoDTO, HttpStatus.OK);
@@ -89,9 +93,10 @@ public class DepartamentoController {
     @PostMapping("/") 
     @ApiOperation(value = "Permite crear un Departamento", response = DepartamentoDTO.class, tags = "Departamentos")
     @ResponseBody
-    public ResponseEntity<?> create(@RequestBody Departamento departamento) {
+    @PreAuthorize("hasAuthority('DEPARTAMENTO_CREAR')")
+    public ResponseEntity<?> create(@RequestBody DepartamentoDTO departamento) {
         try {
-            Departamento departamentoCreated = departamentoService.create(departamento);
+            DepartamentoDTO departamentoCreated = departamentoService.create(departamento);
             DepartamentoDTO departamentoDto = MapperUtils.DtoFromEntity(departamentoCreated, DepartamentoDTO.class);
             return new ResponseEntity<>(departamentoDto, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -102,9 +107,10 @@ public class DepartamentoController {
     @PutMapping("/{id}") 
     @ApiOperation(value = "Permite modificar un Departamento a partir de su Id", response = DepartamentoDTO.class, tags = "Departamentos")
     @ResponseBody
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Departamento departamentoModified) {
+    @PreAuthorize("hasAuthority('DEPARTAMENTO_MODIFICAR')")
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody DepartamentoDTO departamentoModified) {
         try {
-            Optional<Departamento> departamentoUpdated = departamentoService.update(departamentoModified, id);
+            Optional<DepartamentoDTO> departamentoUpdated = departamentoService.update(departamentoModified, id);
             if (departamentoUpdated.isPresent()) {
                 DepartamentoDTO departamentoDto = MapperUtils.DtoFromEntity(departamentoUpdated.get(), DepartamentoDTO.class);
                 return new ResponseEntity<>(departamentoDto, HttpStatus.OK);
@@ -119,12 +125,14 @@ public class DepartamentoController {
     }
     
     @DeleteMapping("/{id}") 
+    @PreAuthorize("hasAuthority('DEPARTAMENTO_INACTIVAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         return null;
 //TODO: Implementar este método
     }
 
     @DeleteMapping("/") 
+    @PreAuthorize("hasAuthority('DEPARTAMENTO_INACTIVAR')")
     public ResponseEntity<?> deleteAll() {
         return null;
  	//TODO: Implementar este método

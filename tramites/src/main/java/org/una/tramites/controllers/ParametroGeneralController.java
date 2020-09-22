@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,10 +38,11 @@ public class ParametroGeneralController {
      
     @GetMapping() 
     @ApiOperation(value = "Obtiene una lista de todos los Parametros Generales", response = ParametroGeneralDTO.class, responseContainer = "List", tags = "Parametros Generales")
+    @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_CONSULTAR_TODO')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<ParametroGeneral>> result = parametrosGeneralService.findAll();
+            Optional<List<ParametroGeneralDTO>> result = parametrosGeneralService.findAll();
             if (result.isPresent()) {
                 List<ParametroGeneralDTO> usuariosDTO = MapperUtils.DtoListFromEntityList(result.get(), ParametroGeneralDTO.class);
                 return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
@@ -54,9 +56,10 @@ public class ParametroGeneralController {
     
     @GetMapping("/{nombre}")
     @ApiOperation(value = "Obtiene una lista de parametro por medio del nombre", response = ParametroGeneralDTO.class, responseContainer = "List", tags = "Parametros Generales")
+    @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_CONSULTAR')")
     public ResponseEntity<?> findByNombreAproximateIgnoreCase(@PathVariable(value = "term") String term) {
         try {
-            Optional<List<ParametroGeneral>> result = parametrosGeneralService.findByNombreAproximateIgnoreCase(term);
+            Optional<List<ParametroGeneralDTO>> result = parametrosGeneralService.findByNombreAproximateIgnoreCase(term);
             if (result.isPresent()) {
                 List<ParametroGeneralDTO> ParametrosGeneralesDTO = MapperUtils.DtoListFromEntityList(result.get(), ParametroGeneralDTO.class);
                 return new ResponseEntity<>(ParametrosGeneralesDTO, HttpStatus.OK);
@@ -70,10 +73,11 @@ public class ParametroGeneralController {
     
       @GetMapping("/{fecha}") 
     @ApiOperation(value = "Obtiene una lista con los Parametros Generales, entre las fechas especificadas", response = ParametroGeneralDTO.class, responseContainer = "List", tags = "Parametros Generales")
+    @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_CONSULTAR')")
     public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "Fecha inicial") Date FechIni,@PathVariable(value = "Fecha final") Date FechFin) {
         try {
 
-            Optional<List<ParametroGeneral>> permisoOtorgadoFound = parametrosGeneralService.findByFechaRegistroBetween(FechIni,FechFin);
+            Optional<List<ParametroGeneralDTO>> permisoOtorgadoFound = parametrosGeneralService.findByFechaRegistroBetween(FechIni,FechFin);
             if (permisoOtorgadoFound.isPresent()) {
                 ParametroGeneralDTO permisoOtorgadoDto = MapperUtils.DtoFromEntity(permisoOtorgadoFound.get(), ParametroGeneralDTO.class);
                 return new ResponseEntity<>(permisoOtorgadoDto, HttpStatus.OK);
@@ -89,9 +93,10 @@ public class ParametroGeneralController {
     @PostMapping("/") 
     @ResponseBody
     @ApiOperation(value = "Permite crear un Parametro", response = ParametroGeneralDTO.class, tags = "Parametros Generales")
-    public ResponseEntity<?> create(@RequestBody ParametroGeneral parametroGeneral) {
+    @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_CREAR')")
+    public ResponseEntity<?> create(@RequestBody ParametroGeneralDTO parametroGeneral) {
         try {
-            ParametroGeneral parametroGeneralCreated = parametrosGeneralService.create(parametroGeneral);
+            ParametroGeneralDTO parametroGeneralCreated = parametrosGeneralService.create(parametroGeneral);
             ParametroGeneralDTO parametroGeneralDto = MapperUtils.DtoFromEntity(parametroGeneralCreated, ParametroGeneralDTO.class);
             return new ResponseEntity<>(parametroGeneralDto, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -102,9 +107,10 @@ public class ParametroGeneralController {
     @PutMapping("/{id}") 
     @ResponseBody
     @ApiOperation(value = "Permite modificar un Parametro a partir de su Id", response = ParametroGeneralDTO.class, tags = "Parametros Generales")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody ParametroGeneral parametroGeneralModified) {
+    @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_MODIFICAR')")
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody ParametroGeneralDTO parametroGeneralModified) {
         try {
-            Optional<ParametroGeneral> parametroGeneralUpdated = parametrosGeneralService.update(parametroGeneralModified, id);
+            Optional<ParametroGeneralDTO> parametroGeneralUpdated = parametrosGeneralService.update(parametroGeneralModified, id);
             if (parametroGeneralUpdated.isPresent()) {
                 ParametroGeneralDTO parametroGeneralDto = MapperUtils.DtoFromEntity(parametroGeneralUpdated.get(), ParametroGeneralDTO.class);
                 return new ResponseEntity<>(parametroGeneralDto, HttpStatus.OK);
@@ -119,12 +125,14 @@ public class ParametroGeneralController {
     }
 
     @DeleteMapping("/{id}") 
+    @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_ELIMINAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         return null;
 //TODO: Implementar este método
     }
 
     @DeleteMapping("/") 
+    @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_ELIMINAR_TODO')")
     public ResponseEntity<?> deleteAll() {
         return null;
  	//TODO: Implementar este método

@@ -4,6 +4,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.TramiteEstadoDTO;
 import org.una.tramites.entities.TramiteEstado;
 import org.una.tramites.repositories.ITramiteEstadoRepository;
 
@@ -15,36 +16,35 @@ public class TramiteEstadoServiceImplementation implements ITramiteEstadoService
     
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<TramiteEstado>> findAll() {
+    public Optional<List<TramiteEstadoDTO>> findAll() {
         return Optional.ofNullable(tramiteEstadoRepository.findAll());
     }
     
     @Override
     @Transactional(readOnly = true)
-    public Optional<TramiteEstado> findById(Long id) {
+    public Optional<TramiteEstadoDTO> findById(Long id) {
         return tramiteEstadoRepository.findById(id);
     }
     
     @Override
-    public Optional<List<TramiteEstado>> findByNombreContainingIgnoreCase(String nombre) {
+    public Optional<List<TramiteEstadoDTO>> findByNombreContainingIgnoreCase(String nombre) {
         return tramiteEstadoRepository.findByNombreContainingIgnoreCase(nombre);
     }
     
     @Override
     @Transactional
-    public TramiteEstado create(TramiteEstado tramite_estado) {
+    public TramiteEstadoDTO create(TramiteEstadoDTO tramite_estado) {
         return tramiteEstadoRepository.save(tramite_estado);
     }
 
     @Override
     @Transactional
-    public Optional<TramiteEstado> update(TramiteEstado tramite_estado, Long id) {
+    public Optional<TramiteEstadoDTO> update(TramiteEstadoDTO tramite_estado, Long id) {
         if ( tramiteEstadoRepository.findById(id).isPresent()) {
             return Optional.ofNullable( tramiteEstadoRepository.save(tramite_estado));
         } else {
             return null;
         }
-
     }
 
     @Override

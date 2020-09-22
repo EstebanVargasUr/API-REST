@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,10 +38,11 @@ public class TransaccionController {
     
     @GetMapping("/usuario/{id}{fecha}") 
     @ApiOperation(value = "Obtiene una transaccion por el Id del usuario entre la fecha especificacda", response = TransaccionDTO.class, responseContainer = "List", tags = "Transacciones")
+    @PreAuthorize("hasAuthority('TRANSACCION_CONSULTAR')")
     public @ResponseBody
     ResponseEntity<?> findByUsuarioIdAndFechaRegistroBetween(@PathVariable(value = "id") Long idUsu, @PathVariable(value = "Fecha inicial") Date startDate, @PathVariable(value = "Fecha final") Date endDate) {
         try {
-            Optional<List<Transaccion>> result = transaccionService.findByUsuarioIdAndFechaRegistroBetween(idUsu, startDate, endDate);
+            Optional<List<TransaccionDTO>> result = transaccionService.findByUsuarioIdAndFechaRegistroBetween(idUsu, startDate, endDate);
             if (result.isPresent()) {
                 List<TransaccionDTO> transaccionDTO = MapperUtils.DtoListFromEntityList(result.get(), TransaccionDTO.class);
                 return new ResponseEntity<>(transaccionDTO, HttpStatus.OK);
@@ -54,10 +56,11 @@ public class TransaccionController {
     
     @GetMapping("/permiso/{id}{fecha}") 
     @ApiOperation(value = "Obtiene una transaccion por medio del Id del permiso entre la fecha especificacda", response = TransaccionDTO.class, responseContainer = "List", tags = "Transacciones")
+     @PreAuthorize("hasAuthority('TRANSACCION_CONSULTAR')")
     public @ResponseBody
     ResponseEntity<?> findByPermisoIdAndFechaRegistroBetween(@PathVariable(value = "id") Long id, @PathVariable(value = "Fecha inicial") Date startDate, @PathVariable(value = "Fecha final") Date endDate) {
         try {
-            Optional<List<Transaccion>> result = transaccionService.findByPermisoIdAndFechaRegistroBetween(Long.MIN_VALUE, startDate, endDate);
+            Optional<List<TransaccionDTO>> result = transaccionService.findByPermisoIdAndFechaRegistroBetween(Long.MIN_VALUE, startDate, endDate);
             if (result.isPresent()) {
                 List<TransaccionDTO> transaccionDTO = MapperUtils.DtoListFromEntityList(result.get(), TransaccionDTO.class);
                 return new ResponseEntity<>(transaccionDTO, HttpStatus.OK);
@@ -71,10 +74,11 @@ public class TransaccionController {
     
     @GetMapping("/{objeto}{fecha}") 
     @ApiOperation(value = "Obtiene una transaccion por medio de un objeto entre la fecha especificacda", response = TransaccionDTO.class, responseContainer = "List", tags = "Transacciones")
+     @PreAuthorize("hasAuthority('TRANSACCION_CONSULTAR')")
     public @ResponseBody
     ResponseEntity<?> findByObjetoAndFechaRegistroBetween(@PathVariable(value = "Objeto") String objeto, @PathVariable(value = "Fecha inicial") Date startDate, @PathVariable(value = "Fecha final") Date endDate) {
         try {
-            Optional<List<Transaccion>> result = transaccionService.findByObjetoAndFechaRegistroBetween(objeto, startDate, endDate);
+            Optional<List<TransaccionDTO>> result = transaccionService.findByObjetoAndFechaRegistroBetween(objeto, startDate, endDate);
             if (result.isPresent()) {
                 List<TransaccionDTO> transaccionDTO = MapperUtils.DtoListFromEntityList(result.get(), TransaccionDTO.class);
                 return new ResponseEntity<>(transaccionDTO, HttpStatus.OK);
@@ -88,10 +92,11 @@ public class TransaccionController {
     
     @GetMapping("/{fecha}") 
     @ApiOperation(value = "Obtiene una lista de las transacciones entre la fecha especificacda", response = TransaccionDTO.class, responseContainer = "List", tags = "Transacciones")
+     @PreAuthorize("hasAuthority('TRANSACCION_CONSULTAR')")
     public @ResponseBody
     ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "Fecha inicial") Date startDate, @PathVariable(value = "Fecha final") Date endDate) {
         try {
-            Optional<List<Transaccion>> result = transaccionService.findByFechaRegistroBetween(startDate, endDate);
+            Optional<List<TransaccionDTO>> result = transaccionService.findByFechaRegistroBetween(startDate, endDate);
             if (result.isPresent()) {
                 List<TransaccionDTO> transaccionDTO = MapperUtils.DtoListFromEntityList(result.get(), TransaccionDTO.class);
                 return new ResponseEntity<>(transaccionDTO, HttpStatus.OK);
@@ -107,9 +112,10 @@ public class TransaccionController {
     @PostMapping("/") 
     @ApiOperation(value = "Permite crear una transaccion", response = TransaccionDTO.class, tags = "Transacciones")
     @ResponseBody
-    public ResponseEntity<?> create(@RequestBody Transaccion transaccion) {
+     @PreAuthorize("hasAuthority('TRANSACCION_CREAR')")
+    public ResponseEntity<?> create(@RequestBody TransaccionDTO transaccion) {
         try {
-            Transaccion transaccionCreated = transaccionService.create(transaccion);
+            TransaccionDTO transaccionCreated = transaccionService.create(transaccion);
             TransaccionDTO transaccionDto = MapperUtils.DtoFromEntity(transaccionCreated, TransaccionDTO.class);
             return new ResponseEntity<>(transaccionDto, HttpStatus.CREATED);
         } catch (Exception e) {

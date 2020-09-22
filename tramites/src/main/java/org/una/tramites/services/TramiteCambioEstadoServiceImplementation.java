@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.TramiteCambioEstadoDTO;
 import org.una.tramites.entities.Departamento;
 import org.una.tramites.entities.TramiteCambioEstado;
 import org.una.tramites.repositories.IDepartamentoRepository;
@@ -20,37 +21,33 @@ public class TramiteCambioEstadoServiceImplementation implements ITramiteCambioE
     
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<TramiteCambioEstado>> findAll() {
+    public Optional<List<TramiteCambioEstadoDTO>> findAll() {
         return Optional.ofNullable(tramiteCambioEstadoRepository.findAll());
     }
     
     @Override
     @Transactional(readOnly = true)
-    public Optional<TramiteCambioEstado> findById(Long id) {
+    public Optional<TramiteCambioEstadoDTO> findById(Long id) {
         return tramiteCambioEstadoRepository.findById(id);
     }
     
     @Override
     @Transactional
-    public TramiteCambioEstado create(TramiteCambioEstado tramiteCambioEstado) {
+    public TramiteCambioEstadoDTO create(TramiteCambioEstadoDTO tramiteCambioEstado) {
         return tramiteCambioEstadoRepository.save(tramiteCambioEstado);
     }
     
     @Override
     @Transactional
-    public Optional<TramiteCambioEstado> update(TramiteCambioEstado tramiteCambioEstado, Long id) {
+    public Optional<TramiteCambioEstadoDTO> update(TramiteCambioEstadoDTO tramiteCambioEstado, Long id) {
         if (tramiteCambioEstadoRepository.findById(id).isPresent()) {
-            return Optional.ofNullable(tramiteCambioEstadoRepository .save(tramiteCambioEstado));
+            return Optional.ofNullable(tramiteCambioEstadoRepository.save(tramiteCambioEstado));
         } else {
             return null;
         }
 
     }
 
-    @Override
-    public Optional<List<TramiteCambioEstado>> findByFechaRegistroBetween(Date startDate, Date endDate) {
-        return tramiteCambioEstadoRepository.findByFechaRegistroBetween(startDate, endDate);
-    }
     @Override
     @Transactional
     public void delete(Long id) {
@@ -62,6 +59,11 @@ public class TramiteCambioEstadoServiceImplementation implements ITramiteCambioE
     @Transactional
     public void deleteAll() {
         tramiteCambioEstadoRepository.deleteAll();
+    }
+
+    @Override
+    public Optional<List<TramiteCambioEstadoDTO>> findByFechaRegistroBetween(Date startDate, Date endDate) {
+      return tramiteCambioEstadoRepository.findByFechaRegistroBetween(startDate, endDate);
     }
 
   

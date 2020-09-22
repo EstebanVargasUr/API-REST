@@ -3,6 +3,7 @@ package org.una.tramites.services;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import org.una.tramites.dto.VariacionDTO;
 import org.una.tramites.entities.Variacion;
 
 /**
@@ -11,21 +12,21 @@ import org.una.tramites.entities.Variacion;
  */
 public interface IVariacionService {
     
-    public Optional<List<Variacion>> findAll();
+    public Optional<List<VariacionDTO>> findAll();
 
-    public Optional<Variacion> findById(Long id);
+    public Optional<VariacionDTO> findById(Long id);
     
-    public Optional<List<Variacion>>  findByTramite_tipoId(Long id);
+    public Optional<List<VariacionDTO>>  findByTramite_tipoId(Long id);
 
-    public Optional<List<Variacion>>  findByEstado(boolean estado);
+    public Optional<List<VariacionDTO>>  findByEstado(boolean estado);
     
-    public Optional<List<Variacion>>  findByGrupo(boolean grupo);
+    public Optional<List<VariacionDTO>>  findByGrupo(boolean grupo);
     
-    public Optional<List<Variacion>> findByFechaRegistroBetween(Date startDate, Date endDate);
+    public Optional<List<VariacionDTO>> findByFechaRegistroBetween(Date startDate, Date endDate);
 
-    public Variacion create(Variacion variacion);
+    public VariacionDTO create(VariacionDTO variacion);
 
-    public Optional<Variacion> update(Variacion variacion, Long id);
+    public Optional<VariacionDTO> update(VariacionDTO variacion, Long id);
 
     public void delete(Long id);
 

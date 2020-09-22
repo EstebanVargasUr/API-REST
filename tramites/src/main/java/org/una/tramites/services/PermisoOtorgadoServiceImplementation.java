@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.PermisoOtorgadoDTO;
 import org.una.tramites.entities.PermisoOtorgado;
 import org.una.tramites.repositories.IPermisoOtorgadoRepository;
 
@@ -18,43 +19,43 @@ public class PermisoOtorgadoServiceImplementation implements IPermisoOtorgadoSer
     
    @Override
    @Transactional(readOnly = true)
-    public Optional<List<PermisoOtorgado>> findByUsuarioId(Long usuarioId) {
+    public Optional<List<PermisoOtorgadoDTO>> findByUsuarioId(Long usuarioId) {
         return permisoOtorgadoRepository.findByUsuarioId(usuarioId);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<PermisoOtorgado>> findByPermisoId(Long permisoId) {
+    public Optional<List<PermisoOtorgadoDTO>> findByPermisoId(Long permisoId) {
         return permisoOtorgadoRepository.findByPermisoId(permisoId);
     }
 
    @Override
    @Transactional(readOnly = true)
-    public Optional<List<PermisoOtorgado>> findByUsuarioIdAndEstado(Long usuarioId, boolean estado) {
+    public Optional<List<PermisoOtorgadoDTO>> findByUsuarioIdAndEstado(Long usuarioId, boolean estado) {
         return permisoOtorgadoRepository.findByUsuarioIdAndEstado(usuarioId, estado);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<PermisoOtorgado>> findByPermisoIdAndEstado(Long permisoId, boolean estado) {
+    public Optional<List<PermisoOtorgadoDTO>> findByPermisoIdAndEstado(Long permisoId, boolean estado) {
       return permisoOtorgadoRepository.findByPermisoIdAndEstado(permisoId, estado);
     }
 
    
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<PermisoOtorgado>> findByFechaRegistroBetween(Date startDate, Date endDate) {
+    public Optional<List<PermisoOtorgadoDTO>> findByFechaRegistroBetween(Date startDate, Date endDate) {
         return permisoOtorgadoRepository.findByFechaRegistroBetween(startDate, endDate);
     }
 
     @Override
-    public PermisoOtorgado create(PermisoOtorgado permisoOtorgado) {
+    public PermisoOtorgadoDTO create(PermisoOtorgadoDTO permisoOtorgado) {
          return permisoOtorgadoRepository.save(permisoOtorgado);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<PermisoOtorgado> update(PermisoOtorgado permisoOtorgado, Long id) {
+    public Optional<PermisoOtorgadoDTO> update(PermisoOtorgadoDTO permisoOtorgado, Long id) {
        if (permisoOtorgadoRepository.findById(id).isPresent()) {
             return Optional.ofNullable(permisoOtorgadoRepository.save(permisoOtorgado));
         } else {
@@ -64,7 +65,7 @@ public class PermisoOtorgadoServiceImplementation implements IPermisoOtorgadoSer
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<PermisoOtorgado> findById(Long usuarioId) {
+    public Optional<PermisoOtorgadoDTO> findById(Long usuarioId) {
       return permisoOtorgadoRepository.findById(usuarioId);
     }
 

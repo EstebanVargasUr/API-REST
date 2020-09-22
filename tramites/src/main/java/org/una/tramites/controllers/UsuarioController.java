@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.AuthenticationRequest;
 import org.una.tramites.dto.AuthenticationResponse;
+import org.una.tramites.dto.PermisoOtorgadoDTO;
 import org.una.tramites.dto.UsuarioDTO;
+import org.una.tramites.entities.PermisoOtorgado;
 import org.una.tramites.entities.Usuario;
 import org.una.tramites.services.IUsuarioService;
 import org.una.tramites.utils.MapperUtils;
@@ -37,10 +40,11 @@ public class UsuarioController {
 
     @GetMapping() 
     @ApiOperation(value = "Obtiene una lista de todos los Usuarios", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
+    @PreAuthorize("hasAuthority('USUARIO_CONSULTAR_TODO')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<Usuario>> result = usuarioService.findAll();
+            Optional<List<UsuarioDTO>> result = usuarioService.findAll();
             if (result.isPresent()) {
                 List<UsuarioDTO> usuariosDTO = MapperUtils.DtoListFromEntityList(result.get(), UsuarioDTO.class);
                 return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
@@ -51,13 +55,14 @@ public class UsuarioController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    //Terminar
-     @GetMapping({"/cedula"}) 
+    
+    @GetMapping({"/cedula"}) 
     @ApiOperation(value = "Obtiene una lista de los Usuarios por medio de la cedula", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
+    @PreAuthorize("hasAuthority('USUARIO_CONSULTAR')")
     public @ResponseBody
     ResponseEntity<?> findByCedula(@PathVariable(value = "cedula") String cedula) {
         try {
-            Optional<Usuario> result = usuarioService.findByCedula(cedula);
+            Optional<UsuarioDTO> result = usuarioService.findByCedula(cedula);
             if (result.isPresent()) {
                 UsuarioDTO usuariosDto = MapperUtils.DtoFromEntity(result.get(), UsuarioDTO.class);
                 return new ResponseEntity<>(usuariosDto, HttpStatus.OK);
@@ -71,10 +76,11 @@ public class UsuarioController {
 
     @GetMapping("/{id}") 
     @ApiOperation(value = "Obtiene una lista con el Usuario por medio del Id", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
+    @PreAuthorize("hasAuthority('USUARIO_CONSULTAR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
-            Optional<Usuario> usuarioFound = usuarioService.findById(id);
+            Optional<UsuarioDTO> usuarioFound = usuarioService.findById(id);
             if (usuarioFound.isPresent()) {
                 UsuarioDTO usuarioDto = MapperUtils.DtoFromEntity(usuarioFound.get(), UsuarioDTO.class);
                 return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
@@ -113,9 +119,10 @@ public class UsuarioController {
 
     @GetMapping("/{cedula}{aproximado}") 
     @ApiOperation(value = "Obtiene una lista con el Usuario por medio de la cédula", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
+    @PreAuthorize("hasAuthority('USUARIO_CONSULTAR')")
     public ResponseEntity<?> findByCedulaAproximate(@PathVariable(value = "term") String term) {
         try {
-            Optional<List<Usuario>> result = usuarioService.findByCedulaAproximate(term);
+            Optional<List<UsuarioDTO>> result = usuarioService.findByCedulaAproximate(term);
             if (result.isPresent()) {
                 List<UsuarioDTO> usuariosDTO = MapperUtils.DtoListFromEntityList(result.get(), UsuarioDTO.class);
                 return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
@@ -129,9 +136,10 @@ public class UsuarioController {
 
     @GetMapping("/{nombre}")
     @ApiOperation(value = "Obtiene una lista con el Usuario por medio del nombre", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
+    @PreAuthorize("hasAuthority('USUARIO_CONSULTAR')")
     public ResponseEntity<?> findByNombreCompletoAproximateIgnoreCase(@PathVariable(value = "term") String term) {
         try {
-            Optional<List<Usuario>> result = usuarioService.findByNombreCompletoAproximateIgnoreCase(term);
+            Optional<List<UsuarioDTO>> result = usuarioService.findByNombreCompletoAproximateIgnoreCase(term);
             if (result.isPresent()) {
                 List<UsuarioDTO> usuariosDTO = MapperUtils.DtoListFromEntityList(result.get(), UsuarioDTO.class);
                 return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
@@ -145,9 +153,10 @@ public class UsuarioController {
 
     @GetMapping("/departamento/{id}")
     @ApiOperation(value = "Obtiene una lista con los Usuarios por Departamento", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
+    @PreAuthorize("hasAuthority('USUARIO_CONSULTAR')")
     public ResponseEntity<?> findByDepartamentoId(@PathVariable(value = "term") long term) {
         try {
-            Optional<List<Usuario>> result = usuarioService.findByDepartamentoId(term);
+            Optional<List<UsuarioDTO>> result = usuarioService.findByDepartamentoId(term);
             if (result.isPresent()) {
                 List<UsuarioDTO> usuariosDTO = MapperUtils.DtoListFromEntityList(result.get(), UsuarioDTO.class);
                 return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
@@ -161,9 +170,10 @@ public class UsuarioController {
     
     @GetMapping("/jefeDepartamento/{id}")
     @ApiOperation(value = "Obtiene una lista con el Usuario jefe del Departamento", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
+    @PreAuthorize("hasAuthority('USUARIO_CONSULTAR')")
     public ResponseEntity<?> findJefeByDepartamento(@PathVariable(value = "term") long term) {
         try {
-            Usuario result = usuarioService.findJefeByDepartamento(term);
+            UsuarioDTO result = usuarioService.findJefeByDepartamento(term);
             if (result.isEsJefe()) {
                 List<UsuarioDTO> usuariosDTO = (List<UsuarioDTO>) MapperUtils.DtoFromEntity(result, UsuarioDTO.class);
                 return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
@@ -175,13 +185,33 @@ public class UsuarioController {
         }
     }
     
+   /* @GetMapping("/PermisoOtorgado/{cedula}")
+    @ApiOperation(value = "Obtiene una lista de permisos por medio de la cedula", response = PermisoOtorgadoDTO.class, responseContainer = "List", tags = "Usuarios")
+    public ResponseEntity<?> findPermisosOtorgadosByCedula(@PathVariable(value = "term") String term) {
+        try {
+                List<PermisoOtorgadoDTO> result = usuarioService.findPermisosOtorgadosByCedula(term);
+      /*      if(!result.isEmpty()) {
+           
+               // List<PermisoOtorgadoDTO> permisosOtorgadosDTO = MapperUtils.DtoListFromEntityList(result.get(), PermisoOtorgadoDTO.class);
+                
+       /*     return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }*/
+
+    
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/") 
     @ResponseBody
     @ApiOperation(value = "Permite crear un Usuario", response = UsuarioDTO.class, tags = "Usuarios")
-    public ResponseEntity<?> create(@RequestBody Usuario usuario) {
+    @PreAuthorize("hasAuthority('USUARIO_CREAR')")
+    public ResponseEntity<?> create(@RequestBody UsuarioDTO usuario) {
         try {
-            Usuario usuarioCreated = usuarioService.create(usuario);
+            UsuarioDTO usuarioCreated = usuarioService.create(usuario);
             UsuarioDTO usuarioDto = MapperUtils.DtoFromEntity(usuarioCreated, UsuarioDTO.class);
             return new ResponseEntity<>(usuarioDto, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -192,9 +222,10 @@ public class UsuarioController {
     @PutMapping("/{id}") 
     @ResponseBody
     @ApiOperation(value = "Permite modificar un Usuario a partir de su Id", response = UsuarioDTO.class, tags = "Usuarios")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Usuario usuarioModified) {
+     @PreAuthorize("hasAuthority('USUARIO_MODIFICAR')")
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody UsuarioDTO usuarioModified) {
         try {
-            Optional<Usuario> usuarioUpdated = usuarioService.update(usuarioModified, id);
+            Optional<UsuarioDTO> usuarioUpdated = usuarioService.update(usuarioModified, id);
             if (usuarioUpdated.isPresent()) {
                 UsuarioDTO usuarioDto = MapperUtils.DtoFromEntity(usuarioUpdated.get(), UsuarioDTO.class);
                 return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
@@ -209,12 +240,14 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}") 
+    @PreAuthorize("hasAuthority('USUARIO_ELIMINAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         return null;
 //TODO: Implementar este método
     }
 
     @DeleteMapping("/") 
+    @PreAuthorize("hasAuthority('USUARIO_ELIMINAR_TODO')")
     public ResponseEntity<?> deleteAll() {
         return null;
  	//TODO: Implementar este método

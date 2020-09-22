@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.VariacionDTO;
 import org.una.tramites.entities.Variacion;
 import org.una.tramites.repositories.IVariacionRepository;
 
@@ -21,46 +22,40 @@ public class VariacionServiceImplementation implements IVariacionService{
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Variacion>> findAll() {
+    public Optional<List<VariacionDTO>> findAll() {
         return Optional.ofNullable(variacionRepository.findAll());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Variacion> findById(Long id) {
+    public Optional<VariacionDTO> findById(Long id) {
         return variacionRepository.findById(id);
     }
-    
+
     @Override
-    @Transactional(readOnly = true)
-    public Optional findByTramite_tipoId(Long id) {
-        return Optional.ofNullable(variacionRepository.findByTramite_tipoId(id));
-    }
-    
-    @Override
-    public Optional<List<Variacion>> findByEstado(boolean estado) {
+    public Optional<List<VariacionDTO>> findByEstado(boolean estado) {
         return variacionRepository.findByEstado(estado);
     }
     
     @Override
-    public Optional<List<Variacion>> findByGrupo(boolean grupo) {
+    public Optional<List<VariacionDTO>> findByGrupo(boolean grupo) {
         return variacionRepository.findByGrupo(grupo);
     }
     
     @Override
-    public Optional<List<Variacion>> findByFechaRegistroBetween(Date startDate, Date endDate) {
+    public Optional<List<VariacionDTO>> findByFechaRegistroBetween(Date startDate, Date endDate) {
         return variacionRepository.findByFechaRegistroBetween(startDate, endDate);
     }
     
     @Override
     @Transactional
-    public Variacion create(Variacion variacion) {
+    public VariacionDTO create(VariacionDTO variacion) {
         return variacionRepository.save(variacion);
     }
 
     @Override
     @Transactional
-    public Optional<Variacion> update(Variacion variacion, Long id) {
+    public Optional<VariacionDTO> update(VariacionDTO variacion, Long id) {
         if (variacionRepository.findById(id).isPresent()) {
             return Optional.ofNullable(variacionRepository.save(variacion));
         } else {
@@ -80,6 +75,11 @@ public class VariacionServiceImplementation implements IVariacionService{
     @Transactional
     public void deleteAll() {
         variacionRepository.deleteAll();
+    }
+
+    @Override
+    public Optional<List<VariacionDTO>> findByTramite_tipoId(Long id) {
+       return variacionRepository.findByTramite_tipoId(id);
     }
 
 }
