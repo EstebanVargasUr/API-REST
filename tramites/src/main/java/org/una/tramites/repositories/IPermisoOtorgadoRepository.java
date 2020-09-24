@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.una.tramites.dto.PermisoOtorgadoDTO;
 import org.una.tramites.entities.PermisoOtorgado;
 
-public interface IPermisoOtorgadoRepository extends JpaRepository<PermisoOtorgado, Long> {
+public interface IPermisoOtorgadoRepository extends JpaRepository<PermisoOtorgadoDTO, Long> {
 
     @Query("SELECT u FROM PermisoOtorgado u LEFT JOIN Usuario d WHERE d.id=:usuarioId")
     public Optional<List<PermisoOtorgadoDTO>> findByUsuarioId(Long usuarioId);

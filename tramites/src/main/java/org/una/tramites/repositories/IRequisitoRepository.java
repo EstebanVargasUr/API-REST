@@ -11,7 +11,7 @@ import org.una.tramites.entities.Requisito;
  *
  * @author Esteban Vargas
  */
-public interface IRequisitoRepository extends JpaRepository<Requisito, Long>{
+public interface IRequisitoRepository extends JpaRepository<RequisitoDTO, Long>{
     
     public Optional<List<RequisitoDTO>>  findByEstado(boolean estado);
     

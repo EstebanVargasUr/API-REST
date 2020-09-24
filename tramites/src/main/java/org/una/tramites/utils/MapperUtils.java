@@ -1,6 +1,7 @@
 package org.una.tramites.utils;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -28,6 +29,9 @@ public class MapperUtils {
                 .collect(Collectors.toList());
     }
 
+    public static <E, D> E EntityFromDto(final D dto, Class<E> entityClass) {
+        return modelMapper.map(dto, entityClass);
+ }
 } 
 
 

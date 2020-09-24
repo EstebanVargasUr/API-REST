@@ -12,7 +12,7 @@ import org.una.tramites.entities.Variacion;
  *
  * @author Esteban Vargas
  */
-public interface IVariacionRepository extends JpaRepository<Variacion, Long>{
+public interface IVariacionRepository extends JpaRepository<VariacionDTO, Long>{
     
     public Optional<List<VariacionDTO>>  findByEstado(boolean estado);
     

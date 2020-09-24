@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.una.tramites.dto.PermisoDTO;
 import org.una.tramites.entities.Permiso;
 
-public interface IPermisoRepository extends JpaRepository<Permiso, Long> {
+public interface IPermisoRepository extends JpaRepository<PermisoDTO, Long> {
     
 public Optional<PermisoDTO> findByCodigo(String codigo);
 

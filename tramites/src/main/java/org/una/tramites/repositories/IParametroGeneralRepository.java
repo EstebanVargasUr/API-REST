@@ -11,7 +11,7 @@ import org.una.tramites.entities.ParametroGeneral;
  *
  * @author Esteban Vargas
  */
-public interface IParametroGeneralRepository extends JpaRepository<ParametroGeneral, Long>{
+public interface IParametroGeneralRepository extends JpaRepository<ParametroGeneralDTO, Long>{
     
     public List<ParametroGeneralDTO> findByNombreContainingIgnoreCase(String nombre);
     

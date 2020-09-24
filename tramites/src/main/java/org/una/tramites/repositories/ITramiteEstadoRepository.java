@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.una.tramites.dto.TramiteEstadoDTO;
 import org.una.tramites.entities.TramiteEstado;
 
-public interface ITramiteEstadoRepository extends JpaRepository<TramiteEstado, Long> {
+public interface ITramiteEstadoRepository extends JpaRepository<TramiteEstadoDTO, Long> {
 
     public Optional<List<TramiteEstadoDTO>> findByNombreContainingIgnoreCase(String nombreCompleto);
 }

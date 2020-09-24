@@ -8,7 +8,7 @@ import org.una.tramites.dto.PermisoOtorgadoDTO;
 import org.una.tramites.dto.UsuarioDTO;
 import org.una.tramites.entities.Usuario;
 
-public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
+public interface IUsuarioRepository extends JpaRepository<UsuarioDTO, Long> {
 
     public UsuarioDTO findByCedulaAndPasswordEncriptado(String cedula, String passwordEncriptado);
 

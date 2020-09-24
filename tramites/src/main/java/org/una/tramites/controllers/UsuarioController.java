@@ -242,15 +242,24 @@ public class UsuarioController {
     @DeleteMapping("/{id}") 
     @PreAuthorize("hasAuthority('USUARIO_ELIMINAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-        return null;
-//TODO: Implementar este método
+    try {
+            usuarioService.delete(id);
+            return new ResponseEntity(HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
     }
 
     @DeleteMapping("/") 
     @PreAuthorize("hasAuthority('USUARIO_ELIMINAR_TODO')")
     public ResponseEntity<?> deleteAll() {
-        return null;
- 	//TODO: Implementar este método
+    try {
+            usuarioService.deleteAll();
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
     } 
 }
 

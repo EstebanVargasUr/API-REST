@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.una.tramites.dto.TramiteTipoDTO;
 import org.una.tramites.entities.TramiteTipo;
 
-public interface ITramiteTipoRepository extends JpaRepository<TramiteTipo, Long> {
+public interface ITramiteTipoRepository extends JpaRepository<TramiteTipoDTO, Long> {
 
    Optional<List<TramiteTipoDTO>> findByEstado(boolean estado);
     public Optional<List<TramiteTipoDTO>> findByFechaRegistroBetween(Date fechaRegitro,Date fechafin);

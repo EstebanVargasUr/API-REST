@@ -13,13 +13,13 @@ import org.una.tramites.entities.Nota;
  */
 public interface INotaRepository extends JpaRepository<Nota, Long> {
     
-    public List<NotaDTO> findByTituloContainingIgnoreCase(String titulo);
+    public List<Nota> findByTituloContainingIgnoreCase(String titulo);
     
-    public Optional<List<NotaDTO>>  findByEstado(boolean estado);
+    public Optional<List<Nota>>  findByEstado(boolean estado);
     
-    public Optional<List<NotaDTO>>  findByTipo(boolean tipo);
+    public Optional<List<Nota>>  findByTipo(boolean tipo);
     
-    public Optional<List<NotaDTO>> findByFechaRegistroBetween(Date startDate, Date endDate);
+    public Optional<List<Nota>> findByFechaRegistroBetween(Date startDate, Date endDate);
     
-    public List<NotaDTO> findByTramiteRegistradoId(Long id);
+    public List<Nota> findByTramiteRegistradoId(Long id);
 }

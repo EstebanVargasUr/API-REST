@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.una.tramites.dto.TransaccionDTO;
 import org.una.tramites.entities.Transaccion;
 
-public interface ITransaccionRepository extends JpaRepository<Transaccion, Long> 
+public interface ITransaccionRepository extends JpaRepository<TransaccionDTO, Long> 
 {
    @Query("SELECT u FROM Transaccion u LEFT JOIN Usuario d WHERE d.id=:usuarioId AND u.fechaRegistro=:startDate AND d.fechaRegistro=:endDate")
    public Optional<List<TransaccionDTO>> findByUsuarioIdAndFechaRegistroBetween(Long usuarioId, Date startDate, Date endDate);

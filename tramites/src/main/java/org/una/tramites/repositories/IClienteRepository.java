@@ -4,19 +4,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.una.tramites.dto.ClienteDTO;
 import org.una.tramites.entities.Cliente;
 
 
 public interface IClienteRepository extends JpaRepository<Cliente, Long> {
   
     
-    public List<ClienteDTO> findByCedulaContaining(String cedula);
+    public List<Cliente> findByCedulaContaining(String cedula);
 
-    public List<ClienteDTO> findByNombreCompletoContainingIgnoreCase(String nombreCompleto);
+    public List<Cliente> findByNombreCompletoContainingIgnoreCase(String nombreCompleto);
     
-    public Optional<List<ClienteDTO>>  findByEstado(boolean estado);
+    public Optional<List<Cliente>>  findByEstado(boolean estado);
     
-    public Optional<List<ClienteDTO>> findByFechaRegistroBetween(Date startDate, Date endDate);
+    public Optional<List<Cliente>> findByFechaRegistroBetween(Date startDate, Date endDate);
  }
 
