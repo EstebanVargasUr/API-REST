@@ -60,7 +60,7 @@ public class VariacionController {
     @GetMapping("/estado/{termino}") 
     @ApiOperation(value = "Obtiene una lista de las Variaciones por estado", response = VariacionDTO.class, responseContainer = "List", tags = "Variaciones")
     @PreAuthorize("hasAuthority('VARIACION_CONSULTAR')")
-    public ResponseEntity<?> findByEstado(@PathVariable(value = "estado") boolean estado){
+    public ResponseEntity<?> findByEstado(@PathVariable(value = "termino") boolean estado){
         try {
             return new ResponseEntity(variacionService.findByEstado(estado), HttpStatus.OK);
         } catch (Exception e) {
@@ -71,7 +71,7 @@ public class VariacionController {
     @GetMapping("/grupo/{termino}") 
     @ApiOperation(value = "Obtiene una lista de las Variaciones por grupo", response = VariacionDTO.class, responseContainer = "List", tags = "Variaciones")
     @PreAuthorize("hasAuthority('VARIACION_CONSULTAR')")
-    public ResponseEntity<?> findByGrupo(@PathVariable(value = "grupo") boolean grupo){
+    public ResponseEntity<?> findByGrupo(@PathVariable(value = "termino") boolean grupo){
          try {
             return new ResponseEntity(variacionService.findByGrupo(grupo), HttpStatus.OK);
         } catch (Exception e) {

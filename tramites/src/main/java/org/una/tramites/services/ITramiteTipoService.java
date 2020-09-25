@@ -25,9 +25,5 @@ public interface ITramiteTipoService {
     public TramiteTipoDTO create(TramiteTipoDTO tramiteTipoDTO);
 
     public Optional<TramiteTipoDTO> update(TramiteTipoDTO tramiteTipoDTO, Long id);
-
-    public void delete(Long id);
-
-    public void deleteAll();
     
 }
