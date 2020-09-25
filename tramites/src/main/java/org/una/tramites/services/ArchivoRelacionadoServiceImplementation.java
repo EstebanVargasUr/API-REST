@@ -49,11 +49,9 @@ public class ArchivoRelacionadoServiceImplementation implements IArchivoRelacion
     @Override
     @Transactional(readOnly = true)
     public Optional<List<ArchivoRelacionadoDTO>> findAll() {
-        
-    return findList(archivoRelacionadoRepository.findAll());
-     
+        return findList(archivoRelacionadoRepository.findAll());
     }
-
+    
     @Override
     @Transactional(readOnly = true)
     public Optional<ArchivoRelacionadoDTO> findById(Long id) {
@@ -93,11 +91,11 @@ public class ArchivoRelacionadoServiceImplementation implements IArchivoRelacion
     @Override
     @Transactional
     public ArchivoRelacionadoDTO create(ArchivoRelacionadoDTO archivoRelacionadoDTO) {
+        
         ArchivoRelacionado archivoRelacionado = MapperUtils.EntityFromDto(archivoRelacionadoDTO, ArchivoRelacionado.class);
         archivoRelacionado = archivoRelacionadoRepository.save(archivoRelacionado);
         return MapperUtils.DtoFromEntity(archivoRelacionado, ArchivoRelacionadoDTO.class);
     }
-
 
     @Override
     @Transactional
