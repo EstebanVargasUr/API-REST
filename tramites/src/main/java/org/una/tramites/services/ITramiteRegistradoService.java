@@ -20,8 +20,5 @@ public interface ITramiteRegistradoService {
     public TramiteRegistradoDTO create(TramiteRegistradoDTO usuario);
 
     public Optional<TramiteRegistradoDTO> update(TramiteRegistradoDTO usuario, Long id);
-
-    public void delete(Long id);
-
-    public void deleteAll();
+    
 }
