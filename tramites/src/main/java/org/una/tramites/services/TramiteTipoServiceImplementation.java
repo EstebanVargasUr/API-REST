@@ -94,18 +94,5 @@ public class TramiteTipoServiceImplementation implements ITramiteTipoService {
         }
 
     }
-
-    @Override
-    @Transactional
-    public void delete(Long id) {
-
-         tramiteTipoRepository.deleteById(id);
-    }
-
-    @Override
-    @Transactional
-    public void deleteAll() {
-        tramiteTipoRepository.deleteAll();
-    }
 }
 
