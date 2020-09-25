@@ -5,10 +5,12 @@ import io.swagger.annotations.ApiOperation;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.PermisoDTO;
-import org.una.tramites.entities.Permiso;
 import org.una.tramites.services.IPermisoService;
 import org.una.tramites.utils.MapperUtils;
 
@@ -35,37 +36,27 @@ public class PermisoController {
     @Autowired
     private IPermisoService permisoService;
     
-    @GetMapping() 
-    @ApiOperation(value = "Obtiene una lista de todos los Usuarios", response = PermisoDTO.class, responseContainer = "List", tags = "Usuarios")
+    final String MENSAJE_VERIFICAR_INFORMACION = "Debe verifiar el formato y la información de su solicitud con el formato esperado";
+    
+    @GetMapping("/") 
+    @ApiOperation(value = "Obtiene una lista de todos los Permisos", response = PermisoDTO.class, responseContainer = "List", tags = "Permisos")
     @PreAuthorize("hasAuthority('PERMISO_CONSULTAR_TODO')")
-    public @ResponseBody
-    ResponseEntity<?> findAll() {
+    public ResponseEntity<?> findAll() {
         try {
-            Optional<List<PermisoDTO>> result = permisoService.findAll();
-            if (result.isPresent()) {
-                List<PermisoDTO> usuariosDTO = MapperUtils.DtoListFromEntityList(result.get(), PermisoDTO.class);
-                return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+                return new ResponseEntity<>(permisoService.findAll(), HttpStatus.OK);
+           
         } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     
     @GetMapping("/{id}") 
-    @ApiOperation(value = "Obtiene una lista con los permisos por medio del Id", response =  PermisoDTO.class, responseContainer = "List", tags = "Permisos")
     @PreAuthorize("hasAuthority('PERMISO_CONSULTAR')")
+    @ApiOperation(value = "Obtiene el permiso por medio del Id", response =  PermisoDTO.class, responseContainer = "List", tags = "Permisos")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
-
-            Optional<PermisoDTO> permisoFound = permisoService.findById(id);
-            if (permisoFound.isPresent()) {
-                  PermisoDTO permisoDto = MapperUtils.DtoFromEntity(permisoFound.get(),  PermisoDTO.class);
-                return new ResponseEntity<>(permisoDto, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+                return new ResponseEntity<>(permisoService.findById(id), HttpStatus.OK);
+          
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -76,14 +67,8 @@ public class PermisoController {
     @PreAuthorize("hasAuthority('PERMISO_CONSULTAR')")
     public ResponseEntity<?> findByCodigo(@PathVariable(value = "term") String codigo) {
         try {
-
-            Optional<PermisoDTO> permisoFound = permisoService.findByCodigo(codigo);
-            if (permisoFound.isPresent()) {
-                  PermisoDTO permisoDto = MapperUtils.DtoFromEntity(permisoFound.get(),  PermisoDTO.class);
-                return new ResponseEntity<>(permisoDto, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+                return new ResponseEntity<>(permisoService.findByCodigo(codigo), HttpStatus.OK);
+           
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -95,85 +80,86 @@ public class PermisoController {
     public ResponseEntity<?> findByEstado(@PathVariable(value = "term") boolean st) {
         try {
 
-            Optional<List<PermisoDTO>> permisoFound = permisoService.findByEstado(st);
-            if (permisoFound.isPresent()) {
-                 PermisoDTO permisoDto = MapperUtils.DtoFromEntity(permisoFound.get(), PermisoDTO.class);
-                return new ResponseEntity<>(permisoDto, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            
+                return new ResponseEntity<>(permisoService.findByEstado(st), HttpStatus.OK);
+           
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
     
     @GetMapping("/{fecha}") 
     @ApiOperation(value = "Obtiene una lista de Permisos entre la fecha especificada", response = PermisoDTO.class, responseContainer = "List", tags = "Permisos")
     @PreAuthorize("hasAuthority('PERMISO_CONSULTAR')")
-    public @ResponseBody
-    ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "Fecha inicial") Date startDate, @PathVariable(value = "Fecha final") Date endDate) {
+    public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "Fecha inicial") Date startDate, @PathVariable(value = "Fecha final") Date endDate) {
         try {
-            Optional<List<PermisoDTO>> result = permisoService.findByFechaRegistroBetween(startDate,endDate);
-            if (result.isPresent()) {
-                List<PermisoDTO> permisoDTO = MapperUtils.DtoListFromEntityList(result.get(), PermisoDTO.class);
-                return new ResponseEntity<>(permisoDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+                return new ResponseEntity<>(permisoService.findByFechaRegistroBetween(startDate, endDate), HttpStatus.OK);
+           
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    
-    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/") 
-    @ResponseBody
     @ApiOperation(value = "Permite crear un permiso", response = PermisoDTO.class, tags = "Permisos")
-   @PreAuthorize("hasAuthority('PERMISO_CREAR')")
-    public ResponseEntity<?> create(@RequestBody PermisoDTO permiso) {
+    @PreAuthorize("hasAuthority('PERMISO_CREAR')")
+    public ResponseEntity<?> create(@Valid @RequestBody PermisoDTO permisoDTO, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
         try {
-            PermisoDTO permisoCreated = permisoService.create(permiso);
-            PermisoDTO permisoDto = MapperUtils.DtoFromEntity(permisoCreated, PermisoDTO.class);
-            return new ResponseEntity<>( permisoDto, HttpStatus.CREATED);
+            return new ResponseEntity(permisoService.create(permisoDTO), HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }else{
+            return new ResponseEntity(MENSAJE_VERIFICAR_INFORMACION, HttpStatus.BAD_REQUEST);
         }
     }
-
     @PutMapping("/{id}") 
-    @ResponseBody
     @ApiOperation(value = "Permite modificar un permiso", response = PermisoDTO.class, tags = "Permisos")
     @PreAuthorize("hasAuthority('PERMISO_MODIFICAR')")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody PermisoDTO permisoModified) {
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id,@Valid @RequestBody PermisoDTO permisoDTO, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
         try {
-            Optional<PermisoDTO> permisoUpdated = permisoService.update(permisoModified, id);
+            Optional<PermisoDTO> permisoUpdated = permisoService.update(permisoDTO, id);
             if (permisoUpdated.isPresent()) {
-                PermisoDTO permisoDto = MapperUtils.DtoFromEntity(permisoUpdated.get(), PermisoDTO.class);
-                return new ResponseEntity<>(permisoDto, HttpStatus.OK);
+                return new ResponseEntity<>(permisoUpdated, HttpStatus.OK);
 
             } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity(HttpStatus.NOT_FOUND);
 
             }
         } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    } else {
+            return new ResponseEntity(MENSAJE_VERIFICAR_INFORMACION, HttpStatus.BAD_REQUEST);
         }
     }
 
+
     @DeleteMapping("/{id}") 
+    @ApiOperation(value = "Permite eliminar un permiso a partir de su Id", response = PermisoDTO.class, tags = "Permisos")
     @PreAuthorize("hasAuthority('PERMISO_ELIMINAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-        return null;
-//TODO: Implementar este método
+            try {
+            permisoService.delete(id);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/") 
+    @ApiOperation(value = "Permite eliminar todos los Usuarios", response = PermisoDTO.class, tags = "Permisos")
     @PreAuthorize("hasAuthority('PERMISO_ELIMINAR_TODO')")
     public ResponseEntity<?> deleteAll() {
-        return null;
- 	//TODO: Implementar este método
+       try {
+            permisoService.deleteAll();
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     } 
-}
+
 

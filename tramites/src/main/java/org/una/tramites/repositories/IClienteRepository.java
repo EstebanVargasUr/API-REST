@@ -8,7 +8,6 @@ import org.una.tramites.entities.Cliente;
 
 
 public interface IClienteRepository extends JpaRepository<Cliente, Long> {
-  
     
     public List<Cliente> findByCedulaContaining(String cedula);
 
