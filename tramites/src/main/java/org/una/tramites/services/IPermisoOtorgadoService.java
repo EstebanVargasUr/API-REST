@@ -6,6 +6,9 @@ import java.util.Optional;
 import org.una.tramites.dto.PermisoOtorgadoDTO;
 
 public interface IPermisoOtorgadoService {
+    
+    public Optional<List<PermisoOtorgadoDTO>> findAll();
+    
     public Optional <PermisoOtorgadoDTO> findById(Long usuarioId);
 
     public Optional<List<PermisoOtorgadoDTO>> findByUsuarioId(Long usuarioId);
