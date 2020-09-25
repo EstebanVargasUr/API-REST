@@ -81,7 +81,7 @@ public class RequisitoController {
         }
     }
     
-    @GetMapping("/{Variacion}")
+    @GetMapping("/{variacion}")
     @PreAuthorize("hasAuthority('REQUISITO_CONSULTAR')")
     @ApiOperation(value = "Obtiene un requisito por medio del id de la variacion", response = RequisitoDTO.class, tags = "Requisitos")
     public ResponseEntity<?> findByVariacionId(@PathVariable(value = "id") long id) {
@@ -94,7 +94,7 @@ public class RequisitoController {
     
     @PostMapping("/")
     @ApiOperation(value = "Permite crear un requisito", response = RequisitoDTO.class, tags = "Requisitos")
-    @PreAuthorize("hasAuthority('USUARIO_CREAR')")
+    @PreAuthorize("hasAuthority('REQUISITO_CREAR')")
     public ResponseEntity<?> create(@Valid @RequestBody RequisitoDTO requisitoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -110,7 +110,7 @@ public class RequisitoController {
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Permite modificar un requisito a partir de su Id", response = RequisitoDTO.class, tags = "Requisitos")
-    @PreAuthorize("hasAuthority('USUARIO_MODIFICAR')")
+    @PreAuthorize("hasAuthority('REQUISITO_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody RequisitoDTO requisitoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {

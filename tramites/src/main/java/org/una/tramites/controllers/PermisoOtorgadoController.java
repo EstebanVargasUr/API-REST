@@ -56,9 +56,9 @@ public class PermisoOtorgadoController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{permiso}{id}")
     @PreAuthorize("hasAuthority('PERMISO_OTORGADO_CONSULTAR')")
-    @ApiOperation(value = "Obtiene un permiso otorgado por su Id", response = PermisoOtorgadoDTO.class, tags = "Permisos Otorgados")
+    @ApiOperation(value = "Obtiene un permiso otorgado por el id de un permiso", response = PermisoOtorgadoDTO.class, tags = "Permisos Otorgados")
     public ResponseEntity<?> findByPermisoId(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity(permisoOtorgadoService.findByPermisoId(id), HttpStatus.OK);
@@ -67,7 +67,7 @@ public class PermisoOtorgadoController {
         }
     }
     
-    @GetMapping("/{id}")
+    @GetMapping("/{usuario}{id}{estado}")
     @PreAuthorize("hasAuthority('PERMISO_OTORGADO_CONSULTAR')")
     @ApiOperation(value = "Obtiene un permiso otorgado por medio del id de un usuario y su estado", response = PermisoOtorgadoDTO.class, tags = "Permisos Otorgados")
     public ResponseEntity<?> findByUsuarioIdAndEstado(@PathVariable(value = "id") Long id, boolean estado) {
@@ -78,8 +78,8 @@ public class PermisoOtorgadoController {
         }
     }
     
-    @GetMapping("/departamento/{id}")
-    @ApiOperation(value = "Obtiene una lista de permisos otorgados por Id del Departamento y el estado", response = PermisoOtorgadoDTO.class, responseContainer = "List", tags = "Permisos Otorgados")
+    @GetMapping("/permiso/{id}{estado}")
+    @ApiOperation(value = "Obtiene una lista de permisos otorgados por Id del permiso y el estado", response = PermisoOtorgadoDTO.class, responseContainer = "List", tags = "Permisos Otorgados")
     @PreAuthorize("hasAuthority('PERMISO_OTORGADO_CONSULTAR')")
     public ResponseEntity<?> findByPermisoIdAndEstado(@PathVariable(value = "id") Long id, boolean estado) {
         try {
@@ -90,8 +90,8 @@ public class PermisoOtorgadoController {
         }
     }
 
-    @GetMapping("/departamento/{id}")
-    @ApiOperation(value = "Obtiene una lista de permuisos otorgados por de fechas", response = PermisoOtorgadoDTO.class, responseContainer = "List", tags = "Permisos Otorgados")
+    @GetMapping("/{fecha}")
+    @ApiOperation(value = "Obtiene una lista de permisos otorgados por fechas", response = PermisoOtorgadoDTO.class, responseContainer = "List", tags = "Permisos Otorgados")
     @PreAuthorize("hasAuthority('PERMISO_OTORGADO_CONSULTAR')")
     public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "id") Date fech1, Date fech2) {
         try {
@@ -118,7 +118,7 @@ public class PermisoOtorgadoController {
         }
     }
 
- 
+    @PutMapping("/{id}")
     @ApiOperation(value = "Permite modificar un permiso otorgado a partir de su Id", response = PermisoOtorgadoDTO.class, tags = "Permisos Otorgados")
     @PreAuthorize("hasAuthority('PERMISO_OTORGADO_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody PermisoOtorgadoDTO permisoOtorgadoDTO, BindingResult bindingResult) {
@@ -139,7 +139,7 @@ public class PermisoOtorgadoController {
     }
 
         @DeleteMapping("/{id}")
-    @ApiOperation(value = "Permite eliminar un permisos otorgados a partir de su Id", response = PermisoOtorgadoDTO.class, tags = "Permisos Otorgados")
+    @ApiOperation(value = "Permite eliminar un permiso otorgado a partir de su Id", response = PermisoOtorgadoDTO.class, tags = "Permisos Otorgados")
     @PreAuthorize("hasAuthority('PERMISO_OTORGADO_ELIMINAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
@@ -151,7 +151,7 @@ public class PermisoOtorgadoController {
     }
 
     @DeleteMapping("/")
-    @ApiOperation(value = "Permite eliminar todos los Usuarios", response = PermisoOtorgadoDTO.class, tags = "Permisos Otorgados")
+    @ApiOperation(value = "Permite eliminar todos los permisos otorgados", response = PermisoOtorgadoDTO.class, tags = "Permisos Otorgados")
     @PreAuthorize("hasAuthority('PERMISO_OTORGADO_ELIMINAR_TODO')")
     public ResponseEntity<?> deleteAll() {
         try {

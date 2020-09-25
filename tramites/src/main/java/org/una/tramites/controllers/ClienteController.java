@@ -54,45 +54,45 @@ public class ClienteController {
         }
     }
 
-    @GetMapping("/cedula")
-    @ApiOperation(value = "Obtiene una lista de clientes por cédula", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
+    @GetMapping("/{cedula}")
+    @ApiOperation(value = "Obtiene una lista de clientes por cedula", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
     @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR')")
-    public ResponseEntity<?> findByCedulaAproximate(@PathVariable(value = "termino") String term) {
+    public ResponseEntity<?> findByCedulaAproximate(@PathVariable(value = "cedula") String cedula) {
         try {
-            return new ResponseEntity(clienteService.findByCedulaAproximate(term), HttpStatus.OK);
+            return new ResponseEntity(clienteService.findByCedulaAproximate(cedula), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     
-    @GetMapping("/nombre")
+    @GetMapping("/{nombre}")
     @ApiOperation(value = "Obtiene una lista de clientes por nombre", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
     @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR')")
-    public ResponseEntity<?> findByNombreCompletoAproximateIgnoreCase(@PathVariable(value = "termino") String term) {
+    public ResponseEntity<?> findByNombreCompletoAproximateIgnoreCase(@PathVariable(value = "nombre") String nombre) {
         try {
-            return new ResponseEntity(clienteService.findByNombreCompletoAproximateIgnoreCase(term), HttpStatus.OK);
+            return new ResponseEntity(clienteService.findByNombreCompletoAproximateIgnoreCase(nombre), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     
-    @GetMapping("/nombre")
+    @GetMapping("/{estado}")
     @ApiOperation(value = "Obtiene una lista de clientes por estado", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
     @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR')")
-    public ResponseEntity<?> findByEstado(@PathVariable(value = "termino") boolean term) {
+    public ResponseEntity<?> findByEstado(@PathVariable(value = "estado") boolean estado) {
         try {
-            return new ResponseEntity(clienteService.findByEstado(term), HttpStatus.OK);
+            return new ResponseEntity(clienteService.findByEstado(estado), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
  
-    @GetMapping("/nombre")
-    @ApiOperation(value = "Obtiene una lista de clientes por estado", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
+    @GetMapping("/{fecha}")
+    @ApiOperation(value = "Obtiene una lista de clientes entre fechas", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
     @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR')")
-    public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "termino") Date term, Date term1) {
+    public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "fecha") Date fecha1, Date fecha2) {
         try {
-            return new ResponseEntity(clienteService.findByFechaRegistroBetween(term, term1), HttpStatus.OK);
+            return new ResponseEntity(clienteService.findByFechaRegistroBetween(fecha1, fecha2), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
