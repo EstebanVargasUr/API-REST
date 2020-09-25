@@ -3,12 +3,13 @@ package org.una.tramites.controllers;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.ArchivoRelacionadoDTO;
-import org.una.tramites.entities.ArchivoRelacionado;
 import org.una.tramites.services.IArchivoRelacionadoService;
 import org.una.tramites.utils.MapperUtils;
 
@@ -36,159 +36,142 @@ public class ArchivoRelacionadoController {
     @Autowired
     private IArchivoRelacionadoService archivoRelacionadoService;
      
-    @GetMapping() 
-     
-    @ApiOperation(value = "Obtiene una lista de todos los Archivos Relacionados", response = ArchivoRelacionadoDTO.class, responseContainer = "List", tags = "Archivos Relacionados")
+      final String MENSAJE_VERIFICAR_INFORMACION = "Debe verifiar el formato y la información de su solicitud con el formato esperado";
+
+    @GetMapping("/")
+    @ApiOperation(value = "Obtiene una lista de todos los Usuarios", response = ArchivoRelacionadoDTO.class, responseContainer = "List", tags = "Archivos Relacionados")
     @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_CONSULTAR_TODO')")
-    public @ResponseBody
-    ResponseEntity<?> findAll() {
+    public ResponseEntity<?> findAll() {
         try {
-            Optional<List<ArchivoRelacionadoDTO>> result = archivoRelacionadoService.findAll();
-            if (result.isPresent()) {
-                List<ArchivoRelacionadoDTO> archivoRelacionadoDTO = MapperUtils.DtoListFromEntityList(result.get(), ArchivoRelacionadoDTO.class);
-                return new ResponseEntity<>(archivoRelacionadoDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity(archivoRelacionadoService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(e.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_CONSULTAR')")
+    @ApiOperation(value = "Obtiene un archivo relacionado por su Id", response = ArchivoRelacionadoDTO.class, tags = "Archivos Relacionados")
+    public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
+        try {
+            return new ResponseEntity(archivoRelacionadoService.findById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/cedula/{nombre}")
+    @ApiOperation(value = "Obtiene una lista de archivos relacionados por el nombre", response = ArchivoRelacionadoDTO.class, responseContainer = "List", tags = "Archivos Relacionados")
+    @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_CONSULTAR')")
+    public ResponseEntity<?> findByNombreAproximateIgnoreCase(@PathVariable(value = "nombre") String term) {
+        try {
+            return new ResponseEntity(archivoRelacionadoService.findByNombreAproximateIgnoreCase(term), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
     
     @GetMapping("/{nombre}")
-    @ApiOperation(value = "Obtiene una lista de los Archivos Relacionados por medio del titulo", response = ArchivoRelacionadoDTO.class, responseContainer = "List", tags = "Archivos Relacionados")
+    @ApiOperation(value = "Obtiene una lista de archivos relacionados por el estado", response = ArchivoRelacionadoDTO.class, responseContainer = "List", tags = "Archivos Relacionados")
     @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_CONSULTAR')")
-    public ResponseEntity<?> findByNombreAproximateIgnoreCase(@PathVariable(value = "term") String term) {
+    public ResponseEntity<?> findByEstado(@PathVariable(value = "estado") boolean term) {
         try {
-            Optional<List<ArchivoRelacionadoDTO>> result = archivoRelacionadoService.findByNombreAproximateIgnoreCase(term);
-            if (result.isPresent()) {
-                List<ArchivoRelacionadoDTO> archivoRelacionadoDTO = MapperUtils.DtoListFromEntityList(result.get(), ArchivoRelacionadoDTO.class);
-                return new ResponseEntity<>(archivoRelacionadoDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity(archivoRelacionadoService.findByEstado(term), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     
-    @GetMapping("/{estado}") 
-    @ApiOperation(value = "Obtiene una lista de los Archivos Relacionados por estado", response = ArchivoRelacionadoDTO.class, responseContainer = "List", tags = "Archivos Relacionados")
-    @ResponseBody
+    @GetMapping("/{Tipo}")
+    @ApiOperation(value = "Obtiene una lista de archivos relacionados por el tipo", response = ArchivoRelacionadoDTO.class, responseContainer = "List", tags = "Archivos Relacionados")
     @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_CONSULTAR')")
-    public ResponseEntity<?> findByEstado(@PathVariable(value = "estado") boolean estado){
+    public ResponseEntity<?> findByTipo(@PathVariable(value = "tipo") boolean term) {
         try {
-            Optional<List<ArchivoRelacionadoDTO>> result = archivoRelacionadoService.findByEstado(estado);
-            if (result.isPresent()) {
-                List<ArchivoRelacionadoDTO> archivoRelacionadoDTO = MapperUtils.DtoListFromEntityList(result.get(), ArchivoRelacionadoDTO.class);
-                return new ResponseEntity<>(archivoRelacionadoDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity(archivoRelacionadoService.findByTipo(term), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     
-    @GetMapping("/{tipo}") 
-    @ApiOperation(value = "Obtiene una lista de los Archivos Relacionados por tipo", response = ArchivoRelacionadoDTO.class, responseContainer = "List", tags = "Archivos Relacionados")
-    @ResponseBody
+    @GetMapping("/{Fecha}")
+    @ApiOperation(value = "Obtiene una lista de archivos relacionados por medio de la fecha", response = ArchivoRelacionadoDTO.class, responseContainer = "List", tags = "Archivos Relacionados")
     @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_CONSULTAR')")
-    public ResponseEntity<?> findByTipo(@PathVariable(value = "tipo") boolean tipo){
+    public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "fecha") Date term, Date term1) {
         try {
-            Optional<List<ArchivoRelacionadoDTO>> result = archivoRelacionadoService.findByTipo(tipo);
-            if (result.isPresent()) {
-                List<ArchivoRelacionadoDTO> archivoRelacionadoDTO = MapperUtils.DtoListFromEntityList(result.get(), ArchivoRelacionadoDTO.class);
-                return new ResponseEntity<>(archivoRelacionadoDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity(archivoRelacionadoService.findByFechaRegistroBetween(term,term1), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     
-    @GetMapping("/{fecha}") 
-    @ApiOperation(value = "Obtiene una lista con los Archivos Relacionados, entre las fechas especificadas", response = ArchivoRelacionadoDTO.class, responseContainer = "List", tags = "Archivos Relacionados")
+    @GetMapping("/{Tramite}")
+    @ApiOperation(value = "Obtiene una lista de archivos relacionados por medio del id de un tramite registrado", response = ArchivoRelacionadoDTO.class, responseContainer = "List", tags = "Archivos Relacionados")
     @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_CONSULTAR')")
-    public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "Fecha inicial") Date FechIni,@PathVariable(value = "Fecha final") Date FechFin) {
+    public ResponseEntity<?> findByTramiteRegistradoId(@PathVariable(value = "tramite") Long term) {
         try {
-
-            Optional<List<ArchivoRelacionadoDTO>> archivoRelacionadoFound = archivoRelacionadoService.findByFechaRegistroBetween(FechIni,FechFin);
-            if (archivoRelacionadoFound.isPresent()) {
-                ArchivoRelacionadoDTO archivoRelacionadoDto = MapperUtils.DtoFromEntity(archivoRelacionadoFound.get(), ArchivoRelacionadoDTO.class);
-                return new ResponseEntity<>(archivoRelacionadoDto, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity(archivoRelacionadoService.findByTramiteRegistradoId(term), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     
-    @GetMapping("/tramiteRegistrado/{id}")
-    @ApiOperation(value = "Obtiene una lista con los Archivos Relacionados por Tramite Registrado", response = ArchivoRelacionadoDTO.class, responseContainer = "List", tags = "Archivos Relacionados")
-    @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_CONSULTAR')")
-    public ResponseEntity<?> findByTramiteRegistradoId(@PathVariable(value = "term") long term) {
-        try {
-            Optional<List<ArchivoRelacionadoDTO>> result = archivoRelacionadoService.findByTramiteRegistradoId(term);
-            if (result.isPresent()) {
-                List<ArchivoRelacionadoDTO> archivoRelacionadoDTO = MapperUtils.DtoListFromEntityList(result.get(), ArchivoRelacionadoDTO.class);
-                return new ResponseEntity<>(archivoRelacionadoDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    
-    @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/") 
-    @ResponseBody
-    @ApiOperation(value = "Permite crear un Archivo Relacionado", response = ArchivoRelacionadoDTO.class, tags = "Archivos Relacionados")
+    @PostMapping("/")
+    @ApiOperation(value = "Permite crear un archivo relacionado", response = ArchivoRelacionadoDTO.class, tags = "Archivos Relacionados")
     @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_CREAR')")
-    public ResponseEntity<?> create(@RequestBody ArchivoRelacionadoDTO archivoRelacionado) {
-        try {
-            ArchivoRelacionadoDTO archivoRelacionadoCreated = archivoRelacionadoService.create(archivoRelacionado);
-            ArchivoRelacionadoDTO archivoRelacionadoDto = MapperUtils.DtoFromEntity(archivoRelacionadoCreated, ArchivoRelacionadoDTO.class);
-            return new ResponseEntity<>(archivoRelacionadoDto, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PutMapping("/{id}") 
-    @ResponseBody
-    @ApiOperation(value = "Permite modificar un Archivo Relacionado a partir de su Id", response = ArchivoRelacionadoDTO.class, tags = "Archivos Relacionados")
-    @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_MODIFICAR')")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody ArchivoRelacionadoDTO archivoRelacionadoModified) {
-        try {
-            Optional<ArchivoRelacionadoDTO> archivoRelacionadoUpdated = archivoRelacionadoService.update(archivoRelacionadoModified, id);
-            if (archivoRelacionadoUpdated.isPresent()) {
-                ArchivoRelacionadoDTO parametroGeneralDto = MapperUtils.DtoFromEntity(archivoRelacionadoUpdated.get(), ArchivoRelacionadoDTO.class);
-                return new ResponseEntity<>(parametroGeneralDto, HttpStatus.OK);
-
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
+    public ResponseEntity<?> create(@Valid @RequestBody ArchivoRelacionadoDTO archivoRelacionadoDTO, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            try {
+                return new ResponseEntity(archivoRelacionadoService.create(archivoRelacionadoDTO), HttpStatus.CREATED);
+            } catch (Exception e) {
+                return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        } else {
+            return new ResponseEntity(MENSAJE_VERIFICAR_INFORMACION, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @DeleteMapping("/{id}") 
+    @PutMapping("/{id}")
+    @ApiOperation(value = "Permite modificar un archivo relacionado a partir de su Id", response = ArchivoRelacionadoDTO.class, tags = "Archivos Relacionados")
+    @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_MODIFICAR')")
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody ArchivoRelacionadoDTO archivoRelacionadoDTO, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            try {
+                Optional<ArchivoRelacionadoDTO> archivoRelacionadoUpdated = archivoRelacionadoService.update(archivoRelacionadoDTO, id);
+                if (archivoRelacionadoUpdated.isPresent()) {
+                    return new ResponseEntity(archivoRelacionadoUpdated, HttpStatus.OK);
+                } else {
+                    return new ResponseEntity(HttpStatus.NOT_FOUND);
+                }
+            } catch (Exception e) {
+                return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } else {
+            return new ResponseEntity(MENSAJE_VERIFICAR_INFORMACION, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+  @DeleteMapping("/{id}")
+    @ApiOperation(value = "Permite eliminar un archivo relacionado a partir de su Id", response = ArchivoRelacionadoDTO.class, tags = "Archivos Relacionados")
     @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_ELIMINAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-        return null;
-//TODO: Implementar este método
+        try {
+            archivoRelacionadoService.delete(id);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    @DeleteMapping("/") 
+    @DeleteMapping("/")
+    @ApiOperation(value = "Permite eliminar todos los archivos relacionados", response = ArchivoRelacionadoDTO.class, tags = "Archivos Relacionados")
     @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_ELIMINAR_TODO')")
     public ResponseEntity<?> deleteAll() {
-        return null;
- 	//TODO: Implementar este método
-    } 
+        try {
+            archivoRelacionadoService.deleteAll();
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

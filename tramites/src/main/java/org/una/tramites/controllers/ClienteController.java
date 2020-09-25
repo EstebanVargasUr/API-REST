@@ -3,12 +3,13 @@ package org.una.tramites.controllers;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,13 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.ClienteDTO;
-import org.una.tramites.entities.Cliente;
 import org.una.tramites.services.IClienteService;
-import org.una.tramites.utils.MapperUtils;
 
 @RestController
 @RequestMapping("/clientes") 
@@ -33,159 +30,130 @@ public class ClienteController {
     private IClienteService clienteService;
   
 
-    @GetMapping() 
+    final String MENSAJE_VERIFICAR_INFORMACION = "Debe verifiar el formato y la información de su solicitud con el formato esperado";
+
+    @GetMapping("/")
     @ApiOperation(value = "Obtiene una lista de todos los clientes", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
     @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR_TODO')")
-    public @ResponseBody
-    ResponseEntity<?> findAll() {
+    public ResponseEntity<?> findAll() {
         try {
-            Optional<List<ClienteDTO>> result = clienteService.findAll();
-            if (result.isPresent()) {
-                List<ClienteDTO> clienteDTO = MapperUtils.DtoListFromEntityList(result.get(), ClienteDTO.class);
-                return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity(clienteService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(e.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR')")
+    @ApiOperation(value = "Obtiene un cliente por su Id", response = ClienteDTO.class, tags = "Clientes")
+    public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
+        try {
+            return new ResponseEntity(clienteService.findById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/cedula")
+    @ApiOperation(value = "Obtiene una lista de clientes por cédula", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
+    @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR')")
+    public ResponseEntity<?> findByCedulaAproximate(@PathVariable(value = "termino") String term) {
+        try {
+            return new ResponseEntity(clienteService.findByCedulaAproximate(term), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/nombre")
+    @ApiOperation(value = "Obtiene una lista de clientes por nombre", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
+    @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR')")
+    public ResponseEntity<?> findByNombreCompletoAproximateIgnoreCase(@PathVariable(value = "termino") String term) {
+        try {
+            return new ResponseEntity(clienteService.findByNombreCompletoAproximateIgnoreCase(term), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/nombre")
+    @ApiOperation(value = "Obtiene una lista de clientes por estado", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
+    @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR')")
+    public ResponseEntity<?> findByEstado(@PathVariable(value = "termino") boolean term) {
+        try {
+            return new ResponseEntity(clienteService.findByEstado(term), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
  
-
-    @GetMapping("/{id}") 
-    @ApiOperation(value = "Obtiene una lista con el cliente por medio del Id", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
+    @GetMapping("/nombre")
+    @ApiOperation(value = "Obtiene una lista de clientes por estado", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
     @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR')")
-    public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "termino") Date term, Date term1) {
         try {
-
-            Optional<ClienteDTO> clienteFound = clienteService.findById(id);
-            if (clienteFound.isPresent()) {
-                ClienteDTO clientesDto = MapperUtils.DtoFromEntity(clienteFound.get(), ClienteDTO.class);
-                return new ResponseEntity<>(clientesDto, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity(clienteService.findByFechaRegistroBetween(term, term1), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/{cedula}{aproximado}") 
-    @ApiOperation(value = "Obtiene una lista con el cliente por medio de la cédula", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
-    @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR')")
-    public ResponseEntity<?> findByCedulaAproximate(@PathVariable(value = "term") String term) {
-        try {
-            Optional<List<ClienteDTO>> result = clienteService.findByCedulaAproximate(term);
-            if (result.isPresent()) {
-                List<ClienteDTO> clienteDTO = MapperUtils.DtoListFromEntityList(result.get(), ClienteDTO.class);
-                return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/{nombre}")
-    @ApiOperation(value = "Obtiene una lista con el cliente por medio del nombre", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
-    @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR')")
-    public ResponseEntity<?> findByNombreCompletoAproximateIgnoreCase(@PathVariable(value = "term") String term) {
-        try {
-            Optional<List<ClienteDTO>> result = clienteService.findByNombreCompletoAproximateIgnoreCase(term);
-            if (result.isPresent()) {
-                List<ClienteDTO> clientesDTO = MapperUtils.DtoListFromEntityList(result.get(), ClienteDTO.class);
-                return new ResponseEntity<>(clientesDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     
-    
-     @GetMapping("/{estado}") 
-    @ApiOperation(value = "Obtiene una lista de los clientes por estado", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
-    @ResponseBody
-    @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR')")
-     public ResponseEntity<?> findByEstado(@PathVariable(value = "estado") boolean estado){
-        try {
-            Optional<List<ClienteDTO>> result = clienteService.findByEstado(estado);
-            if (result.isPresent()) {
-                List<ClienteDTO> clienteDTO = MapperUtils.DtoListFromEntityList(result.get(), ClienteDTO.class);
-                return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    
-    @GetMapping("/{fecha}") 
-    @ApiOperation(value = "Obtiene una lista con los clientes, entre las fechas especificadas", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
-    @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR')")
-    public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "Fecha inicial") Date FechIni,@PathVariable(value = "Fecha final") Date FechFin) {
-        try {
-
-            Optional<List<ClienteDTO>> clienteFound = clienteService.findByFechaRegistroBetween(FechIni,FechFin);
-            if (clienteFound.isPresent()) {
-                ClienteDTO clienteDto = MapperUtils.DtoFromEntity(clienteFound.get(), ClienteDTO.class);
-                return new ResponseEntity<>(clienteDto, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/") 
-    @ResponseBody
+   @PostMapping("/")
     @ApiOperation(value = "Permite crear un cliente", response = ClienteDTO.class, tags = "Clientes")
     @PreAuthorize("hasAuthority('CLIENTE_CREAR')")
-    public ResponseEntity<?> create(@RequestBody ClienteDTO cliente) {
-        try {
-            ClienteDTO clienteCreated = clienteService.create(cliente);
-            ClienteDTO clienteDto = MapperUtils.DtoFromEntity(clienteCreated, ClienteDTO.class);
-            return new ResponseEntity<>(clienteDto, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PutMapping("/{id}") 
-    @PreAuthorize("hasAuthority('CLIENTE_MODIFICAR')")@ResponseBody
-    @ApiOperation(value = "Permite modificar un cliente a partir de su Id", response = ClienteDTO.class, tags = "Clientes")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody ClienteDTO clienteModified) {
-        try {
-            Optional<ClienteDTO> clienteUpdated = clienteService.update(clienteModified, id);
-            if (clienteUpdated.isPresent()) {
-                ClienteDTO clienteDto = MapperUtils.DtoFromEntity(clienteUpdated.get(), ClienteDTO.class);
-                return new ResponseEntity<>(clienteDto, HttpStatus.OK);
-
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
+    public ResponseEntity<?> create(@Valid @RequestBody ClienteDTO clienteDTO, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            try {
+                return new ResponseEntity(clienteService.create(clienteDTO), HttpStatus.CREATED);
+            } catch (Exception e) {
+                return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        } else {
+            return new ResponseEntity(MENSAJE_VERIFICAR_INFORMACION, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @DeleteMapping("/{id}") 
+    @PutMapping("/{id}")
+    @ApiOperation(value = "Permite modificar un cliente a partir de su Id", response = ClienteDTO.class, tags = "Clientes")
+    @PreAuthorize("hasAuthority('CLIENTE_MODIFICAR')")
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody ClienteDTO clienteDTO, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            try {
+                Optional<ClienteDTO> clienteUpdated = clienteService.update(clienteDTO, id);
+                if (clienteUpdated.isPresent()) {
+                    return new ResponseEntity(clienteUpdated, HttpStatus.OK);
+                } else {
+                    return new ResponseEntity(HttpStatus.NOT_FOUND);
+                }
+            } catch (Exception e) {
+                return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } else {
+            return new ResponseEntity(MENSAJE_VERIFICAR_INFORMACION, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    @ApiOperation(value = "Permite eliminar un cliente a partir de su Id", response = ClienteDTO.class, tags = "Clientes")
     @PreAuthorize("hasAuthority('CLIENTE_ELIMINAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-        return null;
-//TODO: Implementar este método
+        try {
+            clienteService.delete(id);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    @DeleteMapping("/") 
+    @DeleteMapping("/")
+    @ApiOperation(value = "Permite eliminar todos los clientes", response = ClienteDTO.class, tags = "Clientes")
     @PreAuthorize("hasAuthority('CLIENTE_ELIMINAR_TODO')")
     public ResponseEntity<?> deleteAll() {
-        return null;
- 	//TODO: Implementar este método
-    } 
+        try {
+            clienteService.deleteAll();
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
-
