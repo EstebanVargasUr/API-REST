@@ -11,6 +11,7 @@ import org.una.tramites.dto.TramiteTipoDTO;
  * @author acer
  */
 public interface ITramiteTipoService {
+    
     public Optional<List<TramiteTipoDTO>> findAll();
 
     public Optional<TramiteTipoDTO> findById(Long id);
@@ -21,14 +22,12 @@ public interface ITramiteTipoService {
 
     public Optional<List<TramiteTipoDTO>>  findByDepartamentoId(Long id);
 
-    public TramiteTipoDTO create(TramiteTipoDTO tramite_tipo);
+    public TramiteTipoDTO create(TramiteTipoDTO tramiteTipoDTO);
 
-    public Optional<TramiteTipoDTO> update(TramiteTipoDTO tramite_tipo, Long id);
+    public Optional<TramiteTipoDTO> update(TramiteTipoDTO tramiteTipoDTO, Long id);
 
     public void delete(Long id);
 
     public void deleteAll();
-
-
     
 }

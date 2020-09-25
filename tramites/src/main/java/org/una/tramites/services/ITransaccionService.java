@@ -4,10 +4,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.una.tramites.dto.TransaccionDTO;
-import org.una.tramites.entities.Transaccion;
 
 public interface ITransaccionService {
 
+    public Optional<List<TransaccionDTO>> findAll();
+    
     public Optional<TransaccionDTO> findById(Long id);
 
     public Optional<List<TransaccionDTO>> findByUsuarioIdAndFechaRegistroBetween(Long usuarioId, Date startDate, Date endDate);
@@ -18,7 +19,7 @@ public interface ITransaccionService {
 
     public Optional<List<TransaccionDTO>> findByFechaRegistroBetween(Date startDate, Date endDate);
 
-    public TransaccionDTO create(TransaccionDTO transaccion);
+    public TransaccionDTO create(TransaccionDTO transaccionDTO);
 }
 
 

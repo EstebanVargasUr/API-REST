@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.una.tramites.dto.VariacionDTO;
-import org.una.tramites.entities.Variacion;
 
 /**
  *
@@ -16,7 +15,7 @@ public interface IVariacionService {
 
     public Optional<VariacionDTO> findById(Long id);
     
-    public Optional<List<VariacionDTO>>  findByTramite_tipoId(Long id);
+    public Optional<List<VariacionDTO>>  findByTramiteTipoId(Long id);
 
     public Optional<List<VariacionDTO>>  findByEstado(boolean estado);
     
