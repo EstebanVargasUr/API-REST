@@ -16,12 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.DepartamentoDTO;
 import org.una.tramites.services.IDepartamentoService;
-import org.una.tramites.utils.MapperUtils;
 
 /**
  *
@@ -39,7 +36,7 @@ public class DepartamentoController {
 
     @GetMapping("/")
     @ApiOperation(value = "Obtiene una lista de todos los departamentos", response = DepartamentoDTO.class, responseContainer = "List", tags = "Departamentos")
-    @PreAuthorize("hasAuthority('DEPARTAMENTO_CONSULTAR_TODO')")
+    @PreAuthorize("hasAuthority('DEP7')")
     public ResponseEntity<?> findAll() {
         try {
             return new ResponseEntity(departamentoService.findAll(), HttpStatus.OK);
@@ -48,10 +45,10 @@ public class DepartamentoController {
         }
     }
 
-    @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('DEPARTAMENTO_CONSULTAR')")
+    @GetMapping("/id/{termino}")
+    @PreAuthorize("hasAuthority('DEP4')")
     @ApiOperation(value = "Obtiene un departamento por su Id", response = DepartamentoDTO.class, tags = "Departamentos")
-    public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> findById(@PathVariable(value = "termino") Long id) {
         try {
             return new ResponseEntity(departamentoService.findById(id), HttpStatus.OK);
         } catch (Exception e) {
@@ -59,10 +56,10 @@ public class DepartamentoController {
         }
     }
     
-    @GetMapping("/{estado}")
-    @PreAuthorize("hasAuthority('DEPARTAMENTO_CONSULTAR')")
+    @GetMapping("/estado/{termino}")
+    @PreAuthorize("hasAuthority('DEP4')")
     @ApiOperation(value = "Obtiene un departamento por su estado", response = DepartamentoDTO.class, tags = "Departamentos")
-    public ResponseEntity<?> findByEstado(@PathVariable(value = "estado") boolean estado) {
+    public ResponseEntity<?> findByEstado(@PathVariable(value = "termino") boolean estado) {
         try {
             return new ResponseEntity(departamentoService.findByEstado(estado), HttpStatus.OK);
         } catch (Exception e) {
@@ -72,7 +69,7 @@ public class DepartamentoController {
     
     @PostMapping("/")
     @ApiOperation(value = "Permite crear un departamento", response = DepartamentoDTO.class, tags = "Departamentos")
-    @PreAuthorize("hasAuthority('DEPARTAMENTO_CREAR')")
+    @PreAuthorize("hasAuthority('DEP1')")
     public ResponseEntity<?> create(@Valid @RequestBody DepartamentoDTO departamentoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -87,7 +84,7 @@ public class DepartamentoController {
     
     @PutMapping("/{id}")
     @ApiOperation(value = "Permite modificar un departamento a partir de su Id", response = DepartamentoDTO.class, tags = "Departamentos")
-    @PreAuthorize("hasAuthority('DEPARTAMENTO_MODIFICAR')")
+    @PreAuthorize("hasAuthority('DEP2')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody DepartamentoDTO departamentoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -107,7 +104,7 @@ public class DepartamentoController {
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Permite eliminar un departamento a partir de su Id", response = DepartamentoDTO.class, tags = "Departamentos")
-    @PreAuthorize("hasAuthority('DEPARTAMENTO_ELIMINAR')")
+    @PreAuthorize("hasAuthority('DEP5')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
             departamentoService.delete(id);
@@ -119,7 +116,7 @@ public class DepartamentoController {
 
     @DeleteMapping("/")
     @ApiOperation(value = "Permite eliminar todos los departamentos", response = DepartamentoDTO.class, tags = "Departamentos")
-    @PreAuthorize("hasAuthority('DEPARTAMENTO_ELIMINAR_TODO')")
+    @PreAuthorize("hasAuthority('DEP6')")
     public ResponseEntity<?> deleteAll() {
         try {
             departamentoService.deleteAll();

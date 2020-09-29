@@ -17,12 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.ArchivoRelacionadoDTO;
 import org.una.tramites.services.IArchivoRelacionadoService;
-import org.una.tramites.utils.MapperUtils;
 
 /**
  *
@@ -36,11 +33,11 @@ public class ArchivoRelacionadoController {
     @Autowired
     private IArchivoRelacionadoService archivoRelacionadoService;
      
-      final String MENSAJE_VERIFICAR_INFORMACION = "Debe verifiar el formato y la información de su solicitud con el formato esperado";
+    final String MENSAJE_VERIFICAR_INFORMACION = "Debe verifiar el formato y la información de su solicitud con el formato esperado";
 
     @GetMapping("/")
     @ApiOperation(value = "Obtiene una lista de todos los archivos relacionados", response = ArchivoRelacionadoDTO.class, responseContainer = "List", tags = "Archivos Relacionados")
-    @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_CONSULTAR_TODO')")
+    @PreAuthorize("hasAuthority('AR4')")
     public ResponseEntity<?> findAll() {
         try {
             return new ResponseEntity(archivoRelacionadoService.findAll(), HttpStatus.OK);
@@ -49,10 +46,10 @@ public class ArchivoRelacionadoController {
         }
     }
     
-    @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_CONSULTAR')")
+    @GetMapping("/id/{termino}")
+    @PreAuthorize("hasAuthority('AR3')")
     @ApiOperation(value = "Obtiene un archivo relacionado por su Id", response = ArchivoRelacionadoDTO.class, tags = "Archivos Relacionados")
-    public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> findById(@PathVariable(value = "termino") Long id) {
         try {
             return new ResponseEntity(archivoRelacionadoService.findById(id), HttpStatus.OK);
         } catch (Exception e) {
@@ -60,10 +57,10 @@ public class ArchivoRelacionadoController {
         }
     }
 
-    @GetMapping("/{nombre}")
+    @GetMapping("/nombre/{termino}")
     @ApiOperation(value = "Obtiene una lista de archivos relacionados por el nombre", response = ArchivoRelacionadoDTO.class, responseContainer = "List", tags = "Archivos Relacionados")
-    @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_CONSULTAR')")
-    public ResponseEntity<?> findByNombreAproximateIgnoreCase(@PathVariable(value = "nombre") String nombre) {
+    @PreAuthorize("hasAuthority('AR3')")
+    public ResponseEntity<?> findByNombreAproximateIgnoreCase(@PathVariable(value = "termino") String nombre) {
         try {
             return new ResponseEntity(archivoRelacionadoService.findByNombreAproximateIgnoreCase(nombre), HttpStatus.OK);
         } catch (Exception e) {
@@ -72,10 +69,10 @@ public class ArchivoRelacionadoController {
     }
     
     
-    @GetMapping("/{estado}")
+    @GetMapping("/estado/{termino}")
     @ApiOperation(value = "Obtiene una lista de archivos relacionados por el estado", response = ArchivoRelacionadoDTO.class, responseContainer = "List", tags = "Archivos Relacionados")
-    @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_CONSULTAR')")
-    public ResponseEntity<?> findByEstado(@PathVariable(value = "estado") boolean estado) {
+    @PreAuthorize("hasAuthority('AR3')")
+    public ResponseEntity<?> findByEstado(@PathVariable(value = "termino") boolean estado) {
         try {
             return new ResponseEntity(archivoRelacionadoService.findByEstado(estado), HttpStatus.OK);
         } catch (Exception e) {
@@ -83,10 +80,10 @@ public class ArchivoRelacionadoController {
         }
     }
     
-    @GetMapping("/{tipo}")
+    @GetMapping("/tipo/{termino}")
     @ApiOperation(value = "Obtiene una lista de archivos relacionados por el tipo", response = ArchivoRelacionadoDTO.class, responseContainer = "List", tags = "Archivos Relacionados")
-    @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_CONSULTAR')")
-    public ResponseEntity<?> findByTipo(@PathVariable(value = "tipo") boolean tipo) {
+    @PreAuthorize("hasAuthority('AR3')")
+    public ResponseEntity<?> findByTipo(@PathVariable(value = "termino") boolean tipo) {
         try {
             return new ResponseEntity(archivoRelacionadoService.findByTipo(tipo), HttpStatus.OK);
         } catch (Exception e) {
@@ -94,10 +91,10 @@ public class ArchivoRelacionadoController {
         }
     }
     
-    @GetMapping("/{fecha}")
+    @GetMapping("/fecha/{termino}")
     @ApiOperation(value = "Obtiene una lista de archivos relacionados por medio de la fecha", response = ArchivoRelacionadoDTO.class, responseContainer = "List", tags = "Archivos Relacionados")
-    @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_CONSULTAR')")
-    public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "fecha") Date fecha1, Date fecha2) {
+    @PreAuthorize("hasAuthority('AR3')")
+    public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "termino") Date fecha1, Date fecha2) {
         try {
             return new ResponseEntity(archivoRelacionadoService.findByFechaRegistroBetween(fecha1,fecha2), HttpStatus.OK);
         } catch (Exception e) {
@@ -105,10 +102,10 @@ public class ArchivoRelacionadoController {
         }
     }
     
-    @GetMapping("/{tramite}")
+    @GetMapping("/tramiteId/{termino}")
     @ApiOperation(value = "Obtiene una lista de archivos relacionados por medio del id de un tramite registrado", response = ArchivoRelacionadoDTO.class, responseContainer = "List", tags = "Archivos Relacionados")
-    @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_CONSULTAR')")
-    public ResponseEntity<?> findByTramiteRegistradoId(@PathVariable(value = "tramiteId") Long id) {
+    @PreAuthorize("hasAuthority('AR3')")
+    public ResponseEntity<?> findByTramiteRegistradoId(@PathVariable(value = "termino") Long id) {
         try {
             return new ResponseEntity(archivoRelacionadoService.findByTramiteRegistradoId(id), HttpStatus.OK);
         } catch (Exception e) {
@@ -118,7 +115,7 @@ public class ArchivoRelacionadoController {
     
     @PostMapping("/")
     @ApiOperation(value = "Permite crear un archivo relacionado", response = ArchivoRelacionadoDTO.class, tags = "Archivos Relacionados")
-    @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_CREAR')")
+    @PreAuthorize("hasAuthority('AR1')")
     public ResponseEntity<?> create(@Valid @RequestBody ArchivoRelacionadoDTO archivoRelacionadoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -133,7 +130,7 @@ public class ArchivoRelacionadoController {
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Permite modificar un archivo relacionado a partir de su Id", response = ArchivoRelacionadoDTO.class, tags = "Archivos Relacionados")
-    @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_MODIFICAR')")
+    @PreAuthorize("hasAuthority('AR2')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody ArchivoRelacionadoDTO archivoRelacionadoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -153,7 +150,7 @@ public class ArchivoRelacionadoController {
 
   @DeleteMapping("/{id}")
     @ApiOperation(value = "Permite eliminar un archivo relacionado a partir de su Id", response = ArchivoRelacionadoDTO.class, tags = "Archivos Relacionados")
-    @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_ELIMINAR')")
+    @PreAuthorize("hasAuthority('AR5')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
             archivoRelacionadoService.delete(id);
@@ -165,7 +162,7 @@ public class ArchivoRelacionadoController {
 
     @DeleteMapping("/")
     @ApiOperation(value = "Permite eliminar todos los archivos relacionados", response = ArchivoRelacionadoDTO.class, tags = "Archivos Relacionados")
-    @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_ELIMINAR_TODO')")
+    @PreAuthorize("hasAuthority('AR6')")
     public ResponseEntity<?> deleteAll() {
         try {
             archivoRelacionadoService.deleteAll();

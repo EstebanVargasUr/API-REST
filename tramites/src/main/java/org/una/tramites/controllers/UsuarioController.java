@@ -32,7 +32,7 @@ import org.springframework.validation.BindingResult;
 
     @GetMapping("/")
     @ApiOperation(value = "Obtiene una lista de todos los Usuarios", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
-    @PreAuthorize("hasAuthority('USUARIO_CONSULTAR_TODO')")
+    @PreAuthorize("hasAuthority('USU5')")
     public ResponseEntity<?> findAll() {
         try {
             return new ResponseEntity(usuarioService.findAll(), HttpStatus.OK);
@@ -42,7 +42,7 @@ import org.springframework.validation.BindingResult;
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('USUARIO_CONSULTAR')")
+    @PreAuthorize("hasAuthority('USU4')")
     @ApiOperation(value = "Obtiene un Usuario por su Id", response = UsuarioDTO.class, tags = "Usuarios")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
@@ -54,7 +54,7 @@ import org.springframework.validation.BindingResult;
 
     @GetMapping("/cedula/{termino}")
     @ApiOperation(value = "Obtiene una lista de Usuarios por cédula", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
-    @PreAuthorize("hasAuthority('USUARIO_CONSULTAR')")
+    @PreAuthorize("hasAuthority('USU4')")
     public ResponseEntity<?> findByCedulaAproximate(@PathVariable(value = "termino") String term) {
         try {
             return new ResponseEntity(usuarioService.findByCedulaAproximate(term), HttpStatus.OK);
@@ -65,7 +65,7 @@ import org.springframework.validation.BindingResult;
 
     @GetMapping("/nombre/{termino}")
     @ApiOperation(value = "Obtiene una lista de Usuarios por nombre completo", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
-    @PreAuthorize("hasAuthority('USUARIO_CONSULTAR')")
+    @PreAuthorize("hasAuthority('USU4')")
     public ResponseEntity<?> findByNombreCompletoAproximateIgnoreCase(@PathVariable(value = "termino") String term) {
         try {
             return new ResponseEntity(usuarioService.findByNombreCompletoAproximateIgnoreCase(term), HttpStatus.OK);
@@ -76,7 +76,7 @@ import org.springframework.validation.BindingResult;
 
     @GetMapping("/departamento/{id}")
     @ApiOperation(value = "Obtiene una lista de Usuarios por Id del Departamento", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
-    @PreAuthorize("hasAuthority('USUARIO_CONSULTAR')")
+    @PreAuthorize("hasAuthority('USU4')")
     public ResponseEntity<?> findByDepartamentoId(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity(usuarioService.findByDepartamentoId(id), HttpStatus.OK);
@@ -88,7 +88,7 @@ import org.springframework.validation.BindingResult;
 
     @PostMapping("/")
     @ApiOperation(value = "Permite crear un Usuario", response = UsuarioDTO.class, tags = "Usuarios")
-    @PreAuthorize("hasAuthority('USUARIO_CREAR')")
+    @PreAuthorize("hasAuthority('USU1')")
     public ResponseEntity<?> create(@Valid @RequestBody UsuarioDTO usuarioDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -103,7 +103,7 @@ import org.springframework.validation.BindingResult;
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Permite modificar un Usuario a partir de su Id", response = UsuarioDTO.class, tags = "Usuarios")
-    @PreAuthorize("hasAuthority('USUARIO_MODIFICAR')")
+    @PreAuthorize("hasAuthority('USU2')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody UsuarioDTO usuarioDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -121,9 +121,10 @@ import org.springframework.validation.BindingResult;
         }
     }
 
+
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Permite eliminar un Usuario a partir de su Id", response = UsuarioDTO.class, tags = "Usuarios")
-    @PreAuthorize("hasAuthority('USUARIO_ELIMINAR')")
+    @PreAuthorize("hasAuthority('USU6')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
             usuarioService.delete(id);
@@ -135,7 +136,7 @@ import org.springframework.validation.BindingResult;
 
     @DeleteMapping("/")
     @ApiOperation(value = "Permite eliminar todos los Usuarios", response = UsuarioDTO.class, tags = "Usuarios")
-    @PreAuthorize("hasAuthority('USUARIO_ELIMINAR_TODO')")
+    @PreAuthorize("hasAuthority('USU7')")
     public ResponseEntity<?> deleteAll() {
         try {
             usuarioService.deleteAll();

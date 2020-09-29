@@ -3,7 +3,6 @@ package org.una.tramites.controllers;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,13 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.TramiteCambioEstadoDTO;
-import org.una.tramites.entities.TramiteCambioEstado;
 import org.una.tramites.services.ITramiteCambioEstadoService;
-import org.una.tramites.utils.MapperUtils;
 
 import javax.validation.Valid;
 
@@ -43,7 +38,7 @@ public class TramiteCambioEstadoController {
 
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los tramites de cambio de estado ", response = TramiteCambioEstadoDTO.class, responseContainer = "List", tags = "Tramites Cambios Estados")
-    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR_TODO')")
+    @PreAuthorize("hasAuthority('TRA6')")
     public ResponseEntity<?> findAll() {
         try{
                 return new ResponseEntity( tramiteCambioEstadoService.findAll(), HttpStatus.OK);
@@ -53,10 +48,10 @@ public class TramiteCambioEstadoController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{termino}")
     @ApiOperation(value = "Obtiene una lista con el tramite de cambio de estado por medio del id", response = TramiteCambioEstadoDTO.class, responseContainer = "List", tags = "Tramites Cambios Estados")
-    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR')")
-    public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
+    @PreAuthorize("hasAuthority('TRA5')")
+    public ResponseEntity<?> findById(@PathVariable(value = "termino") Long id) {
         try {
                 return new ResponseEntity(tramiteCambioEstadoService.findById(id), HttpStatus.OK);
 
@@ -67,7 +62,7 @@ public class TramiteCambioEstadoController {
 
     @PostMapping("/")
     @ApiOperation(value = "Permite crear un tramite de cambio de estado", response = TramiteCambioEstadoDTO.class, tags = "Tramites Cambios Estados")
-    @PreAuthorize("hasAuthority('TRAMITE_REGISTRAR')")
+    @PreAuthorize("hasAuthority('TRA1')")
     public ResponseEntity<?> create(@Valid @RequestBody TramiteCambioEstadoDTO TramiteCambioEstadoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
 
@@ -82,7 +77,7 @@ public class TramiteCambioEstadoController {
         }
     @PutMapping("/{id}")
     @ApiOperation(value = "Permite modificar un tramite de cambio de estado a partir de su Id", response = TramiteCambioEstadoDTO.class, tags = "Tramites Cambios Estados")
-    @PreAuthorize("hasAuthority('TRAMITE_MODIFICAR')")
+    @PreAuthorize("hasAuthority('TRA2')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id,@Valid @RequestBody TramiteCambioEstadoDTO tramiteCambioEstadoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
 
@@ -105,7 +100,7 @@ public class TramiteCambioEstadoController {
 
     @GetMapping("/{fecha}")
     @ApiOperation(value = "Obtiene una lista con los tramites de cambio de estado, entre las fechas especificadas", response = TramiteCambioEstadoDTO.class, responseContainer = "List", tags = "Tramites Cambios Estados")
-    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR')")
+    @PreAuthorize("hasAuthority('TRA5')")
     public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "Fecha inicial") Date FechIni, @PathVariable(value = "Fecha final") Date FechFin) {
         try {
                 return new ResponseEntity<>(tramiteCambioEstadoService.findByFechaRegistroBetween(FechIni,FechFin), HttpStatus.OK);
@@ -116,8 +111,8 @@ public class TramiteCambioEstadoController {
     }
 
     @DeleteMapping("/{id}")
-    @ApiOperation(value = "Permite eliminar un tramite que cambia de estado", response = TramiteCambioEstadoDTO.class, tags = "Tramites Cambios Estados")
-    @PreAuthorize("hasAuthority('TRAMITE_INACTIVAR')")
+    @ApiOperation(value = "Permite eliminar un tramite de cambio de estado", response = TramiteCambioEstadoDTO.class, tags = "Tramites Cambios Estados")
+    @PreAuthorize("hasAuthority('TRA3')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
             tramiteCambioEstadoService.delete(id);
@@ -128,8 +123,8 @@ public class TramiteCambioEstadoController {
     }
 
     @DeleteMapping("/")
-    @ApiOperation(value = "Permite eliminar todos los tramites que cambian de estado", response = TramiteCambioEstadoDTO.class, tags = "Tramites Cambios Estados")
-    @PreAuthorize("hasAuthority('TRAMITE_INACTIVAR')")
+    @ApiOperation(value = "Permite eliminar todos los tramites de cambio de estado", response = TramiteCambioEstadoDTO.class, tags = "Tramites Cambios Estados")
+    @PreAuthorize("hasAuthority('TRA3')")
     public ResponseEntity<?> deleteAll() {
         try {
             tramiteCambioEstadoService.deleteAll();

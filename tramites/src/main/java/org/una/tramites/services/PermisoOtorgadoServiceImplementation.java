@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.una.tramites.dto.PermisoOtorgadoDTO;
 import org.una.tramites.entities.PermisoOtorgado;
 import org.una.tramites.repositories.IPermisoOtorgadoRepository;
+import org.una.tramites.repositories.IUsuarioRepository;
 import org.una.tramites.utils.MapperUtils;
 
 @Service
@@ -16,7 +17,10 @@ public class PermisoOtorgadoServiceImplementation implements IPermisoOtorgadoSer
 
     @Autowired
     private IPermisoOtorgadoRepository permisoOtorgadoRepository;
-
+    
+    @Autowired
+    private IUsuarioRepository usuarioRepository;
+    
     private Optional<List<PermisoOtorgadoDTO>> findList(List<PermisoOtorgado> list) {
         if (list != null) {
             List<PermisoOtorgadoDTO> permisoOtorgadoDTO = MapperUtils.DtoListFromEntityList(list, PermisoOtorgadoDTO.class);

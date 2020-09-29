@@ -3,7 +3,6 @@ package org.una.tramites.controllers;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.PermisoDTO;
 import org.una.tramites.services.IPermisoService;
-import org.una.tramites.utils.MapperUtils;
 
 
 
@@ -40,7 +36,7 @@ public class PermisoController {
     
     @GetMapping("/") 
     @ApiOperation(value = "Obtiene una lista de todos los Permisos", response = PermisoDTO.class, responseContainer = "List", tags = "Permisos")
-    @PreAuthorize("hasAuthority('PERMISO_CONSULTAR_TODO')")
+    @PreAuthorize("hasAuthority('PE4')")
     public ResponseEntity<?> findAll() {
         try {
                 return new ResponseEntity<>(permisoService.findAll(), HttpStatus.OK);
@@ -51,7 +47,7 @@ public class PermisoController {
     }
     
     @GetMapping("/{id}") 
-    @PreAuthorize("hasAuthority('PERMISO_CONSULTAR')")
+    @PreAuthorize("hasAuthority('PE3')")
     @ApiOperation(value = "Obtiene el permiso por medio del Id", response =  PermisoDTO.class, responseContainer = "List", tags = "Permisos")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
@@ -62,9 +58,9 @@ public class PermisoController {
         }
     }
     
-    @GetMapping("/{codigo}") 
+    @GetMapping("/codigo/{term}") 
     @ApiOperation(value = "Obtiene una lista con los codigos de los permisos", response =  PermisoDTO.class, responseContainer = "List", tags = "Permisos")
-    @PreAuthorize("hasAuthority('PERMISO_CONSULTAR')")
+    @PreAuthorize("hasAuthority('PE3')")
     public ResponseEntity<?> findByCodigo(@PathVariable(value = "term") String codigo) {
         try {
                 return new ResponseEntity<>(permisoService.findByCodigo(codigo), HttpStatus.OK);
@@ -74,9 +70,9 @@ public class PermisoController {
         }
     }
     
-    @GetMapping("/{estado}") 
+    @GetMapping("/estado/{term}") 
     @ApiOperation(value = "Obtiene una lista de los permisos por medio del estado", response = PermisoDTO.class, responseContainer = "List", tags = "Permisos")
-    @PreAuthorize("hasAuthority('PERMISO_CONSULTAR')")
+    @PreAuthorize("hasAuthority('PE3')")
     public ResponseEntity<?> findByEstado(@PathVariable(value = "term") boolean st) {
         try {
 
@@ -88,10 +84,10 @@ public class PermisoController {
         }
     }
     
-    @GetMapping("/{fecha}") 
+    @GetMapping("/fecha/{term}") 
     @ApiOperation(value = "Obtiene una lista de Permisos entre la fecha especificada", response = PermisoDTO.class, responseContainer = "List", tags = "Permisos")
-    @PreAuthorize("hasAuthority('PERMISO_CONSULTAR')")
-    public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "Fecha inicial") Date startDate, @PathVariable(value = "Fecha final") Date endDate) {
+    @PreAuthorize("hasAuthority('PE3')")
+    public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "term1") Date startDate, @PathVariable(value = "Fecha final") Date endDate) {
         try {
                 return new ResponseEntity<>(permisoService.findByFechaRegistroBetween(startDate, endDate), HttpStatus.OK);
            
@@ -102,7 +98,7 @@ public class PermisoController {
 
     @PostMapping("/") 
     @ApiOperation(value = "Permite crear un permiso", response = PermisoDTO.class, tags = "Permisos")
-    @PreAuthorize("hasAuthority('PERMISO_CREAR')")
+    @PreAuthorize("hasAuthority('PE1')")
     public ResponseEntity<?> create(@Valid @RequestBody PermisoDTO permisoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
         try {
@@ -116,7 +112,7 @@ public class PermisoController {
     }
     @PutMapping("/{id}") 
     @ApiOperation(value = "Permite modificar un permiso", response = PermisoDTO.class, tags = "Permisos")
-    @PreAuthorize("hasAuthority('PERMISO_MODIFICAR')")
+    @PreAuthorize("hasAuthority('PE2')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id,@Valid @RequestBody PermisoDTO permisoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
         try {
@@ -139,7 +135,7 @@ public class PermisoController {
 
     @DeleteMapping("/{id}") 
     @ApiOperation(value = "Permite eliminar un permiso a partir de su Id", response = PermisoDTO.class, tags = "Permisos")
-    @PreAuthorize("hasAuthority('PERMISO_ELIMINAR')")
+    @PreAuthorize("hasAuthority('PE5')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
             try {
             permisoService.delete(id);
@@ -151,7 +147,7 @@ public class PermisoController {
 
     @DeleteMapping("/") 
     @ApiOperation(value = "Permite eliminar todos los Usuarios", response = PermisoDTO.class, tags = "Permisos")
-    @PreAuthorize("hasAuthority('PERMISO_ELIMINAR_TODO')")
+    @PreAuthorize("hasAuthority('PE6')")
     public ResponseEntity<?> deleteAll() {
        try {
             permisoService.deleteAll();

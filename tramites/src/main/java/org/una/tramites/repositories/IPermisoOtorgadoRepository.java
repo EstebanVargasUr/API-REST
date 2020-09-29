@@ -23,6 +23,6 @@ public interface IPermisoOtorgadoRepository extends JpaRepository<PermisoOtorgad
 
     public Optional<List<PermisoOtorgado>> findByFechaRegistroBetween(Date startDate, Date endDate);
 
- 
+    
 }
 

@@ -32,7 +32,7 @@ public class TramiteTipoController {
 
     @GetMapping("/") 
     @ApiOperation(value = "Obtiene una lista de todos los Tipos de Tramites", response = TramiteTipoDTO.class, responseContainer = "List", tags = "Tramites Tipos")
-    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR_TODO')")
+    @PreAuthorize("hasAuthority('TRA6')")
     ResponseEntity<?> findAll() {
          try {
             return new ResponseEntity(tramiteTipoService.findAll(), HttpStatus.OK);
@@ -43,7 +43,7 @@ public class TramiteTipoController {
 
     @GetMapping("/{id}") 
     @ApiOperation(value = "Obtiene un Tipo de Tramite por su Id", response = TramiteTipoDTO.class, tags = "Tramites Tipos")
-    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR')")
+    @PreAuthorize("hasAuthority('TRA5')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity(tramiteTipoService.findById(id), HttpStatus.OK);
@@ -54,7 +54,7 @@ public class TramiteTipoController {
     
     @GetMapping("/estado/{termino}") 
     @ApiOperation(value = "Obtiene una lista de Tipos de Tramites por estado", response = TramiteTipoDTO.class, responseContainer = "List", tags = "Tramites Tipos")
-    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR')")
+    @PreAuthorize("hasAuthority('TRA5')")
     public ResponseEntity<?> findByEstado(@PathVariable(value = "termino") boolean st) {
         try {
             return new ResponseEntity(tramiteTipoService.findByEstado(st), HttpStatus.OK);
@@ -64,9 +64,9 @@ public class TramiteTipoController {
     }
     
     
-    @GetMapping("/fecha/{termino}") 
+    @GetMapping("/fecha") 
     @ApiOperation(value = "Obtiene una lista de Tipos de Tramites entre la fecha especificada", response = TramiteTipoDTO.class, responseContainer = "List", tags = "Tramites Tipos")
-    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR')")
+    @PreAuthorize("hasAuthority('TRA5')")
     ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "Fecha inicial") Date startDate, @PathVariable(value = "Fecha final") Date endDate) {
         try {
             return new ResponseEntity(tramiteTipoService.findByFechaRegistroBetween(startDate, endDate), HttpStatus.OK);
@@ -78,7 +78,7 @@ public class TramiteTipoController {
 
     @GetMapping("/departamento/{id}")
     @ApiOperation(value = "Obtiene una lista con los Tipos de Tramites por Id del Departamento", response = TramiteTipoDTO.class, responseContainer = "List", tags = "Tramites Tipos")
-    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR')")
+    @PreAuthorize("hasAuthority('TRA5')")
     public ResponseEntity<?> findByDepartamentoId(@PathVariable(value = "id") long id) {
         try {
             return new ResponseEntity(tramiteTipoService.findByDepartamentoId(id), HttpStatus.OK);
@@ -90,7 +90,7 @@ public class TramiteTipoController {
     
     @PostMapping("/") 
     @ApiOperation(value = "Permite crear un Tipo de Tramite", response = TramiteTipoDTO.class, tags = "Tramites Tipos")
-    @PreAuthorize("hasAuthority('TRAMITE_REGISTRAR')")
+    @PreAuthorize("hasAuthority('TRA1')")
     public ResponseEntity<?> create(@Valid @RequestBody TramiteTipoDTO tramiteTipoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -105,7 +105,7 @@ public class TramiteTipoController {
 
     @PutMapping("/{id}") 
     @ApiOperation(value = "Permite modificar un Tipo de Tramite", response = TramiteTipoDTO.class, tags = "Tramites Tipos")
-    @PreAuthorize("hasAuthority('TRAMITE_MODIFICAR')")
+    @PreAuthorize("hasAuthority('TRA2')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody TramiteTipoDTO tramiteTipoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {

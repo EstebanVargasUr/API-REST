@@ -46,7 +46,7 @@ public class SwaggerConfiguration {
                 .build()
                 .apiInfo(apiInfo())
 
-                .tags(new Tag("Seguridad", "Metodos de Seguridad"),
+                .tags(
                          new Tag("Usuarios", "Metodos de Usuarios"),
                           new Tag("Departamentos", "Metodos de Departamentos"),
                            new Tag("Transacciones", "Metodos de Transacciones"),

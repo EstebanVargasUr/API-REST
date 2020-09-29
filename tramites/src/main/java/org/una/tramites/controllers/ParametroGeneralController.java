@@ -37,7 +37,7 @@ public class ParametroGeneralController {
      
     @GetMapping() 
     @ApiOperation(value = "Obtiene una lista de todos los Parametros Generales", response = ParametroGeneralDTO.class, responseContainer = "List", tags = "Parametros Generales")
-    @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_CONSULTAR_TODO')")
+    @PreAuthorize("hasAuthority('PG4')")
     public ResponseEntity<?> findAll() {
         try {
                 return new ResponseEntity(parametrosGeneralService.findAll(), HttpStatus.OK);
@@ -47,23 +47,23 @@ public class ParametroGeneralController {
         }
     }
     
-    @GetMapping("/{nombre}")
+    @GetMapping("/nombre/{term}")
     @ApiOperation(value = "Obtiene una lista de parametro por medio del nombre", response = ParametroGeneralDTO.class, responseContainer = "List", tags = "Parametros Generales")
-    @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_CONSULTAR')")
+    @PreAuthorize("hasAuthority('PG3')")
     public ResponseEntity<?> findByNombreAproximateIgnoreCase(@PathVariable(value = "term") String term) {
         try {
             
-                return new ResponseEntity(parametrosGeneralService, HttpStatus.OK);
+                return new ResponseEntity(parametrosGeneralService.findByNombreAproximateIgnoreCase(term), HttpStatus.OK);
            
         } catch (Exception e) {
             return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     
-    @GetMapping("/{fecha}") 
+    @GetMapping("/fecha/{termino1}{termino2}") 
     @ApiOperation(value = "Obtiene una lista con los Parametros Generales, entre las fechas especificadas", response = ParametroGeneralDTO.class, responseContainer = "List", tags = "Parametros Generales")
-    @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_CONSULTAR')")
-    public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "Fecha inicial") Date FechIni,@PathVariable(value = "Fecha final") Date FechFin) {
+    @PreAuthorize("hasAuthority('PG3')")
+    public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "termino1") Date FechIni,@PathVariable(value = "termino2") Date FechFin) {
         try {
                 return new ResponseEntity(parametrosGeneralService.findByFechaRegistroBetween(FechIni, FechFin), HttpStatus.OK);
         } catch (Exception e) {
@@ -73,7 +73,7 @@ public class ParametroGeneralController {
     
     @PostMapping("/") 
     @ApiOperation(value = "Permite crear un Parametro General", response = ParametroGeneralDTO.class, tags = "Parametros Generales")
-    @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_CREAR')")
+    @PreAuthorize("hasAuthority('PG1')")
     public ResponseEntity<?> create(@Valid @RequestBody ParametroGeneralDTO parametroGeneralDTO, BindingResult bindingResult)  {
         if (!bindingResult.hasErrors()) {
         try {
@@ -87,7 +87,7 @@ public class ParametroGeneralController {
     }
     @PutMapping("/{id}") 
     @ApiOperation(value = "Permite modificar un Parametro a partir de su Id", response = ParametroGeneralDTO.class, tags = "Parametros Generales")
-    @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_MODIFICAR')")
+    @PreAuthorize("hasAuthority('PG2')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody ParametroGeneralDTO parametroGeneralDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
         try {
@@ -109,7 +109,7 @@ public class ParametroGeneralController {
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Permite eliminar un Parametro del sistema a partir de su Id", response = ParametroGeneralDTO.class, tags = "Parametros Generales")
-    @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_ELIMINAR')")
+    @PreAuthorize("hasAuthority('PG5')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
                 try {
             parametrosGeneralService.delete(id);
@@ -123,7 +123,7 @@ public class ParametroGeneralController {
 
     @DeleteMapping("/") 
     @ApiOperation(value = "Permite eliminar todos los parametros generales", response = ParametroGeneralDTO.class, tags = "Parametros Generales")
-    @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_ELIMINAR_TODO')")
+    @PreAuthorize("hasAuthority('PG6')")
    public ResponseEntity<?> deleteAll() {
         try {
             parametrosGeneralService.deleteAll();

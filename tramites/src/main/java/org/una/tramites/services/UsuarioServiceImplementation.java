@@ -36,7 +36,7 @@ public class UsuarioServiceImplementation implements UserDetailsService, IUsuari
         }
         return usuario;
     }
-//TODO:PASAR findList() A GENERICA EN OTRA CLASE  
+
 
     private Optional<List<UsuarioDTO>> findList(List<Usuario> list) {
         if (list != null) {
@@ -137,7 +137,7 @@ public class UsuarioServiceImplementation implements UserDetailsService, IUsuari
         return MapperUtils.DtoFromEntity(usuario, UsuarioDTO.class);
     }
 
-    @Override
+   @Override
     @Transactional
     public Optional<UsuarioDTO> update(UsuarioDTO usuarioDTO, Long id) {
         if (usuarioRepository.findById(id).isPresent()) {
@@ -149,6 +149,7 @@ public class UsuarioServiceImplementation implements UserDetailsService, IUsuari
             return null;
         } 
     }
+
 
     @Override
     @Transactional

@@ -3,7 +3,6 @@ package org.una.tramites.controllers;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.RequisitoPresentadoDTO;
-import org.una.tramites.entities.RequisitoPresentado;
 import org.una.tramites.services.IRequisitoPresentadoService;
-import org.una.tramites.utils.MapperUtils;
 
 /**
  *
@@ -42,7 +37,7 @@ public class RequisitoPresentadoController {
 
     @GetMapping("/")
     @ApiOperation(value = "Obtiene una lista de todos los requisitos presentados", response = RequisitoPresentadoDTO.class, responseContainer = "List", tags = "Requisitos Presentados")
-    @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_CONSULTAR_TODO')")
+    @PreAuthorize("hasAuthority('REP4')")
     public ResponseEntity<?> findAll() {
         try {
             return new ResponseEntity(requisitoPresentadoService.findAll(), HttpStatus.OK);
@@ -51,10 +46,10 @@ public class RequisitoPresentadoController {
         }
     }
     
-    @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_CONSULTAR')")
+    @GetMapping("/id/{termino}")
+    @PreAuthorize("hasAuthority('REP3')")
     @ApiOperation(value = "Obtiene un requisito presentado por su Id", response = RequisitoPresentadoDTO.class, tags = "Requisitos Presentados")
-    public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> findById(@PathVariable(value = "termino") Long id) {
         try {
             return new ResponseEntity(requisitoPresentadoService.findById(id), HttpStatus.OK);
         } catch (Exception e) {
@@ -63,7 +58,7 @@ public class RequisitoPresentadoController {
     }
 
     @GetMapping("/{fecha}")
-    @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_CONSULTAR')")
+    @PreAuthorize("hasAuthority('REP3')")
     @ApiOperation(value = "Obtiene un requisito presentado entre fechas", response = RequisitoPresentadoDTO.class, tags = "Requisitos Presentados")
     public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "fecha") Date fecha1, Date fecha2) {
         try {
@@ -75,7 +70,7 @@ public class RequisitoPresentadoController {
     
       @PostMapping("/")
     @ApiOperation(value = "Permite crear un requisito presentado", response = RequisitoPresentadoDTO.class, tags = "Requisitos Presentados")
-    @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_CREAR')")
+    @PreAuthorize("hasAuthority('REP1')")
     public ResponseEntity<?> create(@Valid @RequestBody RequisitoPresentadoDTO requisitoPresentadoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -90,7 +85,7 @@ public class RequisitoPresentadoController {
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Permite modificar un requisito presentado a partir de su Id", response = RequisitoPresentadoDTO.class, tags = "Requisitos Presentados")
-    @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_MODIFICAR')")
+    @PreAuthorize("hasAuthority('REP2')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody RequisitoPresentadoDTO requisitoPresentadoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -110,7 +105,7 @@ public class RequisitoPresentadoController {
        
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Permite eliminar un requisito presentado a partir de su Id", response = RequisitoPresentadoDTO.class, tags = "Requisitos Presentados")
-    @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_ELIMINAR')")
+    @PreAuthorize("hasAuthority('REP5')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
             requisitoPresentadoService.delete(id);
@@ -122,7 +117,7 @@ public class RequisitoPresentadoController {
 
     @DeleteMapping("/")
     @ApiOperation(value = "Permite eliminar todos los requisitos presentados", response = RequisitoPresentadoDTO.class, tags = "Requisitos Presentados")
-    @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_ELIMINAR_TODO')")
+    @PreAuthorize("hasAuthority('REP6')")
     public ResponseEntity<?> deleteAll() {
         try {
             requisitoPresentadoService.deleteAll();

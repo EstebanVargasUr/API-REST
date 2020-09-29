@@ -1,3 +1,4 @@
+
 package org.una.tramites.controllers;
 
 import io.swagger.annotations.Api;
@@ -37,7 +38,7 @@ public class VariacionController {
         
     @GetMapping("/") 
     @ApiOperation(value = "Obtiene una lista de todas las Variaciones", response = VariacionDTO.class, responseContainer = "List", tags = "Variaciones")
-    @PreAuthorize("hasAuthority('VARIACION_CONSULTAR_TODO')")
+    @PreAuthorize("hasAuthority('VA4')")
     ResponseEntity<?> findAll() {
         try {
             return new ResponseEntity(variacionService.findAll(), HttpStatus.OK);
@@ -48,7 +49,7 @@ public class VariacionController {
 
     @GetMapping("/{id}") 
     @ApiOperation(value = "Obtiene una Variacion por su Id", response = VariacionDTO.class, responseContainer = "List", tags = "Variaciones")
-    @PreAuthorize("hasAuthority('VARIACION_CONSULTAR')")
+    @PreAuthorize("hasAuthority('VA3')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity(variacionService.findById(id), HttpStatus.OK);
@@ -59,7 +60,7 @@ public class VariacionController {
     
     @GetMapping("/estado/{termino}") 
     @ApiOperation(value = "Obtiene una lista de las Variaciones por estado", response = VariacionDTO.class, responseContainer = "List", tags = "Variaciones")
-    @PreAuthorize("hasAuthority('VARIACION_CONSULTAR')")
+    @PreAuthorize("hasAuthority('VA3')")
     public ResponseEntity<?> findByEstado(@PathVariable(value = "termino") boolean estado){
         try {
             return new ResponseEntity(variacionService.findByEstado(estado), HttpStatus.OK);
@@ -70,7 +71,7 @@ public class VariacionController {
     
     @GetMapping("/grupo/{termino}") 
     @ApiOperation(value = "Obtiene una lista de las Variaciones por grupo", response = VariacionDTO.class, responseContainer = "List", tags = "Variaciones")
-    @PreAuthorize("hasAuthority('VARIACION_CONSULTAR')")
+    @PreAuthorize("hasAuthority('VA3')")
     public ResponseEntity<?> findByGrupo(@PathVariable(value = "termino") boolean grupo){
          try {
             return new ResponseEntity(variacionService.findByGrupo(grupo), HttpStatus.OK);
@@ -81,7 +82,7 @@ public class VariacionController {
     
     @GetMapping("/fecha/{termino}") 
     @ApiOperation(value = "Obtiene una lista de Variaciones entre la fecha especificada", response = VariacionDTO.class, responseContainer = "List", tags = "Variaciones")
-    @PreAuthorize("hasAuthority('VARIACION_CONSULTAR')")
+    @PreAuthorize("hasAuthority('VA3')")
     ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "Fecha inicial") Date startDate, @PathVariable(value = "Fecha final") Date endDate) {
         try {
             return new ResponseEntity(variacionService.findByFechaRegistroBetween(startDate, endDate), HttpStatus.OK);
@@ -92,7 +93,7 @@ public class VariacionController {
 
     @GetMapping("/tramite/{id}")
     @ApiOperation(value = "Obtiene una lista con las Variaciones por Tipo de Tramite", response = VariacionDTO.class, responseContainer = "List", tags = "Variaciones")
-    @PreAuthorize("hasAuthority('VARIACION_CONSULTAR')")
+    @PreAuthorize("hasAuthority('VA3')")
     public ResponseEntity<?> findByTramiteTipoId(@PathVariable(value = "id") long id) {
         try {
             return new ResponseEntity(variacionService.findByTramiteTipoId(id), HttpStatus.OK);
@@ -104,7 +105,7 @@ public class VariacionController {
     
     @PostMapping("/") 
     @ApiOperation(value = "Permite crear una Variacion", response = VariacionDTO.class, tags = "Variaciones")
-    @PreAuthorize("hasAuthority('VARIACION_CREAR')")
+    @PreAuthorize("hasAuthority('VA1')")
     public ResponseEntity<?> create(@Valid @RequestBody VariacionDTO variacionDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -119,7 +120,7 @@ public class VariacionController {
 
     @PutMapping("/{id}") 
     @ApiOperation(value = "Permite modificar una Variacion a partir de su Id", response = VariacionDTO.class, tags = "Variaciones")
-    @PreAuthorize("hasAuthority('VARIACION_MODIFICAR')")
+    @PreAuthorize("hasAuthority('VA2')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody VariacionDTO variacionDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -138,8 +139,8 @@ public class VariacionController {
     }
 
     @DeleteMapping("/{id}") 
-    @ApiOperation(value = "Permite eliminar una Variacion a partir de su Id", response = VariacionDTO.class, tags = "Usuarios")
-    @PreAuthorize("hasAuthority('VARIACION_ELIMINAR')")
+    @ApiOperation(value = "Permite eliminar una Variacion a partir de su Id", response = VariacionDTO.class, tags = "Variaciones")
+    @PreAuthorize("hasAuthority('VA5')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
             variacionService.delete(id);
@@ -150,8 +151,8 @@ public class VariacionController {
     }
 
     @DeleteMapping("/")
-    @ApiOperation(value = "Permite eliminar todas las Variaciones", response = VariacionDTO.class, tags = "Usuarios")
-    @PreAuthorize("hasAuthority('VARIACION_ELIMINAR_TODO')")
+    @ApiOperation(value = "Permite eliminar todas las Variaciones", response = VariacionDTO.class, tags = "Variaciones")
+    @PreAuthorize("hasAuthority('VA6')")
     public ResponseEntity<?> deleteAll() {
  	try {
             variacionService.deleteAll();

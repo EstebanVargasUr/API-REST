@@ -17,11 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.RequisitoDTO;
 import org.una.tramites.services.IRequisitoService;
-import org.una.tramites.utils.MapperUtils;
 
 /**
  *
@@ -39,7 +37,7 @@ public class RequisitoController {
 
     @GetMapping("/")
     @ApiOperation(value = "Obtiene una lista de todos los requisitos", response = RequisitoDTO.class, responseContainer = "List", tags = "Requisitos")
-    @PreAuthorize("hasAuthority('REQUISITO_CONSULTAR_TODO')")
+    @PreAuthorize("hasAuthority('RE4')")
     public ResponseEntity<?> findAll() {
         try {
             return new ResponseEntity(requisitoService.findAll(), HttpStatus.OK);
@@ -49,7 +47,7 @@ public class RequisitoController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('REQUISITO_CONSULTAR')")
+    @PreAuthorize("hasAuthority('RE3')")
     @ApiOperation(value = "Obtiene un requisito por su Id", response = RequisitoDTO.class, tags = "Requisitos")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
@@ -59,10 +57,10 @@ public class RequisitoController {
         }
     }
     
-    @GetMapping("/{estado}")
-    @PreAuthorize("hasAuthority('REQUISITO_CONSULTAR')")
+    @GetMapping("/estado/{termino}")
+    @PreAuthorize("hasAuthority('RE3')")
     @ApiOperation(value = "Obtiene un requisito por su estado", response = RequisitoDTO.class, tags = "Requisitos")
-    public ResponseEntity<?> findByEstado(@PathVariable(value = "estado") boolean estado) {
+    public ResponseEntity<?> findByEstado(@PathVariable(value = "termino") boolean estado) {
         try {
             return new ResponseEntity(requisitoService.findByEstado(estado), HttpStatus.OK);
         } catch (Exception e) {
@@ -70,10 +68,10 @@ public class RequisitoController {
         }
     }
     
-    @GetMapping("/{fecha}")
-    @PreAuthorize("hasAuthority('REQUISITO_CONSULTAR')")
+    @GetMapping("/fecha/{termino}")
+    @PreAuthorize("hasAuthority('RE3')")
     @ApiOperation(value = "Obtiene un requisito entre fechas", response = RequisitoDTO.class, tags = "Requisitos")
-    public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "fecha") Date fecha1, Date fecha2) {
+    public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "termino") Date fecha1, Date fecha2) {
         try {
             return new ResponseEntity(requisitoService.findByFechaRegistroBetween(fecha1, fecha2), HttpStatus.OK);
         } catch (Exception e) {
@@ -81,8 +79,8 @@ public class RequisitoController {
         }
     }
     
-    @GetMapping("/{variacion}")
-    @PreAuthorize("hasAuthority('REQUISITO_CONSULTAR')")
+    @GetMapping("/variacion/{id}")
+    @PreAuthorize("hasAuthority('RE3')")
     @ApiOperation(value = "Obtiene un requisito por medio del id de la variacion", response = RequisitoDTO.class, tags = "Requisitos")
     public ResponseEntity<?> findByVariacionId(@PathVariable(value = "id") long id) {
         try {
@@ -94,7 +92,7 @@ public class RequisitoController {
     
     @PostMapping("/")
     @ApiOperation(value = "Permite crear un requisito", response = RequisitoDTO.class, tags = "Requisitos")
-    @PreAuthorize("hasAuthority('REQUISITO_CREAR')")
+    @PreAuthorize("hasAuthority('RE1')")
     public ResponseEntity<?> create(@Valid @RequestBody RequisitoDTO requisitoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -110,7 +108,7 @@ public class RequisitoController {
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Permite modificar un requisito a partir de su Id", response = RequisitoDTO.class, tags = "Requisitos")
-    @PreAuthorize("hasAuthority('REQUISITO_MODIFICAR')")
+    @PreAuthorize("hasAuthority('RE2')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody RequisitoDTO requisitoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -131,7 +129,7 @@ public class RequisitoController {
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Permite eliminar un requisito a partir de su Id", response = RequisitoDTO.class, tags = "Requisitos")
-    @PreAuthorize("hasAuthority('REQUISITO_ELIMINAR')")
+    @PreAuthorize("hasAuthority('RE5')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
             requisitoService.delete(id);
@@ -143,7 +141,7 @@ public class RequisitoController {
 
     @DeleteMapping("/")
     @ApiOperation(value = "Permite eliminar todos los requisito", response = RequisitoDTO.class, tags = "Requisitos")
-    @PreAuthorize("hasAuthority('REQUISITO_ELIMINAR_TODO')")
+    @PreAuthorize("hasAuthority('RE6')")
     public ResponseEntity<?> deleteAll() {
         try {
             requisitoService.deleteAll();

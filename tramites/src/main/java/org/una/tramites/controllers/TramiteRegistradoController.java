@@ -31,7 +31,7 @@ public class TramiteRegistradoController {
  
     @GetMapping("/") 
     @ApiOperation(value = "Obtiene una lista de todos los Tramites Registrados", response = TramiteRegistradoDTO.class, responseContainer = "List", tags = "Tramites Registrados")
-    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR_TODO')")
+    @PreAuthorize("hasAuthority('TRA6')")
     ResponseEntity<?> findAll() {
         try {
             return new ResponseEntity(tramite_registradoService.findAll(), HttpStatus.OK);
@@ -42,7 +42,7 @@ public class TramiteRegistradoController {
 
     @GetMapping("/{id}") 
     @ApiOperation(value = "Obtiene un Tramite Registrado por su Id", response =  TramiteRegistradoDTO.class, tags = "Tramites Registrados")
-    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR')")
+    @PreAuthorize("hasAuthority('TRA5')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity(tramite_registradoService.findById(id), HttpStatus.OK);
@@ -52,7 +52,7 @@ public class TramiteRegistradoController {
     }
     @GetMapping("/cliente/{id}") 
     @ApiOperation(value = "Obtiene una lista de los Tramites Registrados por Id de Cliente", response = TramiteRegistradoDTO.class, responseContainer = "List", tags = "Tramites Registrados")
-    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR')")
+    @PreAuthorize("hasAuthority('TRA5')")
     public ResponseEntity<?> findByClienteId(@PathVariable(value = "id") Long id){
         try {
             return new ResponseEntity(tramite_registradoService.findByClienteId(id), HttpStatus.OK);
@@ -64,7 +64,7 @@ public class TramiteRegistradoController {
 
     @GetMapping("/tramiteTipo/{id}") 
     @ApiOperation(value = "Obtiene una lista de los Tramites Registrados por Id de Tipo de Tramite", response = TramiteRegistradoDTO.class, responseContainer = "List", tags = "Tramites Registrados")
-    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR')")
+    @PreAuthorize("hasAuthority('TRA5')")
     public ResponseEntity<?> findByTramiteTipoId(@PathVariable(value = "id") Long id){
         try {
             return new ResponseEntity(tramite_registradoService.findByTramiteTipoId(id), HttpStatus.OK);
@@ -76,7 +76,7 @@ public class TramiteRegistradoController {
     
     @PostMapping("/")
     @ApiOperation(value = "Permite crear un Tramite Registrado", response = TramiteRegistradoDTO.class, tags = "Tramites Registrados")
-    @PreAuthorize("hasAuthority('USUARIO_CREAR')")
+    @PreAuthorize("hasAuthority('TRA1')")
     public ResponseEntity<?> create(@Valid @RequestBody TramiteRegistradoDTO tramiteRegistradoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -91,7 +91,7 @@ public class TramiteRegistradoController {
     
     @PutMapping("/{id}") 
     @ApiOperation(value = "Permite modificar un Tramite Registrado a partir de su Id", response = TramiteRegistradoDTO.class, tags = "Tramites Registrados")
-    @PreAuthorize("hasAuthority('TRAMITE_MODIFICAR')")
+    @PreAuthorize("hasAuthority('TRA2')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody TramiteRegistradoDTO tramiteRegistradoDTO,  BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {

@@ -32,7 +32,7 @@ public class TramiteEstadoController {
     
     @GetMapping("/") 
     @ApiOperation(value = "Obtiene una lista de todos los Estados de Tramites ", response = TramiteEstadoDTO.class, responseContainer = "List", tags = "Tramites Estados")
-    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR_TODO')")
+    @PreAuthorize("hasAuthority('TRA6')")
     ResponseEntity<?> findAll() {
         try {
             return new ResponseEntity(tramiteEstadoService.findAll(), HttpStatus.OK);
@@ -43,7 +43,7 @@ public class TramiteEstadoController {
     
     @GetMapping("/{id}") 
     @ApiOperation(value = "Obtiene una Estado del Tramite por su Id", response = TramiteEstadoDTO.class, tags = "Tramites Estados")
-    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR')")
+    @PreAuthorize("hasAuthority('TRA5')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity(tramiteEstadoService.findById(id), HttpStatus.OK);
@@ -54,7 +54,7 @@ public class TramiteEstadoController {
     
     @GetMapping("/nombre/{termino}")
     @ApiOperation(value = "Obtiene una lista con el Estado del Tramite por nombre", response = TramiteEstadoDTO.class, responseContainer = "List", tags = "Tramites Estados")
-    @PreAuthorize("hasAuthority('TRAMITE_CONSULTAR')")
+    @PreAuthorize("hasAuthority('TRA5')")
     public ResponseEntity<?> findByNombreContainingIgnoreCase(@PathVariable(value = "termino") String term) {
         try {
             return new ResponseEntity(tramiteEstadoService.findByNombreContainingIgnoreCase(term), HttpStatus.OK);
@@ -65,7 +65,7 @@ public class TramiteEstadoController {
     
     @PostMapping("/") 
     @ApiOperation(value = "Permite crear un Estado de Tramite", response = TramiteEstadoDTO.class, tags = "Tramites Estados")
-    @PreAuthorize("hasAuthority('TRAMITE_REGISTRAR')")
+    @PreAuthorize("hasAuthority('TRA1')")
     public ResponseEntity<?> create(@Valid @RequestBody TramiteEstadoDTO tramiteEstadoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -80,7 +80,7 @@ public class TramiteEstadoController {
     
     @PutMapping("/{id}") 
     @ApiOperation(value = "Permite modificar un Estado de Tramite a partir de su Id", response = TramiteEstadoDTO.class, tags = "Tramites Estados")
-    @PreAuthorize("hasAuthority('TRAMITE_MODIFICAR')")
+    @PreAuthorize("hasAuthority('TRA2')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody TramiteEstadoDTO tramiteEstadoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {

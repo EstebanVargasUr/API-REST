@@ -37,7 +37,7 @@ public class NotaController {
      
     @GetMapping("/") 
     @ApiOperation(value = "Obtiene una lista de todas las Notas", response = NotaDTO.class, responseContainer = "List", tags = "Notas")
-    @PreAuthorize("hasAuthority('NOTA_CONSULTAR_TODO')")
+    @PreAuthorize("hasAuthority('NOT4')")
     public ResponseEntity<?> findAll() {
         try {
                 return new ResponseEntity(notaService.findAll(), HttpStatus.OK);
@@ -47,9 +47,9 @@ public class NotaController {
         }
     }
     
-    @GetMapping("/{titulo nota}")
+    @GetMapping("/titulo/{term}")
     @ApiOperation(value = "Obtiene una lista de Notas por medio del titulo", response = NotaDTO.class, responseContainer = "List", tags = "Notas")
-    @PreAuthorize("hasAuthority('NOTA_CONSULTAR')")
+    @PreAuthorize("hasAuthority('NOT3')")
     public ResponseEntity<?> findByTituloAproximateIgnoreCase(@PathVariable(value = "term") String term) {
         try {
              return new ResponseEntity(notaService.findByTituloAproximateIgnoreCase(term), HttpStatus.OK);
@@ -58,10 +58,10 @@ public class NotaController {
         }
     }
     
-    @GetMapping("/{estado}") 
+    @GetMapping("/estado/{termino}") 
     @ApiOperation(value = "Obtiene una lista de las Notas por estado", response = NotaDTO.class, responseContainer = "List", tags = "Notas")
-    @PreAuthorize("hasAuthority('NOTA_CONSULTAR')")
-    public ResponseEntity<?> findByEstado(@PathVariable(value = "estado") boolean estado){
+    @PreAuthorize("hasAuthority('NOT3')")
+    public ResponseEntity<?> findByEstado(@PathVariable(value = "termino") boolean estado){
         try {
              return new ResponseEntity(notaService.findByEstado(estado), HttpStatus.OK);
         } catch (Exception e) {
@@ -69,10 +69,10 @@ public class NotaController {
         }
     }
     
-    @GetMapping("/{tipo}") 
+    @GetMapping("/tipo/{termino}") 
     @ApiOperation(value = "Obtiene una lista de las Notas por tipo", response = NotaDTO.class, responseContainer = "List", tags = "Notas")
-    @PreAuthorize("hasAuthority('NOTA_CONSULTAR')")
-    public ResponseEntity<?> findByTipo(@PathVariable(value = "tipo") boolean tipo){
+    @PreAuthorize("hasAuthority('NOT3')")
+    public ResponseEntity<?> findByTipo(@PathVariable(value = "termino") boolean tipo){
         try {
             return new ResponseEntity(notaService.findByTipo(tipo), HttpStatus.OK);
         } catch (Exception e) {
@@ -80,10 +80,10 @@ public class NotaController {
         }
     }
     
-    @GetMapping("/{fecha}") 
+    @GetMapping("fecha/{termino}") 
     @ApiOperation(value = "Obtiene una lista con las Notas, entre las fechas especificadas", response = NotaDTO.class, responseContainer = "List", tags = "Notas")
-    @PreAuthorize("hasAuthority('NOTA_CONSULTAR')")
-    public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "Fecha inicial") Date FechIni,@PathVariable(value = "Fecha final") Date FechFin) {
+    @PreAuthorize("hasAuthority('NOT3')")
+    public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "termino") Date FechIni,@PathVariable(value = "Fecha final") Date FechFin) {
         try {
             return new ResponseEntity(notaService.findByFechaRegistroBetween(FechIni, FechFin), HttpStatus.OK);
             
@@ -92,9 +92,9 @@ public class NotaController {
         }
     }
     
-    @GetMapping("/tramiteRegistrado/{id}")
+    @GetMapping("/tramiteRegistrado/id/{term}")
     @ApiOperation(value = "Obtiene una lista con las Notas por Tramite Registrado", response = NotaDTO.class, responseContainer = "List", tags = "Notas")
-    @PreAuthorize("hasAuthority('NOTA_CONSULTAR')")
+    @PreAuthorize("hasAuthority('NOT3')")
     public ResponseEntity<?> findByTramiteRegistradoId(@PathVariable(value = "term") long term) {
         try {
              return new ResponseEntity(notaService.findByTramiteRegistradoId(term), HttpStatus.OK);
@@ -106,7 +106,7 @@ public class NotaController {
    
     @PostMapping("/") 
     @ApiOperation(value = "Permite crear un Nota", response = NotaDTO.class, tags = "Notas")
-    @PreAuthorize("hasAuthority('NOTA_CREAR')")
+    @PreAuthorize("hasAuthority('NOT1')")
         public ResponseEntity<?> create(@Valid @RequestBody NotaDTO notaDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
         try {
@@ -121,7 +121,7 @@ public class NotaController {
 
     @PutMapping("/{id}") 
     @ApiOperation(value = "Permite modificar una Nota a partir de su Id", response = NotaDTO.class, tags = "Notas")
-    @PreAuthorize("hasAuthority('NOTA_MODIFICAR')")
+    @PreAuthorize("hasAuthority('NOT2')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody NotaDTO notaDTO, BindingResult bindingResult) {
     if (!bindingResult.hasErrors()) {
         try {
@@ -144,7 +144,7 @@ public class NotaController {
 
     @DeleteMapping("/{id}") 
     @ApiOperation(value = "Permite eliminar una Nota a partir de su Id", response = NotaDTO.class, tags = "Notas")
-    @PreAuthorize("hasAuthority('NOTA_ELIMINAR')")
+    @PreAuthorize("hasAuthority('NOT5')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
         notaService.delete(id);
@@ -157,7 +157,7 @@ public class NotaController {
 
     @DeleteMapping("/") 
     @ApiOperation(value = "Permite eliminar todos los Nota", response = NotaDTO.class, tags = "Notas")
-    @PreAuthorize("hasAuthority('NOTA_ELIMINAR_TODO')")
+    @PreAuthorize("hasAuthority('NOT6')")
     public ResponseEntity<?> deleteAll() {
         try {
             notaService.deleteAll();

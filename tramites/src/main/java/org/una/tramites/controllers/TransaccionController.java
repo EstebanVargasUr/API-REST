@@ -34,7 +34,7 @@ public class TransaccionController {
     
     @GetMapping("/")
     @ApiOperation(value = "Obtiene una lista de todas las Transacciones", response = TransaccionDTO.class, responseContainer = "List", tags = "Transacciones")
-    @PreAuthorize("hasAuthority('TRANSACCION_CONSULTAR_TODO')")
+    @PreAuthorize("hasAuthority('TRA3')")
     public ResponseEntity<?> findAll() {
         try {
             return new ResponseEntity(transaccionService.findAll(), HttpStatus.OK);
@@ -44,7 +44,7 @@ public class TransaccionController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('TRANSACCION_CONSULTAR')")
+    @PreAuthorize("hasAuthority('TRA2')")
     @ApiOperation(value = "Obtiene una Transaccion por su Id", response = TransaccionDTO.class, tags = "Transacciones")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
@@ -56,7 +56,7 @@ public class TransaccionController {
     
     @GetMapping("/usuario/{id}{fecha}") 
     @ApiOperation(value = "Obtiene una Transaccion por el Id del Usuario entre la fecha especificacda", response = TransaccionDTO.class, responseContainer = "List", tags = "Transacciones")
-    @PreAuthorize("hasAuthority('TRANSACCION_CONSULTAR')")
+    @PreAuthorize("hasAuthority('TRA2')")
     ResponseEntity<?> findByUsuarioIdAndFechaRegistroBetween(@PathVariable(value = "id") Long idUsu, @PathVariable(value = "Fecha inicial") Date startDate, @PathVariable(value = "Fecha final") Date endDate) {
         try {
             return new ResponseEntity(transaccionService.findByUsuarioIdAndFechaRegistroBetween(idUsu, startDate, endDate), HttpStatus.OK);
@@ -65,9 +65,9 @@ public class TransaccionController {
         }
     }
     
-    @GetMapping("/permiso/{id}{fecha}") 
+    @GetMapping("/permiso{id}{fecha}") 
     @ApiOperation(value = "Obtiene una transaccion por medio del Id del Permiso entre la fecha especificacda", response = TransaccionDTO.class, responseContainer = "List", tags = "Transacciones")
-    @PreAuthorize("hasAuthority('TRANSACCION_CONSULTAR')")
+    @PreAuthorize("hasAuthority('TRA2')")
     ResponseEntity<?> findByPermisoIdAndFechaRegistroBetween(@PathVariable(value = "id") Long id, @PathVariable(value = "Fecha inicial") Date startDate, @PathVariable(value = "Fecha final") Date endDate) {
         try {
             return new ResponseEntity(transaccionService.findByPermisoIdAndFechaRegistroBetween(id, startDate, endDate), HttpStatus.OK);
@@ -78,7 +78,7 @@ public class TransaccionController {
     
     @GetMapping("/{objeto}{fecha}") 
     @ApiOperation(value = "Obtiene una Transaccion por medio de un objeto entre la fecha especificada", response = TransaccionDTO.class, responseContainer = "List", tags = "Transacciones")
-    @PreAuthorize("hasAuthority('TRANSACCION_CONSULTAR')")
+    @PreAuthorize("hasAuthority('TRA2')")
     ResponseEntity<?> findByObjetoAndFechaRegistroBetween(@PathVariable(value = "Objeto") String objeto, @PathVariable(value = "Fecha inicial") Date startDate, @PathVariable(value = "Fecha final") Date endDate) {
         try {
             return new ResponseEntity(transaccionService.findByObjetoAndFechaRegistroBetween(objeto, startDate, endDate), HttpStatus.OK);
@@ -87,9 +87,9 @@ public class TransaccionController {
         }
     }
     
-    @GetMapping("/fecha/{termino}") 
+    @GetMapping("/fecha") 
     @ApiOperation(value = "Obtiene una lista de las Transacciones entre la fecha especificacda", response = TransaccionDTO.class, responseContainer = "List", tags = "Transacciones")
-    @PreAuthorize("hasAuthority('TRANSACCION_CONSULTAR')")
+    @PreAuthorize("hasAuthority('TRA2')")
     ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "Fecha inicial") Date startDate, @PathVariable(value = "Fecha final") Date endDate) {
         try {
             return new ResponseEntity(transaccionService.findByFechaRegistroBetween(startDate, endDate), HttpStatus.OK);
@@ -100,7 +100,7 @@ public class TransaccionController {
     
     @PostMapping("/") 
     @ApiOperation(value = "Permite crear una Transaccion", response = TransaccionDTO.class, tags = "Transacciones")
-    @PreAuthorize("hasAuthority('TRANSACCION_CREAR')")
+    @PreAuthorize("hasAuthority('TRA1')")
     public ResponseEntity<?> create(@Valid @RequestBody TransaccionDTO transaccionDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
